@@ -1,0 +1,430 @@
+# Practical series 1
+
+```{r knitr_init, echo=FALSE, cache=FALSE}
+library(knitr)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=150)
+```
+
+
+## Exploratory Data Analysis
+
+This online tutorial for MATH 342 is meant to provide a review of basic R syntax, including plotting functions.
+
+You should install **R** from <https://cran.r-project.org/>. I highly advise that you also install the [__RStudio__ IDE](http://rstudio.com) to facilitate your analysis. If you have never touched **R**, find a tutorial online to grasp the basics of the programming language, for example [Wickham's R for Data Science book](http://r4ds.had.co.nz/). Many websites provide overview of [exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).
+
+**R** is a programming language that compiles in real-time, meaning that you can simply type instructions in the console to see them executed.
+
+If you have not used **R** before, work through some of the introduction at
+<http://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf>.
+If you have used **R** before, work through some of [David S. Stoffer's examples](http://www.stat.pitt.edu/stoffer/tsa4/)
+to get an idea of some of the time series functions.  We will use them more systematically in future weeks.
+
+
+I will heavily focus on some time series libraries that are not part of the `base` or `stat`. The latter are the default libraries that are installed alongside with the base R. They contain `ts`, `acf`, etc. These standard tools are very useful, except that they do not handle irregular time series or missing values. These functions will likely not be altered (or improved) in the future for reproducibility reasons. Many other contributed **R** libraries are more intuitive and easy to use than the base functions. However, living on the cutting edge means that functions may change or stop working anytime in the future.
+
+
+The first thing to know about R is how to access help files. If you want to read about time series, type `help.search("time series")`. If you want to read the help file on a particular function, for example `plot`, use `?plot` or `help("plot")`.
+
+
+### Libraries
+
+We will use many functions from the `base` package, which is loaded by default, but also some functions from time series libraries. What makes the R programming language so great is its vast contributed packages libraries. An exhaustive list of these can be found at <https://cran.r-project.org/web/views/TimeSeries.html>. Let's install some of these.
+
+```{r installing_packages, eval=FALSE}
+#Most common time series libraries
+install.packages(c("dlm","forecast","lubridate","tsa","tseries","xts","zoo"), dependencies=TRUE)
+#Datasets
+install.packages(c("expsmooth","fpp","TSA","astsa"))
+#Hadley Wickham's tidyverse universe
+install.packages("tidyverse")
+
+#To load a library, use the function
+library(xts)
+```
+
+As a side remark, note that the `tidyverse`, which loads a bundle of packages, overwrites some of the base functions, notably `lag` and `filter` which are present in both `dplyr` and `stats` (one of the default libraries that come alongside with **R** and is loaded upon start). Load libraries with great caution! In case of ambiguity (when many functions in different packages have the same name), use the `::` operator to specify the package, e.g. `stat::lag`. You can unload a library using the command
+
+```{r detach_package, eval=FALSE}
+detach("package:tidyverse", unload=TRUE)
+```
+
+### Loading datasets
+
+You can load and read objects, whether `txt`, `csv` from your computer or by directly downloading them into R from the web. You can call R datasets found in packages via `data()` 
+
+Good data sources for your semester projects are 
+
+- [Rob Hyndman's Time Series Data Library](https://datamarket.com/data/list/?q=provider%3Atsdl)
+- [Mike West's datasets](http://www2.stat.duke.edu/~mw/ts_data_sets.html)
+- [Ruey Tsay's datasets from the book _Analysis of Financial Time Series_](https://faculty.chicagobooth.edu/ruey.tsay/teaching/fts/)
+- [Bo Li's paleoclimate datasets](http://publish.illinois.edu/boli-uiuc/paleoclimate/)
+- [Kaggle datasets](https://www.kaggle.com/datasets)
+- [Don Percival's data page (navigate to Data tab)](http://faculty.washington.edu/dbp/s519/)
+- [Carbon dioxide data](http://cdiac.esd.ornl.gov/trends/co2/contents.htm)
+- [Climate Research Unit](http://www.cru.uea.ac.uk/)
+- [NOAA](https://data.noaa.gov/dataset)
+
+
+### Time series objects and basic plots
+
+Objects in **R** are vectors by default, which have a type and attributes (vector is a type, `length` is an attribute of vectors). Some objects also inherit a class, such as `ts`. They inherit printing and plotting methods specific to the data class.
+
+We start by loading the `AirPassengers` dataset, which contains monthly airline passenger numbers for years 1949-1960. Datasets that are found in libraries other than `datasets` must typically be loaded via a call to `data`, unless they are lazy loaded when calling the library. Both datasets are time series.
+
+```{r AirPassenger}
+#AirPassenger dataset, lazy-loaded
+class(AirPassengers) #object of class 'ts'
+?AirPassengers #description of the dataset
+#Basic plot
+plot(AirPassengers, ylab="Monthly total (in thousands)", main="Number of international airline passengers")
+grid()
+
+?sunspot.month
+plot(sunspot.month, ylab="Monthly number of sunspots", main="Monthly mean relative sunspot numbers from 1749 to 1983", bty="l")
+
+#Dataset present in a R package - without loading the package
+data(list="birth", package="astsa")
+plot(birth, ylab="Monthly live births (in thousands)", main="U.S. Monthly Live Birth")
+```
+
+## Introduction to the basic time series functions
+
+The first example we are going to handle is `lh`, a time series of 48 observations at 10-minute intervals on luteinizing hormone levels for a human female. Start by printing it.
+
+```{r}
+lh
+```
+
+Look at the information: `Start = 1`, `End = 48` and `Frequency = 1`.
+
+The second example, `deaths`, gives monthly deaths in the UK from a set of common lung diseases for the years 1974 to 1979.
+```{r}
+data("deaths", package="MASS")
+deaths
+```
+
+Use `tsp(deaths)` to get `Start = 1974`, `End = 1979.917` and `Frequency = 12`. You can also access each of these attributes using the functions `start(deaths)`, `end(deaths)` and `frequency(deaths)`. Use `cycle(deaths)` to get the position in the cycle of each observation.
+
+Time series can be plotted by `plot`. The argument `lty` of the function `plot` controls the type of the plotted line (solid, dashed, dotted, ...). For more details, type `?par` (for graphical parameters).
+```{r basic_plots}
+
+par(mfrow=c(1,2)) #2 plot side by side
+plot(lh, main="Luteinizing Hormone in\nBlood Samples", ylab="IU/L", xlab="Number of 10 minutes intervals\n from first sample")
+plot(deaths, main="Monthly Deaths from \nLung Diseases in the UK", ylab="Monthly deaths", ylim=c(0,4000))
+lines(mdeaths, lty=2)
+lines(fdeaths, lty=3)
+legend(x="topright",bty = "n", legend=c("Total","Men","Women"), lty=c(1,2,3))
+graphics.off() #close console
+```
+
+Above, you can see plots of `lh` and the three series on deaths. In the right-hand plot, the dashed series is for males, the dotted series for females and the solid line for the total.
+
+
+The functions `ts.union` and `ts.intersect` bind together multiple time series which have a common frequency. The time axes are aligned and only observations at times that appear in all the series are retained with `ts.intersect`; with `ts.union` the combined series covers the whole range of the components, possibly as `NA` values.
+
+The function `window` extracts a sub-series of a single or multiple time series, by specifying `start`, `end` or both.
+
+The function `lag` shifts the time axis of a series back by $k$ positions (default is `k = 1`). Thus `lag(deaths, k=3)` is the series of deaths shifted one quarter into the past.
+```{r}
+plot(deaths, main="Monthly Deaths from \nLung Diseases in the UK", ylab="Monthly deaths", bty="l")
+lines(lag(deaths, k=3), lty=3)
+```
+
+The function `diff` takes the difference between a series and its lagged values and so returns a series of length $n-k$ with values lost from the beginning (if $k>0$) or end. Beware: the argument `lag` (default is `lag = 1`) is used in the usual sense here, so `diff(deaths, lag=3)` is equal to `deaths - lag(deaths, k=-3)`! The function `diff` has an argument `differences` which causes the operation to be iterated.
+
+The function `aggregate` can be used to change the frequency of the time base.
+```{r}
+aggregate(deaths, 4, sum)
+aggregate(deaths, 1, sum)
+aggregate(deaths, 4, mean)
+aggregate(deaths, 1, mean)
+```
+
+One way to compute the linear or polynomial trend of a series is to use the function `lm`, which fits linear models. The function `fitted` allows you to extract the model fitted values, while `c(1:48)` represents the integers from 1 to 48 and the function `poly` computes orthogonal polynomials.
+
+```{r}
+plot(lh, main="Luteinizing Hormone in Blood Samples", ylab="IU/L", 
+     xlab="Number of 10 minutes intervals\n from first sample", bty="l", ylim=c(0,3.5))
+lines(fitted(lm(lh ~ c(1:48))), col = "blue")
+lines(fitted(lm(lh ~ poly(1:48, 2))), col = "red")
+legend(x="bottomright", legend = c("linear", "quadratic"), col = c(4,2), lty=c(1,1), bty="n")
+```
+
+
+
+**YOUR TURN**
+
+#### Exercise 1. Beaver temperature
+1. Load the `beav2` data from the library `MASS`.
+2. Examine the data frame using `summary`, `head`, `tail`. Query the help with `?beav2` for a description of the dataset
+3. Transform the temperature data into a time series object and plot the latter.
+4. Fit a linear model using `lm` and the variable `activ` as factor, viz. `lin_mod <- lm(temp~as.factor(activ), data=beav2)`. Overlay the means on your plot with `lines(fitted(lin_mod))` replacing `lin_mod` with your `lm` result. 
+5. Inspect the residuals (`resid(lin_mod)`) and determine whether there is any evidence of trend or seasonality.
+5. Look at a quantile-quantile (Q-Q) plot to assess normality. You can use the command `qqnorm` if you don't want to transform manually the residuals with `qqline` or use `plot(lin_mod, which=2)`. 
+6. Plot the lag-one residuals at time $t$ and $t-1$. Is the dependence approximately linear?
+
+
+
+## Second order stationarity
+
+The example below corresponds to examples 1.9 and 1.10 from Shumway and Stoffer. It shows how to create MA and AR series based on white noise using the `filter` function. It is best practice when simulating autoregressive models to burn-in (discard) the first few iterations to remove the dependencies on the starting values (here zeros). Note that the function `filter` returns a `ts` object.
+
+```{r 2nd_order_statio}
+set.seed(1)
+x <- rnorm(550,0,1) # Samples from N(0,1) variates
+y <- filter(x, method="recursive", filter=c(1,-.9)) #autoregression
+z <- filter(x, method="convolution", filter=rep(1/3,3), sides=2) # moving average
+class(z)
+x <- x[-c(1:49,550)]; y <- y[-c(1:49,550)]; z <- z[-c(1:49,550)]
+#ts.union if we did not remove values (and the class `ts`)
+plot.ts(cbind(x,y,z), main="Simulated time series")
+
+```
+
+We notice immediately that the MA process looks smoother than the white noise, and that the innovations (peaks) of the AR process are longer lasting.
+If we had not simulated more values and kept some, the first and last observations of $z$ would be `NA`s.
+The series created are of the form 
+\[ z_t=\frac{1}{3}(x_{t-1}+x_{t}+x_{t+1})\]
+and 
+\[ y_t= y_{t-1}-0.9y_{t-2}+x_t.\]
+
+The correlogram provides an easy to use summary for detecting *linear* dependencies based on correlations. The function `acf` will return a plot of the correlogram, by default using the correlation. Unfortunately, the basic graph starts at lag 1, which by default has correlation 1 and thus compress the whole plot unnecessarily. Blue dashed lines indicate 5% critical values  at $\pm 1.96/\sqrt{n}$ under the null hypothesis of white noise (*not* stationarity).
+
+The function `acf` computes and plots $c_t$ and $r_t$, the estimators for the autocovariance and autocorrelation functions
+\[c_t= n^{-1}\sum_{s=\max(1,-t)}^{\min(n-t,n)}[X_{s+t}-\bar X][X_s-\bar X], \quad r_t={c_t}/{c_0}.\]
+The argument `type` controls which is used and defaults to the correlation. This is easily extended to several time series observed over the same interval
+\[c_{ij}(t) = n^{-1}\sum_{s=\max(1,-t)}^{\min(n-t,n)}[X_i(s+t)-\bar X_i][X_j(s)-\bar X_j].\]
+
+Unfortunately, the function `acf` always display the zero-lag autocorrelation, which is 1 by definition. This oftentimes squeezes 
+the whole correlogram values and requires manual adjustment so one can properly view whether the sample autocorrelations are significant. 
+
+```{r acf_plots1}
+
+#acf(x, lag.max=20, demean = TRUE, main = "White noise") #WRONG
+par(mfrow = c(1,2))
+TSA::acf(x,demean = TRUE, main = "White noise")
+pacf(x, lag.max = 20, main = "White noise")
+#Equivalent functions from forecast
+forecast::Acf(y, main = "Autoregressive process")
+forecast::Acf(y, type = "partial", main = "Autoregressive process") #or forecast::Pacf
+```
+
+You can thus use instead the function `forecast::Acf`, which removes the first lag of the autocorrelation function plot, or `TSA::acf`. The function `pacf` return the partial autocorrelations and the function `ccf` to compute the cross-correlation or cross-covariance of two univariate series
+
+
+```{r acf_plots2, eval=FALSE}
+#Load datasets
+data(deaths, package="MASS")
+data(lh, package="datasets")
+#Second order summaries
+forecast::Acf(lh, main="Correlogram of \nLuteinizing Hormone",ylab="Autocorrelation") #autocorrelation
+acf(lh, type="covariance", main="Autocovariance of\n Luteinizing Hormone") #autocovariance
+acf(deaths, main="Correlogram of\n`deaths` dataset")
+ccf(fdeaths, mdeaths, ylab="cross-correlation", main="Cross correlation of `deaths` \nfemale vs male")
+#acf(ts.union(mdeaths,fdeaths)) # acf and ccf - multiple time series of male and female deaths
+```
+
+
+The plots of the `deaths` series shows the pattern of seasonal series, and the autocorrelations do not damp down for large lags. Note how one of the cross series is only plotted for negative lags. Plot in row 2 column 1 shows $c_{12}$ for negative lags, a reflection of the plot of $c_{21}$ for positive lags. For the cross-correlation, use e.g. `ccf(mdeaths, fdeaths, ylab="cross-correlation")`.
+
+
+
+Plotting lagged residuals is a useful graphical diagnostic for detecting non-linear dependencies. The following function plots residuals at $k$ different lags and may be useful for diagnostic purposes.
+
+```{r pairs_plots, eval=FALSE}
+pairs.ts <- function(d, lag.max=10){  
+  old_par <- par(no.readonly=TRUE)
+	n <- length(d)
+    X <- matrix(NA,n-lag.max,lag.max)
+    col.names <- paste("Time+",1:lag.max)
+    for (i in 1:lag.max) X[,i] <- d[i-1+1:(n-lag.max)]
+    par(mfrow=c(3,3),pty="s", mar=c(3,4,0.5,0.5))
+    lims <- range(X)
+    for (i in 2:lag.max) plot(X[,1],X[,i],panel.first={abline(0,1,col="grey")},
+         xlab="Time",ylab=col.names[i-1],xlim=lims,ylim=lims, pch=20, col=rgb(0,0,0,0.25))
+    par(old_par)
+}
+#Look at lag k residuals
+pairs.ts(sunspots)
+
+```
+
+
+**YOUR TURN**
+
+### Exercise 2. SP500 daily returns
+
+1. Download the dataset using the following command
+```{r, eval=FALSE}
+sp500 <- tseries::get.hist.quote(instrument="^GSPC", start="2000-01-01", 
+               end="2016-12-31", quote="AdjClose", provider="yahoo", origin="1970-01-01",
+               compression="d", retclass="zoo")
+```
+
+2. Obtain the daily percent return series and plot the latter against time. 
+3. With the help of graphs, discuss evidences of seasonality and nonstationarity. Are there seasons of returns?
+4. Plot the (partial) correlogram of both the raw and the return series. Try the acf with `na.action=na.pass` and without (by e.g. converting the series to a vector using `as.vector`. Comment on the impact of ignoring time stamps.
+5. Plot the (partial) correlogram of the absolute value of the return series and of the squared return series. What do you see?
+
+
+## Simulations
+
+
+The workhorse for simulations from ARIMA models is `arima.sim`. 
+To generate an AR(1) and an MA(1) processes using the function \texttt{arima.sim}, one can use.
+
+```{r arima_sim, eval=TRUE}
+ar1 <- arima.sim(n=100, model=list(ar=0.9))
+ma1 <- arima.sim(n=100, model=list(ma=0.8))
+```
+
+
+Define the following function to generate an ARCH(1) process.
+```{r arch_norm}
+arch.sim1 <- function(n, a0=1, a1=0.9) {
+     y <- eps <- rnorm(n)
+     for (i in 2:n)
+         y[i] <- eps[i]*sqrt( a0 + a1*y[i-1]^2 )
+     ts(y)
+ }
+ a0 <- 0.05; a1 <- 0.8; n <- 2000
+ y1 <- arch.sim1(n, a0, a1)
+```
+
+Use the second-order summaries functions to analyse the obtained process, the process of the squared values and the process of the absolute values.
+
+Do it again with the following function, which has Student distributed variables as driving noise.
+
+```{r arch_student}
+ arch.sim2 <- function(n, df=100, a0=1, a1=0.9) {
+     y <- eps <- rt(n,df=df)*sqrt((df-2)/df)
+     for (i in 2:n)
+         y[i] <- eps[i]*sqrt( a0 + a1*y[i-1]^2 )
+     ts(y)
+ }
+ a0 <- 0.05; a1 <- 0.8; n <- 2000
+ y1 <- arch.sim2(n, a0=a0, a1=a1)
+```
+
+**YOUR TURN**
+
+### Exercise 3. Simulated data
+
+1. Simulate 500 observations from an AR(1) process with parameter values $\alpha \in  \{0.1, 0.5, 0.9, 0.99\}$. 
+2. Repeat for MA processes of different orders. There is no restriction on the coefficients of the latter for stationarity, unlike the AR process.
+3. Sample from an ARCH(1) process with Gaussian innovations and an ARCH(1) process with Student-$t$ innovations with `df=4`. Look at the correlogram of the absolute residuals and the squared residuals.
+4. The dataset `EuStockMarkets` contains the daily closing prices of major European stock indices. Type `?EuStockMarkets` for more details and `plot(EuStockMarkets)` to plot the four series (DAX, SMI, CAC and FTSE).
+Use `plot(ftse <- EuStockMarkets[,"FTSE"])` to plot the FTSE series and `plot(100*diff(log(ftse)))` to plot its daily log return. Play with the ARCH simulation functions to generate some similar processes.
+5. Simulate a white noise series with trend $t$ and $\cos(t)$, of the form $X_t=M_t+S_t+Z_t$, where $Z_t \sim \mathsf{N}(0,\sigma^2)$ for different values of $\sigma^2$. Analyze the log-periodogram and the (partial) correlograms. What happens if you forget to remove the trend?
+6. Do the same for multiplicative model with lognormal margins, with structure $X_t=M_tS_tZ_t$.
+7. For steps 5 and 6, plot the series and test the assumptions that they are white noise using the Ljung-Box test. *Note* you need to adjust the degrees of freedom when working with residuals from e.g. ARMA models.
+
+## Spectral analysis
+
+We can compute the periodogram manually using the function `fft`. We pad the series with zero to increase the number of frequencies at which it is calculated (this does not impact the spectrum, because the new observations are zero). To fully take advantage of the fast Fourier transform (which will be formally defined later in the semester), we make sure the length of the padded series is divisible by low primes.
+
+
+```{r spectrum_manually, eval=TRUE}
+N <- 500 # number of data points
+M <- 2048 # zeropadded length of series
+freq <- seq(0, 0.5, by = 1/M)
+alpha <- 0.9
+x <- arima.sim(n = N, model = list(ar = alpha))
+
+# theoretical spectrum
+spec.thry <- TSA::ARMAspec(model = list(ar = alpha), freq=freq, plot = FALSE)
+
+h.pgram <- rep(1/sqrt(N), N) #periodogram taper / window
+# prepared data
+xh.pgram <- x * h.pgram
+# calculate the periodogram manually with padding
+spec.pgram <- abs(fft(c(xh.pgram, rep(0, M-N)))[1:(M/2+1)])^2
+#Plot the series
+plot(spec.thry$freq, spec.thry$spec, type = 'l', log='y', ylab = "log-spectrum", xlab = "Frequency", main="Periodogram",
+     lwd = 2, bty="l", ylim=range(spec.pgram))
+lines(freq, spec.pgram, col = rgb(1,0,0,0.7))
+```
+
+The workhorse function for spectral analysis is `spectrum`, which computes and plots the periodogram on log scale with some default options. Note that `spectrum` by default subtract the mean from the series before estimating the spectral density and tapers the series (more later). To plot the cumulative periodogram, use `cpgram`. The latter shows the band for the Kolmogorov-Smirnov statistic. Note the presence of the 95 \% confidence interval. The width of the center mark on it indicates the bandwidth.
+
+
+
+## Smoothing and detrending
+
+We consider detrending of a temperature dataset from the monthly mean temperature from the Hadley center.
+We first download the dataset from the web. Typically, this file can be in a repository on your computer, or else you can provide an URL. Common formats include CSV (loaded using `read.csv`) and txt files (loaded via `read.table`. Be careful with the type, headers, missing values that are encoded using e.g. `999`. Also note that **R** transforms strings into factors by default.
+
+
+```{r met_temp}
+CET <- url("http://www.metoffice.gov.uk/hadobs/hadcet/cetml1659on.dat")
+writeLines(readLines(CET, n = 10))
+cet <- read.table(CET, sep = "", skip = 6, header = TRUE,
+                 fill = TRUE, na.string = c(-99.99, -99.9))
+names(cet) <- c(month.abb, "Annual")
+## remove last row of incomplete data
+cet <- cet[-nrow(cet), -ncol(cet)]
+```
+
+Now let us investigate the dataset in a regression context. Since it is an irregular time series, we use `zoo` rather than `ts`.
+
+```{r met_make_zoo, eval=TRUE, results='hide', message=FALSE, warning=FALSE}
+library(zoo); library(lubridate); 
+library(forecast); library(nlme)
+```
+```{r}
+#Convert to time series object
+#Create a time object using `seq`, then make into `yearmon`
+#The latter has the same internal representation as `ts` with frequency
+time <- zoo::as.yearmon(seq.Date(from=as.Date("1659/01/01"), length.out = prod(dim(cet)), by = "month"))
+CET_ts <- zoo::zoo(c(t(cet)), time) 
+graphics.off()
+plot(CET_ts,  lwd = 0.2, ylab = expression(Temperature (degree*C)), main = "Monthly mean temperature\n in Central England")
+```
+
+Now that we have extracted the data, we are now ready to try out with some models to explain seasonal variability as a function of covariates rather than via differencing. If your object is of class `ts`, the function `fourier` will do the Fourier basis of order `K` for you directly.
+
+```{r reg_fourier}
+
+#Create Fourier basis manually
+c1 <- cos(2*pi*month(CET_ts)/12); s1 <- sin(2*pi*month(CET_ts)/12)
+c2 <- cos(4*pi*month(CET_ts)/12); s2 <- sin(4*pi*month(CET_ts)/12)
+
+#Can also incorporate using fourier with `ts` objects.
+ts1_a <- lm(CET_ts ~ time + fourier(CET_ts, K = 2))
+ts1_b <- lm(CET_ts ~ seq.int(1, length(CET_ts)) + c1 + s1 + c2 + s2)
+#Same fitted values, different regressors for the trend - see the design matrix
+#head(ts1_a$model)
+forecast::Acf(resid(ts1_a), main="Correlogram of residuals")
+forecast::Pacf(resid(ts1_b), main="Partial correlogram of residuals")
+```
+
+One could also replace the Fourier terms with seasonal dummies (possibly removing the intercept if 12 dummies are set). However, the use of Fourier terms, where appropriate, allows for more parsimonious modelling. Always keep pairs of sine and cosine together.
+
+The function `stl` decomposes a time series into seasonal trend and irregular components. We illustrate the use of the function on the `deaths` dataset.
+```{r}
+seasonal_decomp_death <- stl(deaths, s.window="periodic")
+plot(seasonal_decomp_death)
+```
+
+**YOUR TURN**
+
+#### Exercise 4. Mauna Loa Atmospheric CO~2~ Concentration
+
+1. Load and plot the CO~2~ dataset from [NOAA](ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt). Pay special attention to the format, missing values, the handling of string and the description. Use `?read.table` for help, and look carefully at arguments `file`, `sep`, `na.strings`, `skip` and `stringsAsFactors`. From now on, we will work with the complete series (termed interpolated in the description).
+2. Try removing the trend using a linear model. Plot the residuals against month of the year.
+3. Remove the trend and the periodicity with a Fourier basis (with period 12). Be sure to include both `sin` and `cos` terms together. Recall that the standard Wald tests for the coefficients is not valid in the presence of autocorrelation! You could also use `poly` or `splines::bs` to fit polynomials or splines to your series. 
+5. Plot the lagged residuals. Are there evidence of correlation?
+6. Use the function `filter` to smooth the series using a 12 period moving average. 
+7. Inspect the spectrum of the raw series and of the smoothed version.
+8. Inspect the spectrum of the detrended raw series.
+9. Test for stationarity of the deseasonalized and detrended residuals using the KPSS test viz.  `tseries::kpss.test`.
+10. Use the `decompose` and the `stl` functions to obtain residuals. 
+11. Plot the (partial) correlogram for both decomposition and compare them with the output of the linear model.
+

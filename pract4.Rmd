@@ -1,0 +1,679 @@
+# Practical series 4
+
+```{r sample_dbp, echo = FALSE} 
+source("http://faculty.washington.edu/dbp/s520/R-code/step-down-LD-recursions.R")
+source("http://faculty.washington.edu/dbp/s520/R-code/ar-coeffs-to-acvs.R")
+source("http://faculty.washington.edu/dbp/s520/R-code/ar-coeffs-to-sdf.R")
+source("http://faculty.washington.edu/dbp/s520/R-code/ev-nonparametric-sdf-estimates.R")
+source("http://faculty.washington.edu/dbp/s520/R-code/dB.R")
+source("http://faculty.washington.edu/dbp/s520/R-code/circular-shift.R")
+source("http://faculty.washington.edu/dbp/s520/R-code/tapers.R")
+```
+
+## Spectral analysis and filtering
+
+The following section is adapted from Percival and Walden *Spectral Analysis for physical applications*, CUP (1993). I will try to extract the most relevant notions so you can understand in greater details nonparametric spectral estimation, the periodogram, tapering and smoothing, and testing procedures.
+
+As Percival and Walden say: "Spectral analysis is an analysis of variance". 
+<!--It is useful mostly for image reconstruction, signal recovery, etc. It can be used to test physical models (for example, the theoretical spectrum of thermal noise). It can also be used for performing diagnostic tests for ARIMA type models, using for example the cumulated periodogram. Spectral analysis is also used extensively in fields such as geophysics and oceanography.
+-->
+
+Roughly speaking, the aim of spectral analysis is to break the variability of the series into different contributions corresponding to a frequency.  
+  
+We shall analyze stationary sequences $\boldsymbol{X} \in \mathbb{R}^n$  thought to originate from a stationary process $\{\boldsymbol{X}_t\}, t \in \mathbb{Z}$. All the information is contained in the spectral density function assuming the latter exists. 
+
+**Nonparametric spectral estimation**
+  
+In the course, the sampling interval $\Delta_t$ is one, so that the Nyquist frequency $\omega_\mathsf{N}\equiv 1/(2\Delta_t)$ is 1/2.  
+  
+The spectrum is the Fourier transform of the autocovariance, viz.
+\[f(\omega) = \sum_{h =-\infty}^\infty \gamma_h \exp(-2 \pi i  h \omega).\]
+
+We thus first must estimate $\gamma_h=\mathrm{E}\{(X_{t+h}-\mu)(X_t-\mu)\}$. We typically use the sample mean $\overline{X}$.
+<!---
+One should use the most efficient estimator available, either the BLUE of $\mu$ (typically if $f(\omega) \rightarrow 0$ rapidly as $\omega\rightarrow 0$) or else the sample mean $\overline{X}$; assume the latter is taken hereafter. 
+-->
+The sample autocovariance is 
+\[\widehat{\gamma}_h = \frac{1}{n} \sum_{t=1}^{n-|h|} (X_{t+|h|}-\overline{X})(X_t-\overline{X}) = \left( 1- \frac{|h|}{n}\right)\widehat{\gamma}_h^{(u)}\]
+where 
+\[\widehat{\gamma}_h^{(u)} = \frac{1}{n-|h|} \sum_{t=1}^{n-|h|} (X_{t+|h|}-\overline{X})(X_t-\overline{X})\]
+  is the usual unbiased estimator of $\gamma_h$. 
+  
+If we replaced the sample mean estimate $\overline{X}$ by $\mu$, then 
+\[\mathrm{E}(\widehat{\gamma}_h) = \left(1- \frac{|h|}{n}\right)\gamma_h.\]
+The estimator $\widehat{\gamma}_h$ is thus biased, but 
+
+1. it has typically lower mean squared error than $\widehat{\gamma}_h^{(u)}$, 
+2. it gives a positive definite sequence. 
+3. if $\gamma_h \to 0$ as $h \to \infty$, then $\widehat{\gamma}_h$ is guaranteed to go to zero as $h \rightarrow n$.
+  
+The discrete time autocovariance are related to the estimates of the spectrum at continuous frequency,
+\[\widehat{\gamma}_h = \int_{-1/2}^{1/2} \widehat{f}(\omega)\exp(2\pi i h\omega) \mathrm{d} \omega.\]
+The estimates
+$\{\widehat{\gamma}_k: k = -n+1, \ldots, n-1\}$ and $\{\widehat{f}(\omega_k): \omega_k = k/(2n-1), k=-n+1, \ldots, n-1\}$ thus form a Fourier transform pair. 
+
+Let us look at the periodogram estimate $I(\omega)$ of a simulated stationary autoregressive process with $n=1000$. We can compare it to the true spectrum of the AR(2) process with $\phi_1=0.75$, $\phi_2=-0.5$ and $\sigma^2=1$.
+
+```{r, echo = FALSE}
+ar2_ts <- scan("http://faculty.washington.edu/dbp/s520/Data/ar2-1.txt")
+n <- length(ar2_ts)
+nj <- floor(n/2)
+#Periodogram
+plot((1:nj)/n, (Mod(fft(ar2_ts))[2:(nj+1)])^2/n,main = "Periodogram", 
+     xlab = "Fundamental frequencies (cycle per unit time)", ylab = "spectrum", type = "l", yaxs="i")
+
+#Theoretical spectra from an ARMA model
+spec_dens_arma <- function(n, innov.var = 1, ar = 0, ma = 0, dB = FALSE){
+  om <- (1:floor(n/2))/n
+  fr <-  exp(complex(imaginary =c(-2*pi*om)))
+  dens <- innov.var*c(Mod(1 + sapply(1:length(ma), function(k){fr^k}) %*% ma)^2) / 
+    c(Mod(1-sapply(1:length(ar), function(k){fr^k}) %*% ar)^2)
+  if(dB){
+    list(freq = om, dens = 10*log10(dens))
+  } else{
+    list(freq = om, dens = dens)
+  }
+}
+# Add the scaled theoretical spectrum line on decibel scale
+theor_spec <- spec_dens_arma(n = n, ar=c(0.75,-0.5), dB = FALSE) 
+lines(theor_spec$freq, theor_spec$dens, lwd = 2, col = 2)
+```
+
+What we notice right away is how noisy the periodogram estimate is. The truth is that the periodogram is biased, inconsistent (we estimate a frequency based on 2 observations, so even as $n \rightarrow \infty$, the estimates remain extremely variable). The estimates for distinct frequencies are however almost uncorrelated provided the Fourier frequencies are far and that the bias is not too large.
+
+The expectation of the periodogram is 
+$$
+\begin{align*}\mathrm{E}\left(I(\omega_j)\right) &= \sum_{h = -n+1}^{n-1} \left(1-\frac{|h|}{n}\right)\gamma_h\exp(-2\pi i \omega h)
+\\&= \int_{-1/2}^{1/2}n\mathcal{D}_n^2(\omega_j-\omega)f(\omega)\mathrm{d} \omega
+\end{align*}
+$$
+and $n\mathcal{D}^2(\omega)\equiv W_n(\omega)$ (in the course notation) is the rescaled squared Dirichlet kernel, also known as Fejér's kernel,
+\[\mathcal{F}(\omega)=n\mathcal{D}^2(\omega) = \frac{\sin^2(n \pi \omega)}{n\sin^2(\pi\omega)}.\]
+
+The Fejér kernel concentrates as $n \rightarrow \infty$ and behaves asymptotically like a $\delta$ function. However, for finite $n$, it has marked side lobes --- these are more visible on the log scale or the decibel scale ($10\log_{10}(\cdot)$). One can view the effect of increased sample size by plotting the Fejér kernel for $n=4, 16, 64$. 
+
+
+```{r, echo = FALSE}
+#See e.g. `plot(kernel("fejer", m=1000, r = 64)` 
+#where $r$ is the number of observations and $m$ is the number of frequencies. The output is scaled.
+#Code from Percival and Walden
+my.Fejer <- function(N, pad.factor=128, tiny=10^(-8)) {
+        N.pad <- N * pad.factor
+        ones.in.zeros <- c(rep(1,N),rep(0,N.pad-N))
+        freqs.nonneg <-   (0:(N.pad/2))/N.pad
+        kernel.nonneg <- abs(fft(ones.in.zeros)[1:(N.pad/2+1)])^2/N
+        kernel.nonneg[(1:(N/2))*N.pad/N + 1] <- tiny
+        structure(list(freqs=c(rev(-freqs.nonneg[-1]),freqs.nonneg),
+                       kernel=c(rev(kernel.nonneg[-1]),kernel.nonneg), N=N))
+    }
+
+Fejer.4 <- my.Fejer(4,pad.factor=512)
+Fejer.16 <- my.Fejer(16,pad.factor=128)
+Fejer.64 <- my.Fejer(64,pad.factor=32)
+
+plotFejer <- function(Fejer,dB=FALSE,y.at=NULL,y.lim=NULL)
+  {
+    xs <- Fejer$freqs
+    ys <- Fejer$kernel
+    if(dB) ys <- dB(ys)
+    plot.new()
+    plot.window(c(-0.5,0.5),if(is.null(y.lim)) range(ys) else y.lim, xaxs="i", yaxs="i")
+    plot.xy(xy.coords(xs,ys),type="l",lwd=1,col="blue")
+    axis(1, at=seq(-0.5,0.5,0.1), labels=FALSE, tcl=-0.25)
+    axis(1, at=c(-0.5,0,0.5))
+    mtext(expression(omega),1,2.0)
+    axis(2, las=1, at=y.at)
+    mtext(if(dB) paste0("Fejer's kernel  (dB), n=", Fejer$N) else paste0("Fejer's kernel, n=", Fejer$N),2,3.0)
+}
+oldpar <- par(no.readonly = TRUE)
+par(mfrow=c(2,3), mar=c(4,5,1,1))
+plotFejer(Fejer.4,y.at=0:4,y.lim=c(0,4*1.05))
+plotFejer(Fejer.16,y.at=seq(0,15,5),y.lim=c(0,16*1.05))
+plotFejer(Fejer.64,y.at=seq(0,60,10),y.lim=c(0,64*1.05))
+plotFejer(Fejer.4,y.at=seq(-40,20,10),y.lim=c(-40,20),dB=TRUE)
+plotFejer(Fejer.16,y.at=seq(-40,20,10),y.lim=c(-40,20),dB=TRUE)
+plotFejer(Fejer.64,y.at=seq(-40,20,10),y.lim=c(-40,20),dB=TRUE)
+par(oldpar)
+```
+
+The periodogram is asymptotically unbiased, but the bias largely depends on the dynamic range. The latter is defined as
+\[d_r = 10 \log_{10} \left( \frac{\max_{\omega}f(\omega)}{\min_{\omega}f(\omega)}\right).\]
+For white noise, this is zero, so the bias is barely visible even in small samples. However, for processes with high dynamic range, it can be significant even (with $n$ as large as a million!)
+
+The following example from Percival and Walden illustrates both the bias and the leakage, plus the effect of the sidelobes. The plot shows the true spectrum and the expected values for the periodogram ordinates.
+
+
+```{r, echo=FALSE}
+
+plot2or3SDFs <- function(sdf1,sdf2,sdf3=NULL,dB=FALSE,y.at=NULL,y.lab=NULL,y.lim=NULL,minor.y.at=NULL,tag=NULL,col.tag="red",cols=c("black","blue","red"),lwds=c(1,2,2))
+    {
+        x1 <- sdf1$freqs
+        y1 <- sdf1$sdf
+        x2 <- sdf2$freqs
+        y2 <- sdf2$sdf
+        if(!is.null(sdf3))
+            {
+                x3 <- sdf3$freqs
+                y3 <- sdf3$sdf
+            }
+        if(dB)
+            {
+                y1 <- dB(y1)
+                y2 <- dB(y2)
+                if(!is.null(sdf3)) y3 <- dB(y3)
+            }
+        plot.new()
+        plot.window(c(0,0.5),if(is.null(y.lim)) range(y1) else y.lim, xaxs="i", yaxs="i")
+        plot.xy(xy.coords(x1,y1), type="l",lwd=lwds[1],col=cols[1])
+        lines(x2,y2,lwd=lwds[2],col=cols[2])
+        if(!is.null(sdf3)) lines(x3,y3,lwd=lwds[3],col=cols[3])
+        axis(1, at=c(0,0.1,0.2,0.3,0.4,0.5), labels=FALSE, tcl=-0.25)
+        axis(1, at=c(0,0.5))
+        mtext(expression(omega),1,2.0)
+        if(!is.null(minor.y.at)) axis(2, at=minor.y.at, labels=FALSE, tcl=-0.25)
+        axis(2, las=1, at=y.at)
+        mtext(y.lab,2,3.0)
+        if(!is.null(tag)) text(0.42,10,tag,pos=4,col=col.tag)
+        box()
+    }
+
+ar4.innov.var <- 0.002
+ar4.coeffs <- c(2.7607, -3.8106, 2.6535, -0.9238)
+
+ar4.sdf <- ar.coeffs.to.sdf(ar4.coeffs,innov.var=ar4.innov.var,N.pad=2048)
+
+plot2or3SDFs(ev.periodogram(ar.coeffs.to.acvs(ar4.coeffs, 63, var=ar4.innov.var, proc=FALSE),N.pad=1024),ar4.sdf,y.lim=c(-60,20),y.at=seq(-60,20,20),y.lab="dB",dB=TRUE,minor.y.at=seq(-60,20,10))
+title("Theoretical spectrum and\n expected log-periodogram \nfor an AR(4) process")
+legend(x="bottomleft", col = c(4,1), legend = c("true spectrum", "expected log-periodogram, N=64"), lty=c(1,1), cex=0.75, bty="n")
+```
+
+How did these lobes appear? Let's look at what the Fejér kernel does when convolved with the spectrum. Again, the effect is more apparent on the decibel scale. We focus on the frequency $\omega=1/8$, which corresponds to the center between the two peaks. The left panels show the Fejér kernel centered at $\omega=1/8$, while the right one shows the product of the kernel with the spectrum. While we typically only plot $f(\omega)$ on $(0,1/2)$ because of the symmetry, the $f(\omega)$ contributes for $(-1/2,0)$ as well so it is displayed. The contribution is the sum of the product of the Fejér kernel at $\omega=1/8$ with the true spectrum.
+
+
+```{r, echo=FALSE}
+ar4.sdf.two.sided <- list(freqs=c(-rev(ar4.sdf$freqs[-1]),ar4.sdf$freqs),
+                          sdf=c(rev(ar4.sdf$sdf[-1]),ar4.sdf$sdf))
+oldpar <- par(no.readonly = TRUE)
+par(mfrow=c(2,2))
+plot(ar4.sdf.two.sided$freqs,ar4.sdf.two.sided$sdf,typ="l",col="blue",xaxs="i",yaxs="i",xlim=c(-0.5,0.5),ylim=c(0,80),xlab=expression(omega), ylab="", main="Fejer's kernel and AR(4) spectrum")
+Fejer.shifted.one.eighth <- circular.shift(Fejer.64$kernel,2048/8)
+lines(Fejer.64$freqs,Fejer.shifted.one.eighth)
+abline(v=1/8,lty="dashed",col="red")
+
+plot(ar4.sdf.two.sided$freqs,ar4.sdf.two.sided$sdf*Fejer.shifted.one.eighth,typ="l",col="blue",xaxs="i",yaxs="i",xlim=c(-0.5,0.5),ylim=c(0,500),xlab=expression(omega), ylab="", main="Fejer's kernel times AR(4) spectrum")
+abline(v=1/8,lty="dashed",col="red")
+plot(ar4.sdf.two.sided$freqs,dB(ar4.sdf.two.sided$sdf),typ="l",col="blue",xaxs="i",yaxs="i",xlim=c(-0.5,0.5),ylim=c(-50,30),xlab=expression(omega), ylab="dB", main="Fejer's kernel and AR(4) spectrum")
+lines(Fejer.64$freqs,dB(Fejer.shifted.one.eighth))
+abline(v=1/8,lty="dashed",col="red")
+plot(ar4.sdf.two.sided$freqs,dB(ar4.sdf.two.sided$sdf*Fejer.shifted.one.eighth),typ="l",col="blue",xaxs="i",yaxs="i",xlim=c(-0.5,0.5),ylim=c(-50,30),xlab=expression(omega), ylab="dB", main="Fejer's kernel times AR(4) spectrum")
+abline(v=1/8,lty="dashed",col="red")
+par(oldpar)
+```
+
+<!---
+The discrete Fourier transform can be regarded as implicitly extending $f(\omega)$ periodically. 
+-->
+Same thing, but this time for the frequency $\omega = 1/4$.
+
+```{r, echo=FALSE}
+par(mfrow=c(2,2))
+plot(ar4.sdf.two.sided$freqs,ar4.sdf.two.sided$sdf,typ="l",col="blue",xaxs="i",yaxs="i",xlim=c(-0.5,0.5),ylim=c(0,80),xlab=expression(omega), ylab="", main="Fejer's kernel and AR(4) spectrum")
+Fejer.shifted.one.eighth <- circular.shift(Fejer.64$kernel,2048/4)
+lines(Fejer.64$freqs,Fejer.shifted.one.eighth)
+abline(v=1/4,lty="dashed",col="red")
+
+plot(ar4.sdf.two.sided$freqs,ar4.sdf.two.sided$sdf*Fejer.shifted.one.eighth,typ="l",col="blue",xaxs="i",yaxs="i",xlim=c(-0.5,0.5),ylim=c(0,500),xlab=expression(omega), ylab="", main="Fejer's kernel times AR(4) spectrum")
+abline(v=1/4,lty="dashed",col="red")
+plot(ar4.sdf.two.sided$freqs,dB(ar4.sdf.two.sided$sdf),typ="l",col="blue",xaxs="i",yaxs="i",xlim=c(-0.5,0.5),ylim=c(-50,30),xlab=expression(omega), ylab="dB", main="Fejer's kernel and AR(4) spectrum")
+lines(Fejer.64$freqs,dB(Fejer.shifted.one.eighth))
+abline(v=1/4,lty="dashed",col="red")
+plot(ar4.sdf.two.sided$freqs,dB(ar4.sdf.two.sided$sdf*Fejer.shifted.one.eighth),typ="l",col="blue",xaxs="i",yaxs="i",xlim=c(-0.5,0.5),ylim=c(-50,30),xlab=expression(omega), ylab="dB", main="Fejer's kernel times AR(4) spectrum")
+abline(v=1/4,lty="dashed",col="red")
+par(oldpar)
+```
+For our AR(4) process with $n=64$ observations, leakage will happen mostly at high frequencies, $\omega > 0.3$, where the true spectrum is nearly flat.
+
+###Tapering 
+
+The goal of tapering is to reduce the bias by reducing the magnitude of sidelobs in the Fejér kernel. In order to do so, we multiply the data by a taper $h_t$, to form a new series $X_th_t$ on which we compute the usual periodogram. The resulting estimator is a direct estimate, denoted $I^d(\omega)$. 
+
+```{r, echo=FALSE}
+
+times <- 0:1023
+ar4.1.ts <- scan("http://faculty.washington.edu/dbp/s520/Data/ar4-1.txt")
+par(mfrow=c(3,1))
+plot(times,ar4.1.ts,typ="l",xlab="t",ylab="AR(4) series",main="AR(4) Time Series")
+plot(times,cosine.taper(1024),typ="l",col="blue",xlab="t",ylab="Hanning taper",main="Hanning Data Taper")
+plot(times,cosine.taper(1024)*ar4.1.ts,typ="l",col="red",xlab="t",ylab="tapered series",main="Product of AR(4) series and Hanning Data Taper")
+par(oldpar)
+```
+
+
+
+One can show that 
+\[\mathrm{E}\left(I^d(\omega_j)\right) = \int_{-1/2}^{1/2}W_n(\omega_j-\omega)f(\omega)\mathrm{d} \omega\]
+where the spectral window $W_n(\omega)$, in the course notation, is 
+\[W_n(\omega) = \frac{1}{n}\left| \sum_{t=0}^{n-1} h_t \exp(-2\pi i \omega t) \right|^2\]
+A rectangular data taper in which $h_t = 1$ gives back Fejer's kernel $\mathcal{F}$ and the periodogram. We will thus consider other tapers, $\mathcal{H}$ say, which are such that $h_t$ progressively goes to zero. 
+
+To reduce bias due to leakage, we want $\mathcal{H}$ to have smaller sidelobes  than $\mathcal{F}$. There is no free lunch: such kernels $\mathcal{H}$ typically have bigger main lobes and thus smears out the peaks, introducing a new source of bias. As such, tapering is most useful for processes with large dynamic ranges. Because tapering discards information, the variance of the estimates also increases. 
+
+
+The next plots show the data taper sequences $h_t$ for $t=1, \ldots, n$ and the corresponding spectral window $\mathcal{H}$ function on the decibel scale. It corresponds to an mix between the Hanning taper, which ressembles a bell curve, and the rectangular weights. 
+The default taper in R smooths the first and last $p$ percentage of the time points. 
+$$
+h_t = 
+\begin{cases}
+\frac{1}{2}\left(1-\cos\left(\frac{\pi t}{np}\right)\right), & \text{ if } 1\le t< np
+\\
+1,  &\text{ if } np \le t \le n(1-p)
+\\
+\frac{1}{2}\left(1-\cos\left(\frac{\pi (n+1-t)}{np}\right)\right), &\text{ if }  n(1-p)<t\le n.
+\end{cases}
+$$
+
+
+The proportion $p=0$ gives back the raw periodogram, while $p=1$ gives the Hanning taper. The tapers and spectral windows (for the portion $(0,1/2)$ are shown here for $p=0, 0.2, 0.5, 1$.
+
+```{r, echo=FALSE}
+null.fixer <- function(x,tol=5.0,level=-120.0,last=FALSE)
+  {
+    N <- length(x)
+    r <- 2:(N-1)
+    x[(x[r-1] > x[r]) & (x[r+1] > x[r]) & (x[r-1] > (x[r]+tol))] <- level
+    if(last) x[N] <- level
+    x
+  }
+fig.four.tapers <- function(tapers, tags, title = "Data tapers")
+  {
+    old.par <- par(no.readonly = TRUE)
+    on.exit(par(old.par))
+    N <- 64
+    xs <- 0:(N-1)
+    x.text <- N
+    y.text <- 0.27
+    par(mfrow=c(2,2), oma = c(2,2,5,2))
+    
+    ## first plot ...
+    par(mar=c(2,4.5,0.4,0.5))
+    plot.new()
+    mtext(side = 3, line = 1, title, adj = 0.5)
+    plot.window(c(0,N),c(0.0,0.3))
+      plot.xy(xy.coords(xs,tapers[,1]), type="p",pch=20)
+    axis(1, at=seq(0,64,16), labels=FALSE, tcl=-0.25)
+    axis(1, at=seq(0,64,32), labels=FALSE)
+    axis(2, at=seq(0.0,0.3,0.1), las=1)
+    text(x.text,y.text,tags[1],col=1,pos=2)
+    box(bty="l")
+    ## second plot ...
+    par(mar=c(0.9,1.3,0.4,3.7))
+    plot.new()
+    plot.window(c(0,N),c(0.0,0.3))
+    plot.xy(xy.coords(xs,tapers[,2]), type="p",pch=20)
+    axis(1, at=seq(0,64,16), labels=FALSE, tcl=-0.25)
+    axis(1, at=seq(0,64,32), labels=FALSE)
+    axis(2, at=seq(0.0,0.3,0.1), labels=FALSE)
+    text(x.text,y.text,tags[2],col=1,pos=2)
+    box(bty="l")
+    ## third plot ...
+    par(mar=c(4.1,4.5,0.4,0.5))
+    plot.new()
+    plot.window(c(0,N),c(0.0,0.3))
+    plot.xy(xy.coords(xs,tapers[,3]), type="p",pch=20)
+    axis(1, at=seq(0,64,16), labels=FALSE, tcl=-0.25)
+    axis(1, at=seq(0,64,32))
+    mtext("t",1,3.0,font=3)
+    axis(2, at=seq(0.0,0.3,0.1), las=1)
+    text(x.text,y.text,tags[3],col=1,pos=2)
+    box(bty="l")
+    ## fourth plot ...
+    par(mar=c(4.1,1.3,0.4,3.7))
+    plot.new()
+    plot.window(c(0,N),c(0.0,0.3))
+    plot.xy(xy.coords(xs,tapers[,4]), type="p",pch=20)
+    axis(1, at=seq(0,64,16), labels=FALSE, tcl=-0.25)
+    axis(1, at=seq(0,64,32))
+    mtext("t",1,3.0,font=3)
+    axis(2, at=seq(0.0,0.3,0.1), labels=FALSE)
+    text(x.text,y.text,tags[4],col=1,pos=2)
+    box(bty="l")
+      }
+
+fig.four.spectral.windows <- function(tapers, tags, N.pad=1024*16, dotted.lines=NULL, title = "Spectral windows" )
+  {
+    old.par <- par(no.readonly = TRUE)
+    on.exit(par(old.par))
+    gen.sw <- function(a.taper)
+      {
+        for.fft <- c(a.taper,rep(0,N.pad-N))
+        null.fixer(20*log10(abs(fft(for.fft)[1:((N.pad/2)+1)])),tol=0.0,last=TRUE)
+      }
+    N <- 64
+    xs <- (0:(N.pad/2))/N.pad
+    x.text <- 0.48
+    y.text <- 4.0
+    par(mfrow=c(2,2), oma = c(2,2,5,2))
+    ## first plot ...
+    par(mar=c(0.9,4.5,0.4,0.5))
+    plot.new()
+    mtext(side = 3, line = 1, title, adj = 0.5)
+    plot.window(c(0,0.5),c(-100,20),xaxs="i",yaxs="i")
+    plot.xy(xy.coords(xs,gen.sw(tapers[,1])), type="l")
+    if(!is.null(dotted.lines)) abline(v=dotted.lines[1],lty="dotted")
+    axis(1, at=seq(0,0.5,0.1), labels=FALSE, tcl=-0.25)
+    axis(1, at=c(0,0.5), labels=FALSE)
+    axis(2, at=seq(-100,20,10), labels=FALSE, tcl=-0.25)
+    axis(2, at=seq(-100,20,20), labels=FALSE)
+    axis(2, at=seq(-100,0,20), las=1)
+    mtext("dB",2,3.2)
+    text(x.text,y.text,tags[1],col=1,pos=2)
+    box(bty="l")
+    ## second plot ...
+    par(mar=c(0.9,1.3,0.4,3.7))
+    plot.new()
+    plot.window(c(0,0.5),c(-100,20),xaxs="i",yaxs="i")
+    plot.xy(xy.coords(xs,gen.sw(tapers[,2])), type="l")
+    if(!is.null(dotted.lines)) abline(v=dotted.lines[2],lty="dotted")
+    axis(1, at=seq(0,0.5,0.1), labels=FALSE, tcl=-0.25)
+    axis(1, at=c(0,0.5), labels=FALSE)
+    axis(2, at=seq(-100,20,10), labels=FALSE, tcl=-0.25)
+    axis(2, at=seq(-100,20,20), labels=FALSE)
+    text(x.text,y.text,tags[2],col=1,pos=2)
+    box(bty="l")
+    ## third plot ...
+    par(mar=c(4.1,4.5,0.4,0.5))
+    plot.new()
+    plot.window(c(0,0.5),c(-100,20),xaxs="i",yaxs="i")
+    plot.xy(xy.coords(xs,gen.sw(tapers[,3])), type="l")
+    if(!is.null(dotted.lines)) abline(v=dotted.lines[3],lty="dotted")
+    axis(1, at=seq(0,0.5,0.1), labels=FALSE, tcl=-0.25)
+    axis(1, at=c(0,0.5))
+    mtext(expression(omega),1,3.0,font=3)
+    axis(2, at=seq(-100,20,10), labels=FALSE, tcl=-0.25)
+    axis(2, at=seq(-100,20,20), labels=FALSE)
+    axis(2, at=seq(-100,0,20), las=1)
+    mtext("dB",2,3.2)
+    text(x.text,y.text,tags[3],col=1,pos=2)
+    box(bty="l")
+    ## fourth plot ...
+    par(mar=c(4.1,1.3,0.4,3.7))
+    plot.new()
+    plot.window(c(0,0.5),c(-100,20),xaxs="i",yaxs="i")
+    plot.xy(xy.coords(xs,gen.sw(tapers[,4])), type="l")
+    if(!is.null(dotted.lines)) abline(v=dotted.lines[4],lty="dotted")
+    axis(1, at=seq(0,0.5,0.1), labels=FALSE, tcl=-0.25)
+    axis(1, at=c(0,0.5))
+    mtext(expression(omega),1,3.0,font=3)
+    axis(2, at=seq(-100,20,10), labels=FALSE, tcl=-0.25)
+    axis(2, at=seq(-100,20,20), labels=FALSE)
+    text(x.text,y.text,tags[4],col=1,pos=2)
+    box(bty="l")
+  }
+fig.four.tapers(cbind(cosine.taper(64,0.0), cosine.taper(64,0.2), cosine.taper(64,0.5), cosine.taper(64,1.0)), c("p=0", "p=0.2", "p=0.5", "p=1"),  title="Percentage cosine data taper")
+
+fig.four.spectral.windows(cbind(cosine.taper(64,0.0), cosine.taper(64,0.2), cosine.taper(64,0.5), cosine.taper(64,1.0)), c("p=0", "p=0.2", "p=0.5", "p=1"), title="Spectral window of percentage cosine taper")
+
+```
+
+As we increase the tapering, the sidelobes of become progressively smaller, but the width of the main lobe increases. This we will illustrate with a special taper, for which the phenomenon is most visible.
+
+The Slepian tapers are special tapers that
+<!--or zeroth order  discrete prolate spheroidal sequence, DPSS(0), 
+-->
+minimize the energy in the side lob. They are the filters whose transfer function is maximized in a specified range $|\omega|< W$.
+<!--
+Specifically, they maximize the measure of concentration
+\[ \frac{\int_{-W}^W \mathcal{H}(\omega) \mathrm{d} \omega}{\int_{-1/2}^{1/2} \mathcal{H}(\omega) \mathrm{d} \omega}.\]
+-->
+They are oftentime parametrized in terms of $nW$, and $nW=1$ gives back (roughly speaking) the Fejér kernel, while $nW=2$ is closer to the Hanning taper. 
+
+```{r, echo=FALSE}
+
+fig.four.tapers(cbind(slepian.taper(64,1), slepian.taper(64,2), slepian.taper(64,4), slepian.taper(64,8)), c("NW=1", "NW=2", "NW=4", "NW=8"), title = "Slepian data taper")
+
+fig.four.spectral.windows(cbind(slepian.taper(64,1), slepian.taper(64,2), slepian.taper(64,4), slepian.taper(64,8)), c("NW=1", "NW=2", "NW=4", "NW=8"), dotted=c(1/64,2/64,4/64,8/64), title = "Spectral window of Slepian taper")
+
+```
+
+
+What happens when we overtaper a series? The following plot shows the expected value of the direct estimate of the spectrum based on 64 observations (!) compared to the true estimate. The underlying spectra is that of a AR(4) series.
+
+```{r, echo=FALSE}
+par(mfrow=c(2,2))
+plot2or3SDFs(ev.direct.sdf.estimate(ar.coeffs.to.acvs(ar4.coeffs, 63, var=ar4.innov.var, proc=FALSE),slepian.taper(64,1),N.pad=1024),ar4.sdf,y.lim=c(-60,20),y.at=seq(-60,20,20),y.lab="dB",dB=TRUE,minor.y.at=seq(-60,20,10),tag="NW=1",col.tag=1)
+
+plot2or3SDFs(ev.direct.sdf.estimate(ar.coeffs.to.acvs(ar4.coeffs, 63, var=ar4.innov.var, proc=FALSE),slepian.taper(64,2),N.pad=1024),ar4.sdf,y.lim=c(-60,20),y.at=seq(-60,20,20),y.lab="dB",dB=TRUE,minor.y.at=seq(-60,20,10),tag="NW=2",col.tag=1)
+
+plot2or3SDFs(ev.direct.sdf.estimate(ar.coeffs.to.acvs(ar4.coeffs, 63, var=ar4.innov.var, proc=FALSE),slepian.taper(64,4),N.pad=1024),ar4.sdf,y.lim=c(-60,20),y.at=seq(-60,20,20),y.lab="dB",dB=TRUE,minor.y.at=seq(-60,20,10),tag="NW=4",col.tag=1)
+
+plot2or3SDFs(ev.direct.sdf.estimate(ar.coeffs.to.acvs(ar4.coeffs, 63, var=ar4.innov.var, proc=FALSE),slepian.taper(64,8),N.pad=1024),ar4.sdf,y.lim=c(-60,20),y.at=seq(-60,20,20),y.lab="dB",dB=TRUE,minor.y.at=seq(-60,20,10),tag="NW=8",col.tag=1)
+par(oldpar)
+```
+
+<!---
+
+### Autoregressive process of order 4
+
+The next example, from Percival and Walden, is that of an AR(4) series for which the spectrum is known. When the number of observations is larger than say 500, you should smooth the periodogram. We perform the calculations manually using fast Fourier transforms to illustrate the method. The following code is partly stolen from [this example by Dave Riegert](http://stats.stackexchange.com/questions/229530/spectral-density-of-a-time-series-r-implementation-explanation?rq=1).
+
+An advanced technique (not covered in the course) is multitapering. It consists of a combination of tapered estimates whose taper functions are orthogonal. The tapered estimates are averaged, hereby increasing the number of degrees of freedom and reducing the variance of the estimated spectra. This state of the art method is useful for peaks detection (via an harmonic F-test) and it allows one to build confidence intervals via the jackknife.  The package `multitaper` implements multitapering via `spec.mtm`; see `plot.mtm` for an example.
+-->
+
+```{r driegert_ex, eval=FALSE, echo=FALSE}
+library('multitaper')
+
+# our data
+x  <- ts(scan("http://faculty.washington.edu/dbp/s520/Data/ar4-1.txt"))
+N <- length(x) # number of data points
+M <- 2048 # zeropadded length of series
+freq <- seq(0, 0.5, by = 1/M)
+#Could check on replicate datasets
+phi <- c(2.7607, -3.8106, 2.6535, -0.9238)
+x.rep <- arima.sim(n = N, model = list(ar = phi, sigma2 = 0.001))
+
+# theoretical spectrum
+spec.thry <- TSA::ARMAspec(model = list(ar = phi, sigma2 = 0.001),  plot = FALSE)
+h.pgram <- rep(1/sqrt(N), N) #periodogram taper / window
+# prepared data
+xh.pgram <- x * h.pgram
+# calculate the periodogram manually with padding
+spec.pgram <- abs(fft(c(xh.pgram, rep(0, M-N)))[1:(M/2+1)])^2
+# default from spectrum
+spec.default <- spectrum(x, plot=FALSE, pad=0.8, taper=0.1) #default
+# multitaper - better solution very often
+spec.mtm <- multitaper::spec.mtm(x, nFFT = M, nw = 2, k = 4, plot = FALSE, jacknife = TRUE, Ftest = TRUE)
+
+# plotting
+par(mar = c(4,4,1,1))
+plot(spec.thry$freq, spec.thry$spec, type = 'l', log='y', ylab = "Spectrum", xlab = "Frequency", lwd = 2, bty="l")
+lines(freq, spec.pgram, col = rgb(1,0,0,0.7))
+lines(spec.default$freq, spec.default$spec, col = rgb(0,1,0,0.7))
+lines(spec.mtm$freq, spec.mtm$spec, col = rgb(0,0,1,0.7))
+legend("topright", c("theoretical", "periodogram", "direct", "multitaper"), col = c("black", rgb(1,0,0,0.7), rgb(0,1,0,0.7), rgb(0,0,1,0.7), rgb(0,0,1,0.7)), lwd = c(2,1,1,1),bty="n")
+
+```
+
+
+
+### A data example
+
+
+We now illustrate the calculation of the raw periodogram on the `sunspot` dataset. 
+
+```{r stoffer_nlts}
+source("http://faculty.washington.edu/dbp/s520/R-code/tapers.R")
+sunspot = c(scale(sqrt(sunspot.year), scale = FALSE)) #Square root transformed sunspot, centered 
+n <- length(sunspot)
+nj <- floor(n/2)
+om <- (1:nj)/n
+#Calculate manually the periodogram using the formulas for the regression coefficients
+a <- b <- vector(mode = "numeric", length = nj)
+for(j in 1:nj){ 
+  a[j] <- sum(sapply(1:n, function(t){sunspot[t]*cos(2*pi*t*j/n)}))
+  b[j] <- sum(sapply(1:n, function(t){sunspot[t]*sin(2*pi*t*j/n)}))
+}
+#Plot the log-periodogram
+plot(om, 10*log10(2/n^2*(a^2+b^2)), main = "Scaled log-periodogram", 
+     xlab = "Fundamental frequencies (cycle per unit time)", ylab = "Decibels (dB)", type = "l")
+#Repeat the calculations, this time using the FFT
+lines(om, 10*log10(Per <- 2*(Mod(fft(sunspot))[2:(nj+1)]/n)^2)) #lines overlayed
+```
+
+
+The two definitions are thus identical, but one must be careful with the different scalings employed in different references. 
+
+It is customary to include trailing zeros in the series to make the latter divisible by a low prime, potentially doubling its length. Padding with zero does not affect the properties of the estimates, but rather the frequency at which they are computed. Padding is used to make the computations faster.
+
+We illustrate zero-padding and tapering in the next plots. We abstain from now from smoothing. 
+
+
+```{r}
+#plot((1:nj)/n, Per, type="l", xlab = "Frequency", ylab = "Spectral density", main = "Periodogram")
+##Zero padding
+M <- 2*nextn(n, factors = 2) #1024, next power of 2 greater than sample size
+# calculate the periodogram with the FFT with zero padding
+ffreq <- seq(1/M, 0.5, by = 1/M)
+spec_pgram <- abs(fft(c(sunspot / sqrt(n), rep(0, M - n)))[2:(M/2 + 1)])^2 #square modulus of FFT data, 
+plot(ffreq, 10*log10(spec_pgram), xlab = "Fundamental frequencies (cycle per unit time)",
+     ylab = "Decibels (dB)", type = "l", main = "Log-periodogram")
+#Tapering
+tapc_sunspot <- cosine.taper(N = n, p = 0.5)*sunspot
+taps_sunspot <- slepian.taper(N = n, NW = 2)*sunspot
+spec_tap_cos <- abs(fft(c(tapc_sunspot, rep(0, M - n)))[2:(M/2 + 1)])^2 
+spec_tap_sle <- abs(fft(c(taps_sunspot, rep(0, M - n)))[2:(M/2 + 1)])^2 
+lines(ffreq, 10*log10(spec_tap_cos), col = 3)
+lines(ffreq, 10*log10(spec_tap_sle), col = 4)
+legend(x = "bottomleft", col=c(1,4,3),lty=c(1,1,1), legend = c("Fejer","Slepian (NW=4)", "Cosine (0.5)"), bty = "n")
+
+
+```
+
+Since the dynamic range is low, tapering has little effect here.
+
+### Smoothing
+
+Smoothing is the last modification we shall cover. The goal here is to convolve the periodogram estimate for the tapered data with a kernel. We typically consider linear filters that reproduce simple moving average. The effective range of the smoother depends on a bandwidth parameter, but the latter is model dependent.
+
+The smoothing illustrated below is performed using modified Daniell smoothers, which are simply moving averages that give half weight to the end values of the span.  The simple Daniell filter gives equal weight, but it can be applied recursively. Increasing `spans` smooths the raw periodogram plotted in the first call to `spectrum`.  The spans should be odd integers, and smoother results are obtained if they are different and at least two are used. 
+
+```{r}
+par(mfrow=c(1,3))
+plot(kernel("daniell", m = 3))
+plot(kernel("daniell", m = c(3,3)))
+plot(kernel("modified.daniell", m = c(3,3)))
+ker <- kernel("modified.daniell", m = c(3,3))
+par(oldpar)
+#Convolve the kernel with the periodogram
+smooth_spec <- kernapply(spec_tap_sle, ker, circular = TRUE)
+plot(ffreq, 10*log10(spec_pgram), xlab = "Fundamental frequencies (cycle per unit time)",
+     ylab = "Decibels (dB)", type = "l", main = "Log-periodogram")
+lines(ffreq, 10*log10(smooth_spec), col=2)
+legend(x = "bottomleft", col=c(1,2),lty=c(1,1), legend = c("raw","tapered and smoothed"), bty = "n")
+```
+
+## Summary of nonparametric spectral estimation
+
+In summary, the different steps to undertake are, in order,  
+
+1. Differencing (or detrending) should be performed prior to any analysis. The series should be centered around zero by subtracting the mean from the data to remove the frequencies near $\omega=0$, which would otherwise dominate.
+2. For tapering, multiply centered observations by a data window. The cosine bell taper, also known as Hann taper, is the default choice in the R function `spectrum`.
+3. Zero-pad to increase the resolution  and so that the length of your time series is a highly composite number, typically $2^l>n$. If you want to convert your spectrum to an autocovariance, zero-padding helps avoid "circular autocorrelation".  It also reduces the computation burden for the FFT calculation.
+4. Smooth the periodogram. It amounts to convoluting the periodogram with a kernel. The amount of averaging should increase as $n \to \infty$. This reduces the variance, but introduces leakage.  The amount of smoothing is controlled by the bandwidth parameter.
+
+## Spectral estimation in R
+
+The workhorse for spectral estimation is the function `spectrum`, which calls `spec.pgram` in the background for nonparametric spectral estimation. It uses by default the modified Daniell's filters, whose argument are fixed via `spans`. The function uses the percentage cosine taper, with `taper=0.1` as default. The option `fast` is used for zero-padding. The function `TSA::spec` is equivalent to `spectrum`.
+
+One can also resort to parametric estimation via the `spec.ar`. The package `astsa` has a function `astsa::arma.spec` to display the spectrum of a given ARMA model (see also `TSA::ARMAspec`). 
+
+Here is a simple example using the function `spectrum`. The last line performs the graphical test for white noise using the cumulative periodogram (with default tapering of 0.1). The confidence bands are derived using the asymptotic approximate $\chi^2$ distribution. The height of the line to the right of the plot shows the width of a 95\% confidence interval for the underlying function, and the width of its centre mark indicates the bandwidth parameter.
+     
+
+```{r}
+sun_ar = spec.ar(sunspot, plot=FALSE)        # parametric estimation based on AR model
+#The latter's order is estimated using the Yule-Walker equations, with order selected by AIC
+sun_np = spectrum(sunspot, spans=c(5,5), plot=FALSE)  # nonparametric  
+plot(sun_ar$freq, sun_ar$spec, type="l", log="y", ylab="spectrum", xlab="frequency", bty="l")  
+lines(sun_np$freq, sun_np$spec, lty=2)
+legend("topright", c("parametric","nonparametric"), lty=1:2, bty="n") 
+
+cpgram(resid(arima(sunspot, c(2,0,0))), main = "Cumulative periodogram of residuals")
+
+```
+
+```{r, echo=FALSE, eval=FALSE}
+N <- length(sunspot)
+M <- floor((N-1)/2)
+tilde.D <- function(M, alpha=0.05)  {
+    C.alpha <-  if(isTRUE(all.equal(alpha,0.15))) 1.138 else if(isTRUE(all.equal(alpha,0.1)))      1.224 else if(isTRUE(all.equal(alpha,0.05))) 1.358 else if(isTRUE(all.equal(alpha,0.025)))     1.480 else if(isTRUE(all.equal(alpha,0.01))) 1.628 else  {
+      cat("error: alpha (", alpha, ") must be set to 0.15, 0.1, 0.05, 0.025 or 0.01\n",sep="")
+      return(invisible())
+    }
+    temp <- sqrt(M-1)
+    C.alpha/(temp + 0.12 +0.11/temp)
+  }
+abline(-(1/(M-1)) + tilde.D(M),(N-1)/(M-1),col="blue")
+abline(-tilde.D(M),N/(M-1),col="blue")
+abline(-(1/(M-1)) + tilde.D(M,0.01),N/(M-1),lty="dashed",col="red")
+abline(-tilde.D(M,0.01),N/(M-1),lty="dashed",col="red")
+legend("bottomright", lty=c(1,2), col=c(4,2), legend = expression(alpha==0.05, alpha==0.01), bty="n")
+```
+     
+     
+### Smoothing and seasonally adjusted values
+
+The following is taken from [Edward Ionides course](http://ionides.github.io/531w16/notes08/notes8.html) and licensed under Creative Commons attribution-noncommercial license, http://creativecommons.org/licenses/by-nc/3.0/. 
+
+Suppose one is interested in long-term trend in unemployment in the US. The following series provide both raw and seasonally adjusted figures for monthly unemployment.
+
+```{r}
+U1 <- read.csv(file = "https://raw.githubusercontent.com/ionides/531w16/master/notes08/unadjusted_unemployment.csv", skip = 8, header = TRUE, sep=",")
+
+U2 <- read.csv(file = "https://raw.githubusercontent.com/ionides/531w16/master/notes08/adjusted_unemployment.csv", skip = 8, header = TRUE, sep=",")
+
+u1 <- ts(c(unlist(t(U1[,2:13]))), start = c(1948, 1), frequency = 12)
+plot(u1, ylab= "Percentage")
+u2 <- ts(c(unlist(t(U2[,2:13]))), start = c(1948, 1), frequency = 12)
+lines(c(time(u2)), c(u2), col = 2, lwd = 2)
+title("Unemployment. Raw (black) \nand seasonally adjusted (red)")
+```
+> We see seasonal variation, and perhaps we see business cycles on top of a slower trend. [...] The seasonal variation looks like an additive effect, say an annual fluctation with amplitude around 1 percentage point. 
+
+We are interested here in comparing the spectrum of the two series, so we won't differentiate the series. We can use the approximate Fisher $F_{2,2}$ distribution to perform a two-sided test for the null hypothesis of equality of spectra. 
+
+```{r}
+
+perio <- spec.pgram(fast = TRUE, ts.union(u1,u2), spans=c(3,5,3), taper=0.2, plot = FALSE) 
+plot(perio, log="dB", sub = "", main="US unemployment.\n Raw (black) and seasonally adjusted (red)")
+plot(perio$freq, log(perio$spec[,2]/perio$spec[,1]),type="l",
+  ylab="frequency ratio (log scale)", xlab="frequency",  
+  main="Frequency response", ylim=c(-7,7))
+abline(h=log(c(qf(0.025,2,2),qf(0.975,2,2))),lty="dashed",col="red")
+legend("topleft", lty=2, col=2, legend = expression(F[2,2]~"quantiles, "~alpha==0.05), bty="n")
+```
+
+What frequencies where removed by the seasonally adjusted series and what time period does these correspond to?
+
+One could identify business cycles or focus and separate high frequency and low frequency by using low pass or high pass filters. This is basically smoothing. One could use loess, which uses local linear fit, to achieve this, but any other smoother discussed above could also achieve the objective. The argument `span` in `loess` is the bandwidth parameter (the larger, the more observations are taken into account).
+
+```{r}
+#Low pass and high pass filter
+u_low <- ts(loess(u1 ~ time(u1), span = 0.5)$fitted, start=1948, frequency=12)
+u_hi <- ts(u1 - loess(u1 ~ time(u1), span = 0.1)$fitted, start=1948, frequency=12)
+u_cycles <- u1 - u_hi - u_low
+plot(ts.union("Raw" = u1, "Low" = u_low, "High" = u_hi, "Business cycles" = u_cycles),  
+     ylab="main",  main="Decomposition of unemployment \nas trend + noise + cycles")
+
+```
+
+**YOUR TURN**
+
+### Exercise 1: Southern oscillation index (SOI) and fish recruitement
+The data `soi` from the package `astsa` contains 453 monthly measures of the SOI. The dataset `rec` contains fish recruitement statistics for the same period.
+
+1. Perform a spectral analysis using a parametric estimator based on an AR model.
+2. Plot the log-periodograms of both series on the decibel scale
+3. Identify the main frequencies of the series.
+4. Try out different tapers and different degrees. Note the impact of the latter.
+5. Smooth the series using a low-pass filter and extract the seasonal variation. Plot the periodogram and comment on the resulting estimate.
+

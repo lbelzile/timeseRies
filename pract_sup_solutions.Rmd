@@ -1,0 +1,37 @@
+# Notes on irregular time series and missing values (solutions)"
+
+
+### Exercise 1. Jussy air temperature
+
+```{r jussy_analysis}
+jussy <- read.csv("http://sma.epfl.ch/~lbelzile/math342/jussy_temp.csv", header = TRUE, 
+                  sep=";", na.strings = "######", stringsAsFactors = FALSE)[,1:2]
+library(xts); library(lubridate)
+colnames(jussy) <- c("time","temp")
+jussy_xts <- with(jussy, xts(temp, order.by=ymd_h(time)))
+jussy_max <- apply.daily(jussy_xts, max)
+number_freeze <- apply.yearly(jussy_xts, function(serie){
+  sum(I(apply.daily(serie, min)<0), na.rm = TRUE)})
+#Exclude last incomplete year
+mean(number_freeze[-length(number_freeze)])
+
+heatwave_ind <- intersect(which(apply.daily(jussy_xts, min)>18), which(apply.daily(jussy_xts, max)>30)) #which values match the two constraints
+y <- rle(diff(heatwave_ind)) #run length
+sum(I(y$lengths[y$values==1]>3)) #how many are above 3 days
+#2 `heatwaves` as per the definition
+#Unsurprisingly, they occur in June and August 2003
+```
+
+### Exercise 2. Tyne river flow
+
+```{r tyne_analysis}
+tyne <- read.csv(file="http://sma.epfl.ch/~lbelzile/math342/23001-Tyne_at_Bywell.csv",
+                 header=FALSE, sep=",", skip=16, col.names=c("time", "height", "flag"),
+                 as.is=TRUE, na.strings="NA")[,1:2]
+library(imputeTS)
+plot(which(is.na(tyne)), ylab="Index of missing value within dataset", xlab="Index within the missing value")
+
+tyne_ts <- with(tyne, ts(data = height, start = c(as.numeric(substr(time[1],1,4),lubridate::yday(time[1])), frequency = 365)))
+plotNA.distribution(tyne_ts)
+statsNA(tyne_ts)
+```

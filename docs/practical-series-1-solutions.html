@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>timeseRies</title>
+  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="timeseRies" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="github-repo" content="lbelzile/timeseRies" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="timeseRies" />
+  
+  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  
+
+<meta name="author" content="Léo Belzile">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="smoothing-and-detrending.html">
+<link rel="next" href="practical-series-2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Time Series</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
+<li class="chapter" data-level="1" data-path="practical-series-1.html"><a href="practical-series-1.html"><i class="fa fa-check"></i><b>1</b> Practical series 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1.1</b> Exploratory Data Analysis</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#libraries"><i class="fa fa-check"></i><b>1.1.1</b> Libraries</a></li>
+<li class="chapter" data-level="1.1.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#loading-datasets"><i class="fa fa-check"></i><b>1.1.2</b> Loading datasets</a></li>
+<li class="chapter" data-level="1.1.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#time-series-objects-and-basic-plots"><i class="fa fa-check"></i><b>1.1.3</b> Time series objects and basic plots</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-the-basic-time-series-functions.html"><a href="introduction-to-the-basic-time-series-functions.html"><i class="fa fa-check"></i><b>1.2</b> Introduction to the basic time series functions</a></li>
+<li class="chapter" data-level="1.3" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html"><i class="fa fa-check"></i><b>1.3</b> Second order stationarity</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html#exercise-2.-sp500-daily-returns"><i class="fa fa-check"></i><b>1.3.1</b> Exercise 2. SP500 daily returns</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>1.4</b> Simulations</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="simulations.html"><a href="simulations.html#exercise-3.-simulated-data"><i class="fa fa-check"></i><b>1.4.1</b> Exercise 3. Simulated data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="spectral-analysis.html"><a href="spectral-analysis.html"><i class="fa fa-check"></i><b>1.5</b> Spectral analysis</a></li>
+<li class="chapter" data-level="1.6" data-path="smoothing-and-detrending.html"><a href="smoothing-and-detrending.html"><i class="fa fa-check"></i><b>1.6</b> Smoothing and detrending</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html"><i class="fa fa-check"></i><b>2</b> Practical series 1 (solutions)</a><ul>
+<li class="chapter" data-level="2.0.1" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-1.-beaver-temperature-1"><i class="fa fa-check"></i><b>2.0.1</b> Exercise 1. Beaver temperature</a></li>
+<li class="chapter" data-level="2.0.2" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-2.-sp500-daily-returns-1"><i class="fa fa-check"></i><b>2.0.2</b> Exercise 2. SP500 daily returns</a></li>
+<li class="chapter" data-level="2.0.3" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-3.-simulated-data-1"><i class="fa fa-check"></i><b>2.0.3</b> Exercise 3. Simulated data</a></li>
+<li class="chapter" data-level="2.0.4" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-4-mauna-loa-atmospheric-co2-concentration"><i class="fa fa-check"></i><b>2.0.4</b> Exercise 4: Mauna Loa Atmospheric CO<sub>2</sub> Concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="practical-series-2.html"><a href="practical-series-2.html"><i class="fa fa-check"></i><b>3</b> Practical series 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html"><i class="fa fa-check"></i><b>3.1</b> Manual maximum likelihood estimation</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html#exercise-1-ubs-stock-returns"><i class="fa fa-check"></i><b>3.1.1</b> Exercise 1: UBS stock returns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html"><i class="fa fa-check"></i><b>3.2</b> Box–Jenkins methodology for ARMA models</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html#exercise-2-simulated-series"><i class="fa fa-check"></i><b>3.2.1</b> Exercise 2: Simulated series</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html"><i class="fa fa-check"></i><b>3.3</b> Information criterion, model selection and profile likelihood</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html#exercise-3-lake-erie-height"><i class="fa fa-check"></i><b>3.3.1</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html"><i class="fa fa-check"></i><b>4</b> Practical series 2 (solutions)&quot;</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-1-ubs-stock-returns-1"><i class="fa fa-check"></i><b>4.0.1</b> Exercise 1: UBS stock returns</a></li>
+<li class="chapter" data-level="4.0.2" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-2-simulated-series-1"><i class="fa fa-check"></i><b>4.0.2</b> Exercise 2: Simulated series</a></li>
+<li class="chapter" data-level="4.0.3" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-3-lake-erie-height-1"><i class="fa fa-check"></i><b>4.0.3</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="practical-series-3.html"><a href="practical-series-3.html"><i class="fa fa-check"></i><b>5</b> Practical series 3</a><ul>
+<li class="chapter" data-level="5.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>5.1</b> SARIMA models: estimation and forecasting</a></li>
+<li class="chapter" data-level="5.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html"><i class="fa fa-check"></i><b>5.2</b> An aside on models with regressors (optional)</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>5.2.1</b> Mauna Loa CO2 dataset</a></li>
+<li class="chapter" data-level="5.2.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>5.2.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>5.3</b> Boostrap methods for time series</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>5.3.1</b> Bootstrapping a linear model</a></li>
+<li class="chapter" data-level="5.3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>5.3.2</b> Testing for heteroscedasticity</a></li>
+<li class="chapter" data-level="5.3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>5.3.3</b> AR-sieve bootstrap</a></li>
+<li class="chapter" data-level="5.3.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>5.3.4</b> Boostrap models for uncertainty assesment</a></li>
+<li class="chapter" data-level="5.3.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>5.3.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>5.4</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a></li>
+<li class="chapter" data-level="5.5" data-path="predictions.html"><a href="predictions.html"><i class="fa fa-check"></i><b>5.5</b> Predictions</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="predictions.html"><a href="predictions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>5.5.1</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html"><i class="fa fa-check"></i><b>6</b> Practical series 3 (solutions)</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>6.0.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="6.0.2" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>6.0.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="6.0.3" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>6.0.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="practical-series-4.html"><a href="practical-series-4.html"><i class="fa fa-check"></i><b>7</b> Practical series 4</a><ul>
+<li class="chapter" data-level="7.1" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>7.1</b> Spectral analysis and filtering</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#tapering"><i class="fa fa-check"></i><b>7.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="7.1.2" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#a-data-example"><i class="fa fa-check"></i><b>7.1.2</b> A data example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#smoothing"><i class="fa fa-check"></i><b>7.1.3</b> Smoothing</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>7.2</b> Summary of nonparametric spectral estimation</a></li>
+<li class="chapter" data-level="7.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>7.3</b> Spectral estimation in R</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#smoothing-and-seasonally-adjusted-values"><i class="fa fa-check"></i><b>7.3.1</b> Smoothing and seasonally adjusted values</a></li>
+<li class="chapter" data-level="7.3.2" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#exercise-1-southern-oscillation-index-soi-and-fish-recruitement"><i class="fa fa-check"></i><b>7.3.2</b> Exercise 1: Southern oscillation index (SOI) and fish recruitement</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="practical-series-5.html"><a href="practical-series-5.html"><i class="fa fa-check"></i><b>8</b> Practical series 5&quot;</a><ul>
+<li class="chapter" data-level="8.1" data-path="simulation-based-prediction-intervals-for-arima-garch-models.html"><a href="simulation-based-prediction-intervals-for-arima-garch-models.html"><i class="fa fa-check"></i><b>8.1</b> Simulation-based prediction intervals for ARIMA-GARCH models</a></li>
+<li class="chapter" data-level="8.2" data-path="state-space-models-and-the-kalman-filter.html"><a href="state-space-models-and-the-kalman-filter.html"><i class="fa fa-check"></i><b>8.2</b> State-space models and the Kalman filter</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="notes-on-irregular-time-series-and-missing-values.html"><a href="notes-on-irregular-time-series-and-missing-values.html"><i class="fa fa-check"></i><b>9</b> Notes on irregular time series and missing values&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html"><i class="fa fa-check"></i><b>9.1</b> Irregular time series</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html#exercise-1.-jussy-air-temperature"><i class="fa fa-check"></i><b>9.1.1</b> Exercise 1. Jussy air temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>9.2</b> Imputation of missing values</a></li>
+<li class="chapter" data-level="9.3" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html"><i class="fa fa-check"></i><b>9.3</b> Diagnostics for missing values and smoothing</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html#exercise-2.-tyne-river-flow"><i class="fa fa-check"></i><b>9.3.1</b> Exercise 2. Tyne river flow</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html"><i class="fa fa-check"></i><b>10</b> Notes on irregular time series and missing values (solutions)&quot;</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html#exercise-1.-jussy-air-temperature-1"><i class="fa fa-check"></i><b>10.0.1</b> Exercise 1. Jussy air temperature</a></li>
+<li class="chapter" data-level="10.0.2" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html#exercise-2.-tyne-river-flow-1"><i class="fa fa-check"></i><b>10.0.2</b> Exercise 2. Tyne river flow</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">timeseRies</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="practical-series-1-solutions" class="section level1">
+<h1><span class="header-section-number">2</span> Practical series 1 (solutions)</h1>
+<div id="exercise-1.-beaver-temperature-1" class="section level3">
+<h3><span class="header-section-number">2.0.1</span> Exercise 1. Beaver temperature</h3>
+<ol style="list-style-type: decimal">
+<li>Load the <code>beav2</code> data from the library <code>MASS</code>.</li>
+<li>Examine the data frame using <code>summary</code>, <code>head</code>, <code>tail</code>. Query the help with <code>?beav2</code> for a description of the dataset</li>
+<li>Transform the temperature data into a time series object and plot the latter.</li>
+<li>Fit a linear model using <code>lm</code> and the variable <code>activ</code> as factor, viz. <code>lin_mod &lt;- lm(temp~as.factor(activ), data=beav2)</code>. Overlay the means on your plot with <code>lines(fitted(lin_mod))</code> replacing <code>lin_mod</code> with your <code>lm</code> result.</li>
+<li>Inspect the residuals (<code>resid(lin_mod)</code>) and determine whether there is any evidence of trend or seasonality.</li>
+<li>Look at a quantile-quantile (Q-Q) plot to assess normality. You can use the command <code>qqnorm</code> if you don’t want to transform manually the residuals with <code>qqline</code> or use <code>plot(lin_mod, which=2)</code>.</li>
+<li>Plot the lag-one residuals at time <span class="math inline">\(t\)</span> and <span class="math inline">\(t-1\)</span>. Is the dependence approximately linear?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(beav2, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>)
+<span class="st">`</span><span class="dt">?</span><span class="st">`</span>(MASS<span class="op">::</span>beav2)
+beav2<span class="op">$</span>hours &lt;-<span class="st"> </span><span class="kw">with</span>(beav2, <span class="dv">24</span> <span class="op">*</span><span class="st"> </span>(day <span class="op">-</span><span class="st"> </span><span class="dv">307</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trunc</span>(time<span class="op">/</span><span class="dv">100</span>) <span class="op">+</span><span class="st"> </span>(time<span class="op">%%</span><span class="dv">100</span>)<span class="op">/</span><span class="dv">60</span>)
+<span class="kw">summary</span>(beav2)</code></pre></div>
+<pre><code>      day             time           temp           activ     
+ Min.   :307.0   Min.   :   0   Min.   :36.58   Min.   :0.00  
+ 1st Qu.:307.0   1st Qu.:1128   1st Qu.:37.15   1st Qu.:0.00  
+ Median :307.0   Median :1535   Median :37.73   Median :1.00  
+ Mean   :307.1   Mean   :1446   Mean   :37.60   Mean   :0.62  
+ 3rd Qu.:307.0   3rd Qu.:1942   3rd Qu.:37.98   3rd Qu.:1.00  
+ Max.   :308.0   Max.   :2350   Max.   :38.35   Max.   :1.00  
+     hours      
+ Min.   : 9.50  
+ 1st Qu.:13.62  
+ Median :17.75  
+ Mean   :17.75  
+ 3rd Qu.:21.88  
+ Max.   :26.00  </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(beav2)</code></pre></div>
+<pre><code>  day time  temp activ     hours
+1 307  930 36.58     0  9.500000
+2 307  940 36.73     0  9.666667
+3 307  950 36.93     0  9.833333
+4 307 1000 37.15     0 10.000000
+5 307 1010 37.23     0 10.166667
+6 307 1020 37.24     0 10.333333</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(beav2)</code></pre></div>
+<pre><code>    day time  temp activ    hours
+95  308  110 37.76     1 25.16667
+96  308  120 37.73     1 25.33333
+97  308  130 37.77     1 25.50000
+98  308  140 38.01     1 25.66667
+99  308  150 38.04     1 25.83333
+100 308  200 38.07     1 26.00000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fancy time series object</span>
+hours &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">ISOdatetime</span>(<span class="dv">1990</span>, <span class="dv">11</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">30</span>, <span class="dv">0</span>), <span class="kw">ISOdatetime</span>(<span class="dv">1990</span>, <span class="dv">11</span>, <span class="dv">4</span>, <span class="dv">2</span>, 
+    <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">by =</span> (<span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">10</span>))
+<span class="kw">plot</span>(xts<span class="op">::</span><span class="kw">xts</span>(beav2[, <span class="st">&quot;temp&quot;</span>], hours), <span class="dt">main =</span> <span class="st">&quot;Body temperature of beaver&quot;</span>, 
+    <span class="dt">ylab =</span> <span class="st">&quot;Temperature (in degree Celcius)&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_1-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Vanilla ts - works ok for regular time series</span>
+temp &lt;-<span class="st"> </span><span class="kw">ts</span>(beav2[, <span class="st">&quot;temp&quot;</span>], <span class="dt">start =</span> <span class="fl">9.5</span>, <span class="dt">frequency =</span> <span class="dv">6</span>)
+<span class="kw">plot</span>(temp, <span class="dt">main =</span> <span class="st">&quot;Body temperature of beaver&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Temperature (in degree Celcius)&quot;</span>)
+lin_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(temp <span class="op">~</span><span class="st"> </span><span class="kw">as.factor</span>(activ), <span class="dt">data =</span> beav2)
+<span class="kw">lines</span>(beav2[, <span class="st">&quot;hours&quot;</span>], <span class="kw">fitted</span>(lin_mod), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_1-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Some trend remaining in the first part, before time</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">residuals</span>(lin_mod), <span class="dt">ylab =</span> <span class="st">&quot;Residuals&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Residuals of linear model with simple change-point&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Q-Q plot (1) with output from lm</span>
+<span class="kw">plot</span>(lin_mod, <span class="dt">which =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (2) with qqnorm and tentative line with quartiles</span>
+<span class="kw">qqnorm</span>(<span class="kw">residuals</span>(lin_mod))
+<span class="kw">qqline</span>(<span class="kw">residuals</span>(lin_mod))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-9-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (3) standardized manually</span>
+res &lt;-<span class="st"> </span><span class="kw">residuals</span>(lin_mod)
+<span class="kw">plot</span>(<span class="kw">qnorm</span>(<span class="kw">rank</span>(res)<span class="op">/</span>(<span class="kw">length</span>(res) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)), res<span class="op">/</span><span class="kw">sd</span>(res), <span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>, <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>, 
+    <span class="dt">xlab =</span> <span class="st">&quot;Theoretical Quantiles&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Sample Quantiles&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Normal Q-Q plot&quot;</span>, 
+    <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.5</span>))
+<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-9-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(res[<span class="op">-</span><span class="kw">length</span>(res)], res[<span class="op">-</span><span class="dv">1</span>], <span class="dt">xlab =</span> <span class="kw">expression</span>(Y[t <span class="op">-</span><span class="st"> </span><span class="dv">1</span>]), <span class="dt">ylab =</span> <span class="kw">expression</span>(Y[t]), 
+    <span class="dt">main =</span> <span class="st">&quot;Lagged residuals&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-9-5.png" width="672" /></p>
+</div>
+<div id="exercise-2.-sp500-daily-returns-1" class="section level3">
+<h3><span class="header-section-number">2.0.2</span> Exercise 2. SP500 daily returns</h3>
+<ol style="list-style-type: decimal">
+<li>Download the dataset using the following command</li>
+<li>Obtain the daily percent return series and plot the latter against time.</li>
+<li>With the help of graphs, discuss evidences of seasonality and nonstationarity. Are there seasons of returns?</li>
+<li>Plot the (partial) correlogram of both the raw and the return series. Try the acf with <code>na.action=na.pass</code> and without (by e.g. converting the series to a vector using <code>as.vector</code>. Comment on the impact of ignoring time stamps.</li>
+<li>Plot the (partial) correlogram of the absolute value of the return series and of the squared return series. What do you see?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sp500 &lt;-<span class="st"> </span>tseries<span class="op">::</span><span class="kw">get.hist.quote</span>(<span class="dt">instrument =</span> <span class="st">&quot;^GSPC&quot;</span>, <span class="dt">start =</span> <span class="st">&quot;2000-01-01&quot;</span>, 
+    <span class="dt">end =</span> <span class="st">&quot;2016-12-31&quot;</span>, <span class="dt">quote =</span> <span class="st">&quot;AdjClose&quot;</span>, <span class="dt">provider =</span> <span class="st">&quot;yahoo&quot;</span>, <span class="dt">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>, 
+    <span class="dt">compression =</span> <span class="st">&quot;d&quot;</span>, <span class="dt">retclass =</span> <span class="st">&quot;zoo&quot;</span>)</code></pre></div>
+<pre><code>time series starts 2000-01-03
+time series ends   2016-12-30</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(xts)
+<span class="kw">library</span>(lubridate)
+<span class="co"># Daily return in percentage</span>
+spret &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(<span class="kw">log</span>(sp500))
+<span class="kw">plot</span>(spret, <span class="dt">ylab =</span> <span class="st">&quot;Daily returns (%)&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Percentage daily returns of the SP-500&quot;</span>)
+<span class="co"># local trend to see if there is any evidence of non-zero trend</span>
+<span class="kw">lines</span>(<span class="kw">index</span>(spret), <span class="kw">lowess</span>(spret, <span class="dt">f =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">5</span>)<span class="op">$</span>y, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_2-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Volatility as function of month</span>
+<span class="kw">plot</span>(<span class="kw">jitter</span>(<span class="kw">month</span>(spret), <span class="dt">amount =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>), spret, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">ylab =</span> <span class="st">&quot;Daily percent returns&quot;</span>, 
+    <span class="dt">xlab =</span> <span class="st">&quot;Month&quot;</span>, <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_2-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">boxplot</span>(<span class="kw">as.vector</span>(spret) <span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(<span class="kw">wday</span>(spret), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Mon&quot;</span>, <span class="st">&quot;Tue&quot;</span>, <span class="st">&quot;Wed&quot;</span>, 
+    <span class="st">&quot;Thu&quot;</span>, <span class="st">&quot;Fri&quot;</span>)), <span class="dt">xlab =</span> <span class="st">&quot;Day of the week&quot;</span>, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.4</span>), 
+    <span class="dt">ylab =</span> <span class="st">&quot;Daily percent returns&quot;</span>, <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_2-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># More uncertainty in March-May and August-November Some more extremes early</span>
+<span class="co"># in the week</span>
+
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+title_sp &lt;-<span class="st"> &quot;Daily return of </span><span class="ch">\n</span><span class="st">adjusted SP500 at closure&quot;</span>
+TSA<span class="op">::</span><span class="kw">acf</span>(spret, <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> title_sp)
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">na.omit</span>(<span class="kw">as.vector</span>(spret)), <span class="dt">main =</span> title_sp)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_2-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dev.off</span>()</code></pre></div>
+<pre><code>null device 
+          1 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pacf</span>(spret, <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> title_sp)
+
+<span class="co"># (P)ACF of absolute value of daily returns</span>
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">abs</span>(spret), <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> title_sp)
+<span class="kw">pacf</span>(<span class="kw">abs</span>(spret), <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> title_sp)
+<span class="co"># (P)ACF of squared daily returns</span>
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">I</span>(spret<span class="op">^</span><span class="dv">2</span>), <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> title_sp)
+<span class="kw">pacf</span>(<span class="kw">I</span>(spret<span class="op">^</span><span class="dv">2</span>), <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> title_sp)</code></pre></div>
+</div>
+<div id="exercise-3.-simulated-data-1" class="section level3">
+<h3><span class="header-section-number">2.0.3</span> Exercise 3. Simulated data</h3>
+<p>The first 5 parts of the question are straightforward and left to the reader.</p>
+<ol style="list-style-type: decimal">
+<li>Simulate 500 observations from an AR(1) process with parameter values <span class="math inline">\(\alpha \in \{0.1, 0.5, 0.9, 0.99\}\)</span>.</li>
+<li>Repeat for MA processes of different orders. There is no restriction on the coefficients of the latter for stationarity, unlike the AR process.</li>
+<li>Sample from an ARCH(1) process with Gaussian innovations and an ARCH(1) process with Student-<span class="math inline">\(t\)</span> innovations with <code>df=4</code>. Look at the correlogram of the absolute residuals and the squared residuals.</li>
+<li>The dataset <code>EuStockMarkets</code> contains the daily closing prices of major European stock indices. Type <code>?EuStockMarkets</code> for more details and <code>plot(EuStockMarkets)</code> to plot the four series (DAX, SMI, CAC and FTSE). Use <code>plot(ftse &lt;- EuStockMarkets[,&quot;FTSE&quot;])</code> to plot the FTSE series and <code>plot(100*diff(log(ftse)))</code> to plot its daily log return. Play with the ARCH simulation functions to generate some similar processes.</li>
+<li>Simulate a white noise series with trend <span class="math inline">\(t\)</span> and <span class="math inline">\(\cos(t)\)</span>, of the form <span class="math inline">\(X_t=M_t+S_t+Z_t\)</span>, where <span class="math inline">\(Z_t \sim \mathsf{N}(0,\sigma^2)\)</span> for different values of <span class="math inline">\(\sigma^2\)</span>. Analyze the log-periodogram and the (partial) correlograms. What happens if you forget to remove the trend?</li>
+<li>Do the same for multiplicative model with lognormal margins, with structure <span class="math inline">\(X_t=M_tS_tZ_t\)</span>.</li>
+<li>For steps 5 and 6, plot the series and test the assumptions that they are white noise using the Ljung-Box test. <em>Note</em> you need to adjust the degrees of freedom when working with residuals from e.g. ARMA models.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">100</span>
+tim &lt;-<span class="st"> </span><span class="kw">scale</span>(<span class="dv">1</span><span class="op">:</span>n)
+x &lt;-<span class="st"> </span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>tim <span class="op">+</span><span class="st"> </span><span class="kw">cos</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi <span class="op">*</span><span class="st"> </span>tim<span class="op">/</span>n) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dt">sd =</span> <span class="dv">3</span>)
+<span class="kw">plot</span>(x, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Simulated series with seasonality and trend&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_3-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Box.test</span>(x, <span class="dt">type =</span> <span class="st">&quot;L&quot;</span>)</code></pre></div>
+<pre><code>
+    Box-Ljung test
+
+data:  x
+X-squared = 61.616, df = 1, p-value = 4.219e-15</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))  <span class="co"># plots side by side</span>
+TSA<span class="op">::</span><span class="kw">acf</span>(x, <span class="dt">main =</span> <span class="st">&quot;Simulated series&quot;</span>)
+<span class="kw">pacf</span>(x, <span class="dt">main =</span> <span class="st">&quot;Simulated series&quot;</span>)
+<span class="kw">spectrum</span>(x, <span class="dt">main =</span> <span class="st">&quot;Simulated series&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_3-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Nothing in spectrum, persistence in the (p)acf</span>
+x &lt;-<span class="st"> </span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>tim <span class="op">+</span><span class="st"> </span><span class="kw">cos</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi <span class="op">*</span><span class="st"> </span>tim<span class="op">/</span>n) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dt">sd =</span> <span class="fl">0.5</span>)
+TSA<span class="op">::</span><span class="kw">acf</span>(x, <span class="dt">main =</span> <span class="st">&quot;Simulated series&quot;</span>)
+<span class="kw">pacf</span>(x, <span class="dt">main =</span> <span class="st">&quot;Simulated series&quot;</span>)
+<span class="kw">spectrum</span>(x, <span class="dt">main =</span> <span class="st">&quot;Simulated series&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_3-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Worst if the signal is strong relative to noise</span>
+
+y &lt;-<span class="st"> </span><span class="kw">residuals</span>(<span class="kw">lm</span>(x <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tim))
+TSA<span class="op">::</span><span class="kw">acf</span>(y, <span class="dt">main =</span> <span class="st">&quot;Detrended series&quot;</span>)
+<span class="kw">pacf</span>(x, <span class="dt">main =</span> <span class="st">&quot;Detrended series&quot;</span>)
+<span class="kw">spectrum</span>(y, <span class="dt">main =</span> <span class="st">&quot;Detrended series&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_3-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The cosine still induces some lag-one dependence in pacf</span>
+<span class="kw">plot</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="cf">function</span>(i) {
+    <span class="kw">Box.test</span>(y, <span class="dt">lag =</span> i, <span class="dt">type =</span> <span class="st">&quot;Ljung&quot;</span>, <span class="dt">fitdf =</span> <span class="kw">min</span>(i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">2</span>))<span class="op">$</span>p.value
+}), <span class="dt">ylab =</span> <span class="st">&quot;P-value&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;lag&quot;</span>)
+<span class="co"># These low p-values at large lags are due to the cosine term</span>
+
+mult &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">scale</span>(x))
+TSA<span class="op">::</span><span class="kw">acf</span>(mult, <span class="dt">main =</span> <span class="st">&quot;Multiplicative series&quot;</span>)
+<span class="kw">pacf</span>(mult, <span class="dt">main =</span> <span class="st">&quot;Multiplicative series&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_3-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spectrum</span>(mult, <span class="dt">main =</span> <span class="st">&quot;Multiplicative series&quot;</span>)
+<span class="kw">Box.test</span>(mult, <span class="dt">type =</span> <span class="st">&quot;L&quot;</span>)</code></pre></div>
+<pre><code>
+    Box-Ljung test
+
+data:  mult
+X-squared = 88.489, df = 1, p-value &lt; 2.2e-16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">graphics.off</span>()
+<span class="co"># Now large impact on spectrum, and nonlinear features!</span>
+<span class="kw">plot</span>(mult, <span class="dt">main =</span> <span class="st">&quot;Multiplicative series with lognormal margins&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, 
+    <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>)
+<span class="co"># Note that decompose has an option type=&#39;multiplicative&#39; for seasonal</span>
+<span class="co"># components</span></code></pre></div>
+</div>
+<div id="exercise-4-mauna-loa-atmospheric-co2-concentration" class="section level3">
+<h3><span class="header-section-number">2.0.4</span> Exercise 4: Mauna Loa Atmospheric CO<sub>2</sub> Concentration</h3>
+<ol style="list-style-type: decimal">
+<li>Load and plot the CO<sub>2</sub> dataset from <a href="ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt">NOAA</a>. Pay special attention to the format, missing values, the handling of string and the description. Use <code>?read.table</code> for help, and look carefully at arguments <code>file</code>, <code>sep</code>, <code>na.strings</code>, <code>skip</code> and <code>stringsAsFactors</code>. From now on, we will work with the complete series (termed interpolated in the description).</li>
+<li>Try removing the trend using a linear model. Plot the residuals against month of the year.</li>
+<li>Remove the trend and the periodicity with a Fourier basis (with period 12). Be sure to include both <code>sin</code> and <code>cos</code> terms together. Recall that the standard Wald tests for the coefficients is not valid in the presence of autocorrelation! You could also use <code>poly</code> or <code>splines::bs</code> to fit polynomials or splines to your series.</li>
+<li>Plot the lagged residuals. Are there evidence of correlation?</li>
+<li>Use the function <code>filter</code> to smooth the series using a 12 period moving average.</li>
+<li>Inspect the spectrum of the raw series and of the smoothed version.</li>
+<li>Inspect the spectrum of the detrended raw series.</li>
+<li>Test for stationarity of the deseasonalized and detrended residuals using the KPSS test viz. <code>tseries::kpss.test</code>.</li>
+<li>Use the <code>decompose</code> and the <code>stl</code> functions to obtain residuals.</li>
+<li>Plot the (partial) correlogram for both decomposition and compare them with the output of the linear model.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Because of comment.char=#, all the first lines are skipped But we lose the</span>
+<span class="co"># header</span>
+co2 &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt&quot;</span>, 
+    <span class="dt">na.strings =</span> <span class="st">&quot;-99.99&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>, <span class="dt">col.names =</span> <span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, 
+        <span class="st">&quot;time&quot;</span>, <span class="st">&quot;average&quot;</span>, <span class="st">&quot;interpolated&quot;</span>, <span class="st">&quot;trend&quot;</span>, <span class="st">&quot;monthly_mean&quot;</span>))
+<span class="co"># install.packages(&#39;stlplus&#39;) #this package offers a version of stl that</span>
+<span class="co"># deals with NAs</span>
+
+ycap &lt;-<span class="st"> </span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Monthly mean &quot;</span>, CO[<span class="dv">2</span>], <span class="st">&quot; mole fraction (ppm)&quot;</span>))
+mcap &lt;-<span class="st"> &quot;Average monthly mean CO2 concentration</span><span class="ch">\n</span><span class="st"> determined from daily averages&quot;</span>
+lin_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> co2, interpolated <span class="op">~</span><span class="st"> </span>time)
+<span class="kw">with</span>(co2, <span class="kw">plot</span>(interpolated <span class="op">~</span><span class="st"> </span>time, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylab =</span> ycap, 
+    <span class="dt">main =</span> mcap))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(co2<span class="op">$</span>time, <span class="kw">residuals</span>(lin_mod), <span class="dt">ylab =</span> <span class="st">&quot;Residual from `lm` (linear trend)&quot;</span>, 
+    <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">main =</span> mcap)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lin_mod &lt;-<span class="st"> </span><span class="kw">update</span>(lin_mod, . <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(time<span class="op">^</span><span class="dv">2</span>))
+<span class="co"># same as lm(data=co2, interpolated ~ poly(time, degree = 2))</span>
+<span class="kw">plot</span>(co2<span class="op">$</span>time, <span class="kw">residuals</span>(lin_mod), <span class="dt">main =</span> mcap, <span class="dt">ylab =</span> <span class="st">&quot;Residual from `lm` (quadratic trend)&quot;</span>, 
+    <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Cast the full time series into a ts object</span>
+co2_ts &lt;-<span class="st"> </span><span class="kw">with</span>(co2, <span class="kw">ts</span>(<span class="dt">data =</span> interpolated, <span class="dt">start =</span> <span class="kw">c</span>(year[<span class="dv">1</span>], month[<span class="dv">1</span>]), <span class="dt">end =</span> <span class="kw">c</span>(<span class="kw">tail</span>(year, 
+    <span class="dv">1</span>), <span class="kw">tail</span>(month, <span class="dv">1</span>)), <span class="dt">frequency =</span> <span class="dv">12</span>))
+<span class="kw">with</span>(co2, <span class="kw">plot</span>(<span class="kw">jitter</span>(month, <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>), <span class="kw">residuals</span>(lin_mod), <span class="dt">ylab =</span> <span class="st">&quot;Residuals&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Month of year&quot;</span>, 
+    <span class="dt">main =</span> mcap))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Could create the basis manually</span>
+f_bs &lt;-<span class="st"> </span><span class="kw">with</span>(co2, fda<span class="op">::</span><span class="kw">fourier</span>(month, <span class="dt">nbasis =</span> <span class="dv">4</span>, <span class="dt">period =</span> <span class="dv">12</span>))[, <span class="op">-</span><span class="dv">1</span>]
+lin_mod &lt;-<span class="st"> </span><span class="kw">with</span>(co2, <span class="kw">lm</span>(interpolated <span class="op">~</span><span class="st"> </span>splines<span class="op">::</span><span class="kw">bs</span>(time, <span class="dt">df =</span> <span class="dv">5</span>, <span class="dt">degree =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>f_bs))
+<span class="co"># summary(lin_mod) Is there structure left in the residuals?</span>
+<span class="kw">plot</span>(co2<span class="op">$</span>time, <span class="kw">residuals</span>(lin_mod), <span class="dt">ylab =</span> <span class="st">&quot;Residuals from final `lm` model&quot;</span>, 
+    <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">main =</span> mcap)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(co2<span class="op">$</span>time, <span class="kw">fitted</span>(lin_mod), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylab =</span> ycap, <span class="dt">main =</span> mcap, <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>)
+<span class="kw">with</span>(co2, <span class="kw">lines</span>(time, interpolated, <span class="dt">col =</span> <span class="dv">2</span>))
+<span class="kw">legend</span>(<span class="dt">x =</span> <span class="st">&quot;topleft&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;fitted&quot;</span>, <span class="st">&quot;data&quot;</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, 
+    <span class="dv">1</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-6.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Trend not quite adequate because more exponential growth.  The trend does</span>
+<span class="co"># poorly in low-high observations Some discrepancy between the frequencies</span>
+<span class="co"># and the fitted Creates residual harmonic patterns - because trend minus</span>
+<span class="co"># fitted</span>
+res &lt;-<span class="st"> </span><span class="kw">residuals</span>(lin_mod)
+
+pairs.ts &lt;-<span class="st"> </span><span class="cf">function</span>(d, <span class="dt">lag.max =</span> <span class="dv">10</span>) {
+    old_par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> <span class="ot">TRUE</span>)
+    n &lt;-<span class="st"> </span><span class="kw">length</span>(d)
+    X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, n <span class="op">-</span><span class="st"> </span>lag.max, lag.max)
+    col.names &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Time+&quot;</span>, <span class="dv">1</span><span class="op">:</span>lag.max)
+    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>lag.max) X[, i] &lt;-<span class="st"> </span>d[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span>(n <span class="op">-</span><span class="st"> </span>lag.max)]
+    <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>, <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>))
+    lims &lt;-<span class="st"> </span><span class="kw">range</span>(X)
+    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>lag.max) <span class="kw">plot</span>(X[, <span class="dv">1</span>], X[, i], <span class="dt">panel.first =</span> {
+        <span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>)
+    }, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> col.names[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>], <span class="dt">xlim =</span> lims, <span class="dt">ylim =</span> lims, <span class="dt">pch =</span> <span class="dv">20</span>, 
+        <span class="dt">col =</span> <span class="kw">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.25</span>))
+    <span class="kw">par</span>(old_par)
+}
+<span class="kw">pairs.ts</span>(res)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-7.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+TSA<span class="op">::</span><span class="kw">acf</span>(res, <span class="dt">main =</span> <span class="st">&quot;Residuals&quot;</span>)
+<span class="kw">pacf</span>(res, <span class="dt">main =</span> <span class="st">&quot;Residuals&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-8.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))
+<span class="co"># KS test: are residuals white noise?</span>
+<span class="kw">cpgram</span>(res, <span class="dt">main =</span> <span class="st">&quot;Cumulative periodogram&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-9.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># No, as one would expect</span>
+
+## Spectrum of raw series
+<span class="kw">spectrum</span>(co2<span class="op">$</span>interpolated)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-10.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># default with vector is to have frequency on [0,0.5]</span>
+<span class="kw">spectrum</span>(co2_ts)  <span class="co">#otherwise corresponds to frequency of `ts`, here yearly</span></code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-11.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered &lt;-<span class="st"> </span><span class="kw">filter</span>(co2<span class="op">$</span>interpolated, <span class="dt">method =</span> <span class="st">&quot;convolution&quot;</span>, <span class="dt">filter =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">12</span>, 
+    <span class="dv">12</span>))
+<span class="kw">spectrum</span>(<span class="kw">na.contiguous</span>(filtered))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-12.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Detrended smoothed series</span>
+<span class="kw">spectrum</span>(<span class="kw">resid</span>(<span class="kw">lm</span>(filtered <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(co2<span class="op">$</span>time, <span class="dv">2</span>))))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-13.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Test for H0</span>
+<span class="st">`</span><span class="dt">?</span><span class="st">`</span>(tseries<span class="op">::</span>kpss.test)
+tseries<span class="op">::</span><span class="kw">kpss.test</span>(res, <span class="dt">null =</span> <span class="st">&quot;Level&quot;</span>)</code></pre></div>
+<pre><code>
+    KPSS Test for Level Stationarity
+
+data:  res
+KPSS Level = 0.17017, Truncation lag parameter = 6, p-value = 0.1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fail to reject null that it is level stationary</span>
+tseries<span class="op">::</span><span class="kw">kpss.test</span>(res, <span class="dt">null =</span> <span class="st">&quot;Trend&quot;</span>)</code></pre></div>
+<pre><code>
+    KPSS Test for Trend Stationarity
+
+data:  res
+KPSS Trend = 0.17017, Truncation lag parameter = 6, p-value =
+0.02986</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Reject null at 5% that it is trend stationary</span>
+
+res_dec &lt;-<span class="st"> </span><span class="kw">decompose</span>(co2_ts)<span class="op">$</span>random
+res_stl &lt;-<span class="st"> </span><span class="kw">stl</span>(co2_ts, <span class="dt">s.window =</span> <span class="st">&quot;periodic&quot;</span>)<span class="op">$</span>time.series[, <span class="st">&quot;remainder&quot;</span>]
+
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="co"># Some structure left due to incorrect model specification Residual</span>
+<span class="co"># frequency at lag 12-24 and two lag residuals</span>
+TSA<span class="op">::</span><span class="kw">acf</span>(res, <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> <span class="st">&quot;Residuals from</span><span class="ch">\n</span><span class="st"> `lm`&quot;</span>)
+<span class="kw">pacf</span>(res, <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> <span class="st">&quot;Residuals from</span><span class="ch">\n</span><span class="st"> `lm`&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-14.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Residuals show some remaining periodicity at year 1. Would need AR(1)</span>
+<span class="co"># model</span>
+TSA<span class="op">::</span><span class="kw">acf</span>(res_dec, <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> <span class="st">&quot;Residuals from</span><span class="ch">\n</span><span class="st"> `decompose`&quot;</span>)
+<span class="kw">pacf</span>(res_dec, <span class="dt">na.action =</span> na.pass, <span class="dt">main =</span> <span class="st">&quot;Residuals from</span><span class="ch">\n</span><span class="st"> `decompose`&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-15.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Similar output</span>
+TSA<span class="op">::</span><span class="kw">acf</span>(res_stl, <span class="dt">main =</span> <span class="st">&quot;Residuals from</span><span class="ch">\n</span><span class="st"> `stl`&quot;</span>)
+<span class="kw">pacf</span>(res_stl, <span class="dt">main =</span> <span class="st">&quot;Residuals from</span><span class="ch">\n</span><span class="st"> `stl`&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Question_4-16.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="smoothing-and-detrending.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="practical-series-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["timeseRies.pdf", "timeseRies.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

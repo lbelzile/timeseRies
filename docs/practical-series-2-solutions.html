@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>timeseRies</title>
+  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="timeseRies" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="github-repo" content="lbelzile/timeseRies" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="timeseRies" />
+  
+  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  
+
+<meta name="author" content="Léo Belzile">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="information-criterion-model-selection-and-profile-likelihood.html">
+<link rel="next" href="practical-series-3.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Time Series</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
+<li class="chapter" data-level="1" data-path="practical-series-1.html"><a href="practical-series-1.html"><i class="fa fa-check"></i><b>1</b> Practical series 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1.1</b> Exploratory Data Analysis</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#libraries"><i class="fa fa-check"></i><b>1.1.1</b> Libraries</a></li>
+<li class="chapter" data-level="1.1.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#loading-datasets"><i class="fa fa-check"></i><b>1.1.2</b> Loading datasets</a></li>
+<li class="chapter" data-level="1.1.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#time-series-objects-and-basic-plots"><i class="fa fa-check"></i><b>1.1.3</b> Time series objects and basic plots</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-the-basic-time-series-functions.html"><a href="introduction-to-the-basic-time-series-functions.html"><i class="fa fa-check"></i><b>1.2</b> Introduction to the basic time series functions</a></li>
+<li class="chapter" data-level="1.3" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html"><i class="fa fa-check"></i><b>1.3</b> Second order stationarity</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html#exercise-2.-sp500-daily-returns"><i class="fa fa-check"></i><b>1.3.1</b> Exercise 2. SP500 daily returns</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>1.4</b> Simulations</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="simulations.html"><a href="simulations.html#exercise-3.-simulated-data"><i class="fa fa-check"></i><b>1.4.1</b> Exercise 3. Simulated data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="spectral-analysis.html"><a href="spectral-analysis.html"><i class="fa fa-check"></i><b>1.5</b> Spectral analysis</a></li>
+<li class="chapter" data-level="1.6" data-path="smoothing-and-detrending.html"><a href="smoothing-and-detrending.html"><i class="fa fa-check"></i><b>1.6</b> Smoothing and detrending</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html"><i class="fa fa-check"></i><b>2</b> Practical series 1 (solutions)</a><ul>
+<li class="chapter" data-level="2.0.1" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-1.-beaver-temperature-1"><i class="fa fa-check"></i><b>2.0.1</b> Exercise 1. Beaver temperature</a></li>
+<li class="chapter" data-level="2.0.2" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-2.-sp500-daily-returns-1"><i class="fa fa-check"></i><b>2.0.2</b> Exercise 2. SP500 daily returns</a></li>
+<li class="chapter" data-level="2.0.3" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-3.-simulated-data-1"><i class="fa fa-check"></i><b>2.0.3</b> Exercise 3. Simulated data</a></li>
+<li class="chapter" data-level="2.0.4" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-4-mauna-loa-atmospheric-co2-concentration"><i class="fa fa-check"></i><b>2.0.4</b> Exercise 4: Mauna Loa Atmospheric CO<sub>2</sub> Concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="practical-series-2.html"><a href="practical-series-2.html"><i class="fa fa-check"></i><b>3</b> Practical series 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html"><i class="fa fa-check"></i><b>3.1</b> Manual maximum likelihood estimation</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html#exercise-1-ubs-stock-returns"><i class="fa fa-check"></i><b>3.1.1</b> Exercise 1: UBS stock returns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html"><i class="fa fa-check"></i><b>3.2</b> Box–Jenkins methodology for ARMA models</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html#exercise-2-simulated-series"><i class="fa fa-check"></i><b>3.2.1</b> Exercise 2: Simulated series</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html"><i class="fa fa-check"></i><b>3.3</b> Information criterion, model selection and profile likelihood</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html#exercise-3-lake-erie-height"><i class="fa fa-check"></i><b>3.3.1</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html"><i class="fa fa-check"></i><b>4</b> Practical series 2 (solutions)&quot;</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-1-ubs-stock-returns-1"><i class="fa fa-check"></i><b>4.0.1</b> Exercise 1: UBS stock returns</a></li>
+<li class="chapter" data-level="4.0.2" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-2-simulated-series-1"><i class="fa fa-check"></i><b>4.0.2</b> Exercise 2: Simulated series</a></li>
+<li class="chapter" data-level="4.0.3" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-3-lake-erie-height-1"><i class="fa fa-check"></i><b>4.0.3</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="practical-series-3.html"><a href="practical-series-3.html"><i class="fa fa-check"></i><b>5</b> Practical series 3</a><ul>
+<li class="chapter" data-level="5.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>5.1</b> SARIMA models: estimation and forecasting</a></li>
+<li class="chapter" data-level="5.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html"><i class="fa fa-check"></i><b>5.2</b> An aside on models with regressors (optional)</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>5.2.1</b> Mauna Loa CO2 dataset</a></li>
+<li class="chapter" data-level="5.2.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>5.2.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>5.3</b> Boostrap methods for time series</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>5.3.1</b> Bootstrapping a linear model</a></li>
+<li class="chapter" data-level="5.3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>5.3.2</b> Testing for heteroscedasticity</a></li>
+<li class="chapter" data-level="5.3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>5.3.3</b> AR-sieve bootstrap</a></li>
+<li class="chapter" data-level="5.3.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>5.3.4</b> Boostrap models for uncertainty assesment</a></li>
+<li class="chapter" data-level="5.3.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>5.3.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>5.4</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a></li>
+<li class="chapter" data-level="5.5" data-path="predictions.html"><a href="predictions.html"><i class="fa fa-check"></i><b>5.5</b> Predictions</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="predictions.html"><a href="predictions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>5.5.1</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html"><i class="fa fa-check"></i><b>6</b> Practical series 3 (solutions)</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>6.0.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="6.0.2" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>6.0.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="6.0.3" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>6.0.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="practical-series-4.html"><a href="practical-series-4.html"><i class="fa fa-check"></i><b>7</b> Practical series 4</a><ul>
+<li class="chapter" data-level="7.1" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>7.1</b> Spectral analysis and filtering</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#tapering"><i class="fa fa-check"></i><b>7.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="7.1.2" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#a-data-example"><i class="fa fa-check"></i><b>7.1.2</b> A data example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#smoothing"><i class="fa fa-check"></i><b>7.1.3</b> Smoothing</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>7.2</b> Summary of nonparametric spectral estimation</a></li>
+<li class="chapter" data-level="7.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>7.3</b> Spectral estimation in R</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#smoothing-and-seasonally-adjusted-values"><i class="fa fa-check"></i><b>7.3.1</b> Smoothing and seasonally adjusted values</a></li>
+<li class="chapter" data-level="7.3.2" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#exercise-1-southern-oscillation-index-soi-and-fish-recruitement"><i class="fa fa-check"></i><b>7.3.2</b> Exercise 1: Southern oscillation index (SOI) and fish recruitement</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="practical-series-5.html"><a href="practical-series-5.html"><i class="fa fa-check"></i><b>8</b> Practical series 5&quot;</a><ul>
+<li class="chapter" data-level="8.1" data-path="simulation-based-prediction-intervals-for-arima-garch-models.html"><a href="simulation-based-prediction-intervals-for-arima-garch-models.html"><i class="fa fa-check"></i><b>8.1</b> Simulation-based prediction intervals for ARIMA-GARCH models</a></li>
+<li class="chapter" data-level="8.2" data-path="state-space-models-and-the-kalman-filter.html"><a href="state-space-models-and-the-kalman-filter.html"><i class="fa fa-check"></i><b>8.2</b> State-space models and the Kalman filter</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="notes-on-irregular-time-series-and-missing-values.html"><a href="notes-on-irregular-time-series-and-missing-values.html"><i class="fa fa-check"></i><b>9</b> Notes on irregular time series and missing values&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html"><i class="fa fa-check"></i><b>9.1</b> Irregular time series</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html#exercise-1.-jussy-air-temperature"><i class="fa fa-check"></i><b>9.1.1</b> Exercise 1. Jussy air temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>9.2</b> Imputation of missing values</a></li>
+<li class="chapter" data-level="9.3" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html"><i class="fa fa-check"></i><b>9.3</b> Diagnostics for missing values and smoothing</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html#exercise-2.-tyne-river-flow"><i class="fa fa-check"></i><b>9.3.1</b> Exercise 2. Tyne river flow</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html"><i class="fa fa-check"></i><b>10</b> Notes on irregular time series and missing values (solutions)&quot;</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html#exercise-1.-jussy-air-temperature-1"><i class="fa fa-check"></i><b>10.0.1</b> Exercise 1. Jussy air temperature</a></li>
+<li class="chapter" data-level="10.0.2" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html#exercise-2.-tyne-river-flow-1"><i class="fa fa-check"></i><b>10.0.2</b> Exercise 2. Tyne river flow</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">timeseRies</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="practical-series-2-solutions" class="section level1">
+<h1><span class="header-section-number">4</span> Practical series 2 (solutions)&quot;</h1>
+<div id="exercise-1-ubs-stock-returns-1" class="section level3">
+<h3><span class="header-section-number">4.0.1</span> Exercise 1: UBS stock returns</h3>
+<ol style="list-style-type: decimal">
+<li>Create a function that fits an AR(1)-ARCH(1) model by modifying the code provided above and apply it to <code>y</code>.</li>
+<li>Obtain the maximum likelihood estimates using <code>nlm</code> or <code>optim</code> as well as the standard errors</li>
+<li>Make a residual plot. Comment on the fit using standard diagnostic plots (Q-Q plot, ((P)ACF, cumulative periodogram).</li>
+<li>Fit an AR(2) model using a conditional likelihood for the mean and obtain the standard errors of your estimated coefficients.</li>
+<li>Perform a likelihood ratio test to test whether the AR(2) coefficient is significative.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(xts)
+UBSCreditSuisse &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://sma.epfl.ch/~lbelzile/math342/UBSCSG.csv&quot;</span>, 
+    <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+UBS &lt;-<span class="st"> </span><span class="kw">ts</span>(UBSCreditSuisse<span class="op">$</span>UBS_LAST, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="dt">frequency =</span> <span class="fl">365.25</span>)
+UBS &lt;-<span class="st"> </span><span class="kw">ts</span>(UBS[<span class="op">!</span><span class="kw">is.na</span>(UBS)], <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="dt">frequency =</span> <span class="fl">251.625</span>)
+UBS.ret &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(<span class="kw">log</span>(UBS))
+y &lt;-<span class="st"> </span><span class="kw">window</span>(UBS.ret, <span class="dt">end =</span> <span class="kw">c</span>(<span class="dv">2003</span>, <span class="dv">100</span>))
+y &lt;-<span class="st"> </span><span class="kw">ts</span>(y[<span class="op">-</span><span class="dv">1</span>])
+<span class="co"># analysis using AR(1) model for means and ARCH(1) model for variances</span>
+nll_AR1_ARCH1 &lt;-<span class="st"> </span><span class="cf">function</span>(th, y) {
+    n &lt;-<span class="st"> </span><span class="kw">length</span>(y)
+    condit.mean &lt;-<span class="st"> </span>th[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>th[<span class="dv">4</span>] <span class="op">*</span><span class="st"> </span>(y[<span class="op">-</span>n] <span class="op">-</span><span class="st"> </span>th[<span class="dv">1</span>])
+    condit.var &lt;-<span class="st"> </span>th[<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>th[<span class="dv">3</span>] <span class="op">*</span><span class="st"> </span>(y[<span class="op">-</span>n] <span class="op">-</span><span class="st"> </span>th[<span class="dv">1</span>])<span class="op">^</span><span class="dv">2</span>)
+    <span class="op">-</span><span class="kw">sum</span>(<span class="kw">dnorm</span>(y[<span class="op">-</span><span class="dv">1</span>], <span class="dt">mean =</span> condit.mean, <span class="dt">sd =</span> <span class="kw">sqrt</span>(condit.var), <span class="dt">log =</span> <span class="ot">TRUE</span>))
+}
+init3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>)
+fit3 &lt;-<span class="st"> </span><span class="kw">nlm</span>(<span class="dt">f =</span> nll_AR1_ARCH1, <span class="dt">p =</span> init3, <span class="dt">iterlim =</span> <span class="dv">500</span>, <span class="dt">hessian =</span> <span class="ot">TRUE</span>, <span class="dt">y =</span> y)
+fit3<span class="op">$</span>minimum</code></pre></div>
+<pre><code>[1] 1857.097</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit3<span class="op">$</span>estimate</code></pre></div>
+<pre><code>[1] 0.03565563 3.30958227 0.11649056 0.08343614</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">solve</span>(fit3<span class="op">$</span>hessian)))</code></pre></div>
+<pre><code>[1] 0.07233704 0.24657510 0.02891288 0.04476770</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">make_resid_AR1_ARCH1 &lt;-<span class="st"> </span><span class="cf">function</span>(y, fit) {
+    th &lt;-<span class="st"> </span>fit<span class="op">$</span>estimate
+    n &lt;-<span class="st"> </span><span class="kw">length</span>(y)
+    condit.mean &lt;-<span class="st"> </span>th[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>th[<span class="dv">4</span>] <span class="op">*</span><span class="st"> </span>(y[<span class="op">-</span>n] <span class="op">-</span><span class="st"> </span>th[<span class="dv">1</span>])
+    condit.var &lt;-<span class="st"> </span>th[<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>th[<span class="dv">3</span>] <span class="op">*</span><span class="st"> </span>(y[<span class="op">-</span>n] <span class="op">-</span><span class="st"> </span>th[<span class="dv">1</span>])<span class="op">^</span><span class="dv">2</span>)
+    res &lt;-<span class="st"> </span>(y[<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span><span class="st"> </span>condit.mean)<span class="op">/</span><span class="kw">sqrt</span>(condit.var)
+    <span class="kw">ts</span>(res)
+}
+
+res3 &lt;-<span class="st"> </span><span class="kw">make_resid_AR1_ARCH1</span>(y, fit3)
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))
+<span class="kw">plot</span>(res3, <span class="dt">ylab =</span> <span class="st">&quot;Residuals&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Residuals of AR(1)-ARCH(1)&quot;</span>)
+<span class="kw">cpgram</span>(res3, <span class="dt">main =</span> <span class="st">&quot;Cumulative periodogram&quot;</span>)
+TSA<span class="op">::</span><span class="kw">acf</span>(res3, <span class="dt">main =</span> <span class="st">&quot;Correlogram of residuals&quot;</span>)
+<span class="kw">pacf</span>(res3, <span class="dt">main =</span> <span class="st">&quot;Partial correlogram</span><span class="ch">\n</span><span class="st"> of residuals&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ar_arch_analysis-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>, <span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))
+<span class="kw">qqnorm</span>(res3, <span class="dt">panel.first =</span> {
+    <span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
+})</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ar_arch_analysis-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># MLE for the AR(p) using OLS formulation</span>
+ARpmle &lt;-<span class="st"> </span><span class="cf">function</span>(y, p) {
+    dynlm<span class="op">::</span><span class="kw">dynlm</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">L</span>(y, <span class="dv">1</span><span class="op">:</span>p))
+}
+<span class="co"># If you do it manually with lag, watch out to use lag(y, -1) and NOT lag(y,</span>
+<span class="co"># 1) P-value for the likelihood ratio test</span>
+llr &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">logLik</span>(dynlm<span class="op">::</span><span class="kw">dynlm</span>(y <span class="op">~</span><span class="st"> </span><span class="kw">L</span>(y, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)))[<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="kw">logLik</span>(dynlm<span class="op">::</span><span class="kw">dynlm</span>(y <span class="op">~</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">L</span>(y, <span class="dv">1</span>), <span class="dt">start =</span> <span class="dv">3</span>))[<span class="dv">1</span>])
+<span class="co"># Fail to reject the null that the simpler model is adequate.</span>
+<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(llr, <span class="dt">df =</span> <span class="dv">1</span>)</code></pre></div>
+<pre><code>[1] 0.1230465</code></pre>
+</div>
+<div id="exercise-2-simulated-series-1" class="section level3">
+<h3><span class="header-section-number">4.0.2</span> Exercise 2: Simulated series</h3>
+<p><strong>Warning</strong> The following output is unformatted and rather sketchy, but should illustrate development to find an adequate model</p>
+<ol style="list-style-type: decimal">
+<li>The <code>Simulated_ARMA</code> dataset contains 8 time series (these examples are from Charlotte Wickham’s website). Fit ARMA models to those and select a model, justifying your choice. Be skeptical of the optimization routine and analyze the models carefully.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(forecast)
+<span class="kw">library</span>(astsa)
+<span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;http://sma.epfl.ch/~lbelzile/math342/Simulated_ARMA.RData&quot;</span>))
+<span class="kw">plot</span>(x1)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/simulatedseries-1.png" width="672" /></p>
+<p>The first series, <span class="math inline">\(x_1\)</span> has a visible trend and may not be stationary, even if the series looks like Gaussian. After first differencing (setting the component <span class="math inline">\(d=1\)</span> corresponds to first differencing), one could think that an AR(2) model is appropriate by looking at the ACF/PACF. Even a simple MA(1) will do the job here, and it is more parsimonious.</p>
+<p>For the second, a simple MA(1) model also is sufficient for removing the linear autocorrelation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myacf2 &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+    <span class="kw">invisible</span>(<span class="kw">capture.output</span>(astsa<span class="op">::</span><span class="kw">acf2</span>(x)))
+}
+<span class="kw">myacf2</span>(x1)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/modelfit-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">myacf2</span>(<span class="kw">diff</span>(x1))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/modelfit-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">arima_1_<span class="dv">011</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(x1, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+arima_1_<span class="dv">210</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(x1, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>))
+
+<span class="kw">myacf2</span>(<span class="kw">resid</span>(arima_1_<span class="dv">011</span>))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/modelfit-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">myacf2</span>(<span class="kw">resid</span>(arima_1_<span class="dv">210</span>))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/modelfit-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">BIC</span>(arima_1_<span class="dv">011</span>)</code></pre></div>
+<pre><code>[1] 283.7835</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">BIC</span>(arima_1_<span class="dv">210</span>)</code></pre></div>
+<pre><code>[1] 291.6321</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AIC</span>(arima_1_<span class="dv">011</span>)</code></pre></div>
+<pre><code>[1] 278.5933</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AIC</span>(arima_1_<span class="dv">210</span>)</code></pre></div>
+<pre><code>[1] 283.8468</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(x2)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/modelfit-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">myacf2</span>(x2)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/modelfit-6.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">arima_2_<span class="dv">001</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(x2, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>))
+<span class="kw">myacf2</span>(<span class="kw">resid</span>(arima_2_<span class="dv">001</span>))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/modelfit-7.png" width="672" /></p>
+<p>The third series <span class="math inline">\(x_3\)</span> is difficult. Indeed, there is a trend in the data (or else non-stationarity that requires differencing). If only autoregressive components are included, they fail to capture the structure adequatly. If only one MA component is included, the process is often estimated to be non-invertible. This excludes the ARMA(1,1), moany differenced series whose MA polynomial has order 1 such as the ARMA(0,1) and ARMA(1,1). An ARMA(1,2) or an ARMA(2,1) with a trend fits the data appropriately, or else an ARMA(2,1) for the differenced series.</p>
+<p><span class="math inline">\(x_4\)</span> likely corresponds to an AR(1) process and is fairly obvious from the plot of the PACF and the oscillation in the correlogram. The series in <span class="math inline">\(x_5\)</span> seem to have exhibit some heteroscedasticity. If we take first difference, we get a partial correlogram that is reminiscent of AR(1). As in many cases, a MA(1) with a negative component fits equally well.</p>
+<p>As mentionned before, the following is rather rough output and is not formatted (graphs have no labels, etc.) It does however shows the sort of workflow: start from simple and build up more complicated models. You can work out for yourself the most likely data generating processes of <span class="math inline">\(x_6\)</span>, <span class="math inline">\(x_7\)</span> and <span class="math inline">\(x_8\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Here, evidence trend or nonstationarity</span>
+<span class="kw">plot</span>(x3)
+<span class="kw">myacf2</span>(x3)
+<span class="co"># with trend</span>
+arima_3_101trend &lt;-<span class="st"> </span><span class="kw">Arima</span>(x3, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))
+arima_3_200trend &lt;-<span class="st"> </span><span class="kw">Arima</span>(x3, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>))
+arima_3_300trend &lt;-<span class="st"> </span><span class="kw">Arima</span>(x3, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">0</span>))
+arima_3_201trend &lt;-<span class="st"> </span><span class="kw">Arima</span>(x3, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>))
+arima_3_102trend &lt;-<span class="st"> </span><span class="kw">Arima</span>(x3, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>))
+<span class="co"># after differencing</span>
+arima_3_<span class="dv">011</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(x3, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+arima_3_<span class="dv">111</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(x3, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+arima_3_<span class="dv">211</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(x3, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+<span class="co"># ARIMA models are not invertible</span>
+<span class="kw">plot</span>(arima_3_101trend)
+<span class="kw">plot</span>(arima_3_<span class="dv">011</span>)
+<span class="kw">plot</span>(arima_3_<span class="dv">111</span>)
+<span class="kw">plot</span>(arima_3_<span class="dv">211</span>)  <span class="co">#still on the boundary</span>
+<span class="co"># AR2 model still has some structure</span>
+<span class="kw">myacf2</span>(<span class="kw">resid</span>(arima_3_200trend))
+<span class="kw">myacf2</span>(<span class="kw">resid</span>(arima_3_300trend))
+<span class="co"># ARMA(2,1) is okay, but not invertible</span>
+<span class="kw">myacf2</span>(<span class="kw">resid</span>(arima_3_201trend))
+<span class="kw">plot</span>(arima_3_201trend)
+<span class="co"># Could also difference ARMA(2,1) is okay if trend, so is first differenced</span>
+<span class="co"># ARMA(1,1) or ARIMA(0,1,1)</span>
+<span class="kw">myacf2</span>(<span class="kw">resid</span>(arima_3_<span class="dv">011</span>))</code></pre></div>
+</div>
+<div id="exercise-3-lake-erie-height-1" class="section level3">
+<h3><span class="header-section-number">4.0.3</span> Exercise 3: Lake Erie height</h3>
+<ol style="list-style-type: decimal">
+<li>Perform an additive decomposition of the form <span class="math display">\[Y_t = m_t + s_t + Z_t\]</span> where <span class="math inline">\(m_t\)</span> is the trend and <span class="math inline">\(s_t\)</span> is a seasonal component of the Lake Erie height series, found at <a href="%5Bhttp://sma.epfl.ch/~lbelzile/math342/LakeErie.csv%5D">http://sma.epfl.ch/~lbelzile/math342/LakeErie.csv</a>. Characterize the stochastic component <span class="math inline">\(Z_t\)</span> using an ARMA model.</li>
+<li>Obtain a table of AIC and BIC values for ARMA(<span class="math inline">\(p, q\)</span>) model for order 7 and less. Anything worth of notice?</li>
+<li>Justifying your answer, select an adequate ARMA model. Are the residuals from this model white noise?</li>
+<li>Look at the fitted model and check for invertibility and causality of your solution.</li>
+<li>Plot the (partial) correlogram of <span class="math inline">\(Z_t\)</span> and superpose the theoretical coefficients implied by your model.</li>
+<li>Plot the correlogram of the residuals of your ARMA model. Do they appear white noise?</li>
+<li>Perform a Ljung-Box test on the residuals. What can you conclude?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(forecast)
+lake &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://sma.epfl.ch/~lbelzile/math342/LakeErie.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, 
+    <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>)
+
+lake.ts &lt;-<span class="st"> </span><span class="kw">ts</span>(lake[, <span class="dv">2</span>], <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1920</span>, <span class="dv">1</span>), <span class="dt">frequency =</span> <span class="dv">12</span>)
+<span class="kw">plot</span>(lake.ts, <span class="dt">ylab =</span> <span class="st">&quot;Height (in m)&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Height of Lake Erie&quot;</span>)
+lake.lowess &lt;-<span class="st"> </span><span class="kw">lowess</span>(lake[, <span class="dv">2</span>])
+<span class="kw">lines</span>(<span class="kw">as.vector</span>(<span class="kw">time</span>(lake.ts)), lake.lowess<span class="op">$</span>y, <span class="dt">col =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">detrended &lt;-<span class="st"> </span><span class="kw">decompose</span>(lake.ts)
+<span class="kw">plot</span>(<span class="kw">decompose</span>(lake.ts))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<p>It is clear from the picture that the series exhibit a strong yearly variation, which should be taken into account. The trend decomposition seems somewhat more arbitrary. After deaseasonalizing, it appears that there may be a structural break around 1950, from which the trend onward for the lake level is decreasing linearly. This could be assesed formally by e.g. a Chow test; instead, to deal with this, we use a non-parametric polynomial fit to remove the (nonlinear) trend and demean the data before attempting to use an ARMA model on the residuals. Thus, we are taking the original series <span class="math inline">\(X_t\)</span> and decompose it into <span class="math display">\[X_t=m_t+s_t+Y_t\]</span> where plausibly <span class="math inline">\(Y_t \sim \mathrm{ARMA}(p,q)\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot(stl(lake.ts, s.window=&#39;periodic&#39;))</span>
+lake.detrended &lt;-<span class="st"> </span><span class="kw">ts</span>(lake[, <span class="dv">2</span>] <span class="op">-</span><span class="st"> </span>lake.lowess<span class="op">$</span>y <span class="op">-</span><span class="st"> </span>detrended<span class="op">$</span>seasonal, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1921</span>, 
+    <span class="dv">1</span>), <span class="dt">frequency =</span> <span class="dv">12</span>)
+<span class="kw">plot</span>(lake.detrended, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>)
+<span class="kw">title</span>(<span class="st">&quot;Detrended and deseasonalized height variation&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+TSA<span class="op">::</span><span class="kw">acf</span>(lake.detrended, <span class="dt">main =</span> <span class="st">&quot;Lake Erie detrended series&quot;</span>, <span class="dt">lag.max =</span> <span class="dv">30</span>)
+<span class="kw">pacf</span>(lake.detrended, <span class="dt">main =</span> <span class="st">&quot;Lake Erie detrended series&quot;</span>, <span class="dt">lag.max =</span> <span class="dv">30</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<p>It is apparent from the observation of the ACF that there is remaining structure for the data. We attempt to model this using an ARMA model, using the BIC and the AICc, respectively the Bayesian and bias-corrected information criterion for the data, as guiding mesure of data complexity. The selection yields an AR(2) as privilegied model with the BIC and the AICc and the somewhat more complex ARMA(6,4) from AIC.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">AIC.vals &lt;-<span class="st"> </span>AICc.vals &lt;-<span class="st"> </span>BIC.vals &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">8</span>)
+N &lt;-<span class="st"> </span><span class="kw">length</span>(lake.detrended)
+<span class="cf">for</span> (p <span class="cf">in</span> <span class="dv">0</span><span class="op">:</span><span class="dv">7</span>) {
+    <span class="cf">for</span> (q <span class="cf">in</span> <span class="dv">0</span><span class="op">:</span><span class="dv">7</span>) {
+        f &lt;-<span class="st"> </span><span class="kw">Arima</span>(lake.detrended, <span class="dt">order =</span> <span class="kw">c</span>(p, <span class="dv">0</span>, q), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, 
+            <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>, <span class="dt">optim.control =</span> <span class="kw">list</span>(<span class="dt">maxit =</span> <span class="dv">1000</span>))
+        <span class="co"># Defn of AICc is a correction of (2*(p+q)*(p+q+1))/(N-p-q-2) from AIC</span>
+        AIC.vals[p <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, q <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span>f<span class="op">$</span>aic
+        AICc.vals[p <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, q <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span>f<span class="op">$</span>aic <span class="op">+</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(p <span class="op">+</span><span class="st"> </span>q <span class="op">+</span><span class="st"> </span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>(p <span class="op">+</span><span class="st"> </span>q <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))<span class="op">/</span>(N <span class="op">-</span><span class="st"> </span>
+<span class="st">            </span>p <span class="op">-</span><span class="st"> </span>q <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)  <span class="co">#or f$aicc</span>
+        BIC.vals[p <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, q <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">BIC</span>(f)  <span class="co">#or f$bic</span>
+        <span class="co"># also AIC(arima(..., k=log(length(lake.detrended)))) for the BIC</span>
+    }
+}</code></pre></div>
+<p>The ARMA(6, 4) model has smallest <span class="math inline">\(\mathrm{AIC}\)</span>, the ARMA(2, 0) model has smallest <span class="math inline">\(\mathrm{BIC}\)</span> and ARMA(6, 4) model has smallest <span class="math inline">\(\mathrm{AIC}_{\mathrm{c}}\)</span> The PACF here would have provided rough guidelines indicating that an AR(2) was indeed appropriate. Let us compare the two models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Model selection with deaseasonalized-detrended series ARMA(6,4) from AIC</span>
+<span class="co"># and AICc; AR(2) from BIC Model selected through BIC</span>
+ar2 &lt;-<span class="st"> </span><span class="kw">Arima</span>(lake.detrended, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, <span class="dt">optim.control =</span> <span class="kw">list</span>(<span class="dt">maxit =</span> <span class="dv">1000</span>))
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">residuals</span>(ar2), <span class="dt">main =</span> <span class="st">&quot;Correlogram of the AR(2) residuals&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;ACF&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">residuals</span>(ar2), <span class="dt">main =</span> <span class="st">&quot;AR(2) residuals for the detrended-deseasonalized series&quot;</span>, 
+    <span class="dt">ylab =</span> <span class="st">&quot;Detrended residuals&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-20-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ar2)</code></pre></div>
+<pre><code>Series: lake.detrended 
+ARIMA(2,0,0) with zero mean 
+
+Coefficients:
+         ar1      ar2
+      1.1692  -0.2095
+s.e.  0.0399   0.0400
+
+sigma^2 estimated as 0.1549:  log likelihood=-292.28
+AIC=590.57   AICc=590.61   BIC=603.76
+
+Training set error measures:
+                      ME      RMSE       MAE      MPE     MAPE      MASE
+Training set 0.003821393 0.3929215 0.2848819 22.00608 91.12439 0.2483707
+                    ACF1
+Training set -0.01154223</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ar2.acf.fit &lt;-<span class="st"> </span><span class="kw">ARMAacf</span>(<span class="dt">ar =</span> ar2<span class="op">$</span>coef[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">lag.max =</span> <span class="dv">30</span>)
+<span class="kw">Mod</span>(<span class="kw">polyroot</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="op">-</span>ar2<span class="op">$</span>coef[<span class="kw">grep</span>(<span class="st">&quot;^ar&quot;</span>, <span class="kw">names</span>(ar2<span class="op">$</span>coef))])))</code></pre></div>
+<pre><code>[1] 1.054612 4.525466</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Model selected through AIC and AICC</span>
+arma64 &lt;-<span class="st"> </span><span class="kw">arima</span>(lake.detrended, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">6</span>, <span class="dv">0</span>, <span class="dv">4</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, <span class="dt">optim.control =</span> <span class="kw">list</span>(<span class="dt">maxit =</span> <span class="dv">1000</span>))
+arma64.par &lt;-<span class="st"> </span>arma64<span class="op">$</span>coef
+<span class="kw">summary</span>(arma64)</code></pre></div>
+<pre><code>
+Call:
+arima(x = lake.detrended, order = c(6, 0, 4), include.mean = FALSE, optim.control = list(maxit = 1000))
+
+Coefficients:
+         ar1      ar2     ar3      ar4     ar5      ar6     ma1     ma2
+      0.9479  -1.5285  1.6102  -0.8386  0.7140  -0.0511  0.2146  1.6741
+s.e.  0.1506   0.2185  0.1873   0.2321  0.1657   0.0522  0.1430  0.0788
+         ma3     ma4
+      0.1281  0.7901
+s.e.  0.1178  0.1036
+
+sigma^2 estimated as 0.1477:  log likelihood = -279.62,  aic = 581.24
+
+Training set error measures:
+                      ME      RMSE       MAE     MPE     MAPE      MASE
+Training set 0.003804229 0.3842917 0.2821519 20.0979 97.20178 0.9433899
+                      ACF1
+Training set -0.0003748186</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">arma64.acf.fit &lt;-<span class="st"> </span><span class="kw">ARMAacf</span>(<span class="dt">ar =</span> arma64.par[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>], <span class="dt">ma =</span> arma64.par[<span class="dv">7</span><span class="op">:</span><span class="dv">10</span>], <span class="dt">lag.max =</span> <span class="dv">30</span>)
+<span class="kw">Mod</span>(<span class="kw">polyroot</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="op">-</span>arma64<span class="op">$</span>coef[<span class="kw">grep</span>(<span class="st">&quot;^ar&quot;</span>, <span class="kw">names</span>(arma64<span class="op">$</span>coef))])))</code></pre></div>
+<pre><code>[1]  1.050757  1.013319  1.013319  1.186975  1.186975 12.866561</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Mod</span>(<span class="kw">polyroot</span>(<span class="kw">c</span>(<span class="dv">1</span>, arma64<span class="op">$</span>coef[<span class="kw">grep</span>(<span class="st">&quot;^ma&quot;</span>, <span class="kw">names</span>(arma64<span class="op">$</span>coef))])))</code></pre></div>
+<pre><code>[1] 1.115831 1.008236 1.008236 1.115831</code></pre>
+<p>Here, the estimate from <code>arima</code> for the ARMA(6,4) did not adjust the AR coefficients. The process is barely causal, as some roots are close to the unit circle – it would be advisable to differentiate the series. It is also barely invertible, as one of the roots is transformed to 1.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+TSA<span class="op">::</span><span class="kw">acf</span>(lake.detrended, <span class="dt">lag.max =</span> <span class="dv">30</span>, <span class="dt">main =</span> <span class="st">&quot;ACF of Residuals </span><span class="ch">\n</span><span class="st"> with fitted AR(2)&quot;</span>)
+<span class="kw">points</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="dt">length.out =</span> <span class="dv">31</span>), ar2.acf.fit, <span class="dt">pch =</span> <span class="dv">19</span>)
+TSA<span class="op">::</span><span class="kw">acf</span>(lake.detrended, <span class="dt">lag.max =</span> <span class="dv">30</span>, <span class="dt">main =</span> <span class="st">&quot;ACF of Residuals </span><span class="ch">\n</span><span class="st"> with fitted ARMA(6,4)&quot;</span>)
+<span class="kw">points</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="dt">length.out =</span> <span class="dv">31</span>), arma64.acf.fit)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot of the residuals of the series</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))
+<span class="kw">plot</span>(<span class="kw">ts</span>(<span class="kw">residuals</span>(arma64), <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1921</span>, <span class="dv">1</span>), <span class="dt">frequency =</span> <span class="dv">12</span>), <span class="dt">ylab =</span> <span class="st">&quot;Residuals&quot;</span>, 
+    <span class="dt">sub =</span> <span class="st">&quot;ARMA(6,4) vs AR(2) models&quot;</span>, <span class="dt">col =</span> <span class="dv">2</span>)
+<span class="kw">lines</span>(<span class="kw">ts</span>(<span class="kw">residuals</span>(ar2), <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1921</span>, <span class="dv">1</span>), <span class="dt">frequency =</span> <span class="dv">12</span>), <span class="dt">ylab =</span> <span class="st">&quot;Residuals&quot;</span>, 
+    <span class="dt">col =</span> <span class="dv">4</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
+<p>The ARMA(6,4) regression model has lower variance, but it is rather clear that it won’t be the most parsimonious (and the forecasting performances could have been worst, but here there is little difference).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ljunx-Box test for independence of residuals, proposed 22 lags frame</span>
+<span class="co"># suggested by B&amp;D Adjusting for the number of parameters in the ARMA model</span>
+<span class="kw">Box.test</span>(<span class="kw">residuals</span>(ar2), <span class="dt">lag =</span> <span class="dv">22</span>, <span class="dt">fitdf =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code>
+    Box-Pierce test
+
+data:  residuals(ar2)
+X-squared = 23.942, df = 20, p-value = 0.2449</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Box.test</span>(<span class="kw">residuals</span>(arma64), <span class="dt">lag =</span> <span class="dv">22</span>, <span class="dt">fitdf =</span> <span class="dv">10</span>)</code></pre></div>
+<pre><code>
+    Box-Pierce test
+
+data:  residuals(arma64)
+X-squared = 9.3147, df = 12, p-value = 0.6758</code></pre>
+<p>The correlogram plot show convincing evidence that the autocorrelation structure has been mostly captured by the model, although some lag at yearly intervals appears to be still present. The residuals from <span class="math inline">\(Y_t\)</span>, although may not be constant in variance, appear plausibly white-noise. We can test for assumption of white noise; using the Ljung-Box test, we fail in both cases to reject the null of linear independence of the residuals. It is clear that the data is not very stationary, and that a seasonal model would do better here. This we shall see in the next weeks, with SARIMA models.</p>
+<p><strong>Note</strong>: An ARMA(4, 1) would fit well the data if you started with the residuals from <code>decompose</code> or <code>stl</code>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="information-criterion-model-selection-and-profile-likelihood.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="practical-series-3.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["timeseRies.pdf", "timeseRies.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

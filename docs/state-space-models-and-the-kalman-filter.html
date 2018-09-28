@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>timeseRies</title>
+  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="timeseRies" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="github-repo" content="lbelzile/timeseRies" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="timeseRies" />
+  
+  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  
+
+<meta name="author" content="Léo Belzile">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="simulation-based-prediction-intervals-for-arima-garch-models.html">
+<link rel="next" href="notes-on-irregular-time-series-and-missing-values.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Time Series</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
+<li class="chapter" data-level="1" data-path="practical-series-1.html"><a href="practical-series-1.html"><i class="fa fa-check"></i><b>1</b> Practical series 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1.1</b> Exploratory Data Analysis</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#libraries"><i class="fa fa-check"></i><b>1.1.1</b> Libraries</a></li>
+<li class="chapter" data-level="1.1.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#loading-datasets"><i class="fa fa-check"></i><b>1.1.2</b> Loading datasets</a></li>
+<li class="chapter" data-level="1.1.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#time-series-objects-and-basic-plots"><i class="fa fa-check"></i><b>1.1.3</b> Time series objects and basic plots</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-the-basic-time-series-functions.html"><a href="introduction-to-the-basic-time-series-functions.html"><i class="fa fa-check"></i><b>1.2</b> Introduction to the basic time series functions</a></li>
+<li class="chapter" data-level="1.3" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html"><i class="fa fa-check"></i><b>1.3</b> Second order stationarity</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html#exercise-2.-sp500-daily-returns"><i class="fa fa-check"></i><b>1.3.1</b> Exercise 2. SP500 daily returns</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>1.4</b> Simulations</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="simulations.html"><a href="simulations.html#exercise-3.-simulated-data"><i class="fa fa-check"></i><b>1.4.1</b> Exercise 3. Simulated data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="spectral-analysis.html"><a href="spectral-analysis.html"><i class="fa fa-check"></i><b>1.5</b> Spectral analysis</a></li>
+<li class="chapter" data-level="1.6" data-path="smoothing-and-detrending.html"><a href="smoothing-and-detrending.html"><i class="fa fa-check"></i><b>1.6</b> Smoothing and detrending</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html"><i class="fa fa-check"></i><b>2</b> Practical series 1 (solutions)</a><ul>
+<li class="chapter" data-level="2.0.1" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-1.-beaver-temperature-1"><i class="fa fa-check"></i><b>2.0.1</b> Exercise 1. Beaver temperature</a></li>
+<li class="chapter" data-level="2.0.2" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-2.-sp500-daily-returns-1"><i class="fa fa-check"></i><b>2.0.2</b> Exercise 2. SP500 daily returns</a></li>
+<li class="chapter" data-level="2.0.3" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-3.-simulated-data-1"><i class="fa fa-check"></i><b>2.0.3</b> Exercise 3. Simulated data</a></li>
+<li class="chapter" data-level="2.0.4" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-4-mauna-loa-atmospheric-co2-concentration"><i class="fa fa-check"></i><b>2.0.4</b> Exercise 4: Mauna Loa Atmospheric CO<sub>2</sub> Concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="practical-series-2.html"><a href="practical-series-2.html"><i class="fa fa-check"></i><b>3</b> Practical series 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html"><i class="fa fa-check"></i><b>3.1</b> Manual maximum likelihood estimation</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html#exercise-1-ubs-stock-returns"><i class="fa fa-check"></i><b>3.1.1</b> Exercise 1: UBS stock returns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html"><i class="fa fa-check"></i><b>3.2</b> Box–Jenkins methodology for ARMA models</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html#exercise-2-simulated-series"><i class="fa fa-check"></i><b>3.2.1</b> Exercise 2: Simulated series</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html"><i class="fa fa-check"></i><b>3.3</b> Information criterion, model selection and profile likelihood</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html#exercise-3-lake-erie-height"><i class="fa fa-check"></i><b>3.3.1</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html"><i class="fa fa-check"></i><b>4</b> Practical series 2 (solutions)&quot;</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-1-ubs-stock-returns-1"><i class="fa fa-check"></i><b>4.0.1</b> Exercise 1: UBS stock returns</a></li>
+<li class="chapter" data-level="4.0.2" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-2-simulated-series-1"><i class="fa fa-check"></i><b>4.0.2</b> Exercise 2: Simulated series</a></li>
+<li class="chapter" data-level="4.0.3" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-3-lake-erie-height-1"><i class="fa fa-check"></i><b>4.0.3</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="practical-series-3.html"><a href="practical-series-3.html"><i class="fa fa-check"></i><b>5</b> Practical series 3</a><ul>
+<li class="chapter" data-level="5.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>5.1</b> SARIMA models: estimation and forecasting</a></li>
+<li class="chapter" data-level="5.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html"><i class="fa fa-check"></i><b>5.2</b> An aside on models with regressors (optional)</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>5.2.1</b> Mauna Loa CO2 dataset</a></li>
+<li class="chapter" data-level="5.2.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>5.2.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>5.3</b> Boostrap methods for time series</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>5.3.1</b> Bootstrapping a linear model</a></li>
+<li class="chapter" data-level="5.3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>5.3.2</b> Testing for heteroscedasticity</a></li>
+<li class="chapter" data-level="5.3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>5.3.3</b> AR-sieve bootstrap</a></li>
+<li class="chapter" data-level="5.3.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>5.3.4</b> Boostrap models for uncertainty assesment</a></li>
+<li class="chapter" data-level="5.3.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>5.3.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>5.4</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a></li>
+<li class="chapter" data-level="5.5" data-path="predictions.html"><a href="predictions.html"><i class="fa fa-check"></i><b>5.5</b> Predictions</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="predictions.html"><a href="predictions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>5.5.1</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html"><i class="fa fa-check"></i><b>6</b> Practical series 3 (solutions)</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>6.0.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="6.0.2" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>6.0.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="6.0.3" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>6.0.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="practical-series-4.html"><a href="practical-series-4.html"><i class="fa fa-check"></i><b>7</b> Practical series 4</a><ul>
+<li class="chapter" data-level="7.1" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>7.1</b> Spectral analysis and filtering</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#tapering"><i class="fa fa-check"></i><b>7.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="7.1.2" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#a-data-example"><i class="fa fa-check"></i><b>7.1.2</b> A data example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#smoothing"><i class="fa fa-check"></i><b>7.1.3</b> Smoothing</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>7.2</b> Summary of nonparametric spectral estimation</a></li>
+<li class="chapter" data-level="7.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>7.3</b> Spectral estimation in R</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#smoothing-and-seasonally-adjusted-values"><i class="fa fa-check"></i><b>7.3.1</b> Smoothing and seasonally adjusted values</a></li>
+<li class="chapter" data-level="7.3.2" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#exercise-1-southern-oscillation-index-soi-and-fish-recruitement"><i class="fa fa-check"></i><b>7.3.2</b> Exercise 1: Southern oscillation index (SOI) and fish recruitement</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="practical-series-5.html"><a href="practical-series-5.html"><i class="fa fa-check"></i><b>8</b> Practical series 5&quot;</a><ul>
+<li class="chapter" data-level="8.1" data-path="simulation-based-prediction-intervals-for-arima-garch-models.html"><a href="simulation-based-prediction-intervals-for-arima-garch-models.html"><i class="fa fa-check"></i><b>8.1</b> Simulation-based prediction intervals for ARIMA-GARCH models</a></li>
+<li class="chapter" data-level="8.2" data-path="state-space-models-and-the-kalman-filter.html"><a href="state-space-models-and-the-kalman-filter.html"><i class="fa fa-check"></i><b>8.2</b> State-space models and the Kalman filter</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="notes-on-irregular-time-series-and-missing-values.html"><a href="notes-on-irregular-time-series-and-missing-values.html"><i class="fa fa-check"></i><b>9</b> Notes on irregular time series and missing values&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html"><i class="fa fa-check"></i><b>9.1</b> Irregular time series</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html#exercise-1.-jussy-air-temperature"><i class="fa fa-check"></i><b>9.1.1</b> Exercise 1. Jussy air temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>9.2</b> Imputation of missing values</a></li>
+<li class="chapter" data-level="9.3" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html"><i class="fa fa-check"></i><b>9.3</b> Diagnostics for missing values and smoothing</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html#exercise-2.-tyne-river-flow"><i class="fa fa-check"></i><b>9.3.1</b> Exercise 2. Tyne river flow</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html"><i class="fa fa-check"></i><b>10</b> Notes on irregular time series and missing values (solutions)&quot;</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html#exercise-1.-jussy-air-temperature-1"><i class="fa fa-check"></i><b>10.0.1</b> Exercise 1. Jussy air temperature</a></li>
+<li class="chapter" data-level="10.0.2" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html#exercise-2.-tyne-river-flow-1"><i class="fa fa-check"></i><b>10.0.2</b> Exercise 2. Tyne river flow</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">timeseRies</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="state-space-models-and-the-kalman-filter" class="section level2">
+<h2><span class="header-section-number">8.2</span> State-space models and the Kalman filter</h2>
+<p>The main packages for performing dynamic linear modelling are <code>dlm</code> and <code>KFAS</code> (another package, <code>dlmodeler</code>, unifies the interface between the two). The package <code>KFAS</code> has more functionalities — see the vignette and the examples in <code>?KFAS</code> for details).</p>
+<p>The dataset under study, <code>AirPassengers</code>, contains a time series with the number (in thousands) of air passengers worlwide. We fit a local linear trend model with seasonality to the latter. This is the dynamic equivalent of a time series model with intercept, trend and monthly dummies. The local level component is equivalent to an ARIMA(0,1,1), so the trend component will likely be negligeable here if we allow the level to vary. It does change the forecasts, since doubly-differencing creates a linear trend in the forecast as we have seen before in the Mauna Loa CO<span class="math inline">\(_2\)</span> example.</p>
+<p>The unknown components are the four variance coefficients (and tentatively the initial states). If the latter are not specified or estimated, they are taken to be diffuse, starting from zero. This mean we would need to discard the first smoothed state estimates.</p>
+<p>The steps to be undertaken are when fitting a dynamic linear model</p>
+<ol style="list-style-type: decimal">
+<li>Specify the model structure, indicating which parameters are to be estimated. You can include deterministic components by fixing their respective variance to zero. For seasonal models with dummies, only the first variance should be non-zero.</li>
+<li>Obtain maximum likelihood estimates numerically</li>
+<li>Plug the estimated parameters in the model</li>
+<li>Filter forward the estimates. If you did not estimated or specified the initial state <code>m0</code>, the latter will be zero and this will impact your filtered values</li>
+<li>Perform smoothing-backwards on the filtered object</li>
+<li>Obtain forecasts (this does not work in <code>dlm</code> with regression models, but can be done manually using the Kalman recursions).</li>
+<li>Run the usual diagnostics on the residuals (filtered minus observed) to check the adequacy of your model</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dlm)
+<span class="kw">data</span>(<span class="st">&quot;AirPassengers&quot;</span>)
+<span class="co">#?&quot;AirPassengers&quot;</span>
+<span class="co">#Fit a local level with seasonal dummies</span>
+<span class="kw">plot</span>(<span class="kw">log</span>(AirPassengers), <span class="dt">ylab =</span> <span class="st">&quot;log monthly total passengers (in thousands)&quot;</span>, 
+     <span class="dt">main =</span> <span class="st">&quot;Number of international air passengers&quot;</span>)
+<span class="co">#Keep some observations for forecast validation</span>
+y &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">log</span>(<span class="kw">window</span>(AirPassengers, <span class="dt">end =</span> <span class="kw">c</span>(<span class="dv">1958</span>))))
+n &lt;-<span class="st"> </span><span class="kw">length</span>(y)
+time &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">time</span>(<span class="kw">window</span>(AirPassengers, <span class="dt">end =</span> <span class="kw">c</span>(<span class="dv">1958</span>))))
+month &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">as.integer</span>(time<span class="op">*</span><span class="dv">12</span>) <span class="op">%%</span><span class="dv">12</span>)
+<span class="co">#Build the dynamic linear model  - specification with local level + seasonal component (dummies)</span>
+<span class="co">#Need to specify initial values for mean m0, otherwise forecasts are diffuse values from zero</span>
+<span class="co">#takes a few steps to adjust</span>
+build &lt;-<span class="st"> </span><span class="cf">function</span>(params) {
+  level &lt;-<span class="st"> </span><span class="kw">dlmModPoly</span>(<span class="dt">order =</span> <span class="dv">2</span>, <span class="dt">dV =</span> <span class="kw">exp</span>(params[<span class="dv">1</span>]), <span class="dt">dW =</span> <span class="kw">c</span>(<span class="kw">exp</span>(params[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])))
+  seas &lt;-<span class="st"> </span><span class="kw">dlmModSeas</span>(<span class="dt">frequency =</span> <span class="dv">12</span>, <span class="dt">dV =</span> <span class="kw">exp</span>(params[<span class="dv">1</span>]), <span class="dt">dW =</span> <span class="kw">c</span>(<span class="kw">exp</span>(params[<span class="dv">4</span>]), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>)))  <span class="co">#stochastic seas.</span>
+  mod &lt;-<span class="st"> </span>level <span class="op">+</span><span class="st"> </span>seas 
+  <span class="kw">return</span>(mod)
+}
+<span class="co">#Initial parameter values - four log-variance, mean and trend, seasonal effect</span>
+init &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">4</span>)
+<span class="co">#Fit the DLM model - numerical optimization</span>
+fit &lt;-<span class="st"> </span><span class="kw">dlmMLE</span>(<span class="dt">y =</span> y, <span class="dt">parm =</span> init, <span class="dt">build =</span> build, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>, <span class="dt">control=</span><span class="kw">list</span>(<span class="dt">trace =</span> <span class="dv">10</span>, <span class="dt">maxit =</span> <span class="dv">1000</span>)) </code></pre></div>
+<pre><code>initial  value 8.105325 
+iter  10 value -151.637115
+iter  20 value -151.688555
+iter  30 value -151.689585
+final  value -151.689701 
+converged</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Define model with estimated parameters</span>
+mod &lt;-<span class="st"> </span><span class="kw">build</span>(fit<span class="op">$</span>par)
+
+<span class="co">#Variance matrices</span>
+<span class="kw">V</span>(mod); <span class="co">#W(mod), but only diag(W(mod))[1:3] non-null</span></code></pre></div>
+<pre><code>             [,1]
+[1,] 0.0002514017</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#We could remove the trend and mayhaps make the seasonal part deterministic</span>
+
+<span class="co">#Filtering</span>
+filtered &lt;-<span class="st"> </span><span class="kw">dlmFilter</span>(y, mod) 
+<span class="co">#plot(time, y, type = &quot;l&quot;)</span>
+<span class="kw">lines</span>(time, <span class="kw">c</span>(mod<span class="op">$</span>FF <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(filtered<span class="op">$</span>m[<span class="op">-</span><span class="dv">1</span>,])), <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>) <span class="co">#filtered states</span>
+
+<span class="co">#One-step ahead forecasts (a linear fn of filtering mean)</span>
+forecasted &lt;-<span class="st"> </span><span class="kw">dlmForecast</span>(filtered, <span class="dt">nAhead =</span> <span class="dv">36</span>)
+timelo &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">tail</span>(time,<span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">12</span>, <span class="dt">by =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">12</span>, <span class="dt">length =</span> <span class="dv">36</span>)
+<span class="kw">lines</span>(timelo,  forecasted<span class="op">$</span>f, <span class="dt">col =</span> <span class="dv">4</span>, <span class="dt">lwd=</span><span class="dv">2</span>)
+<span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Original series&quot;</span>,<span class="st">&quot;Filtered states&quot;</span>,<span class="st">&quot;One-step forecasts&quot;</span>), 
+       <span class="dt">lty=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">lwd=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">col=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>),<span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/AirPassenger_DLM-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#90% Confidence intervals</span>
+<span class="kw">plot</span>(<span class="kw">log</span>(<span class="kw">window</span>(AirPassengers, <span class="dt">start=</span><span class="dv">1956</span>)), <span class="dt">ylab =</span> <span class="st">&quot;log monthly total passengers (in thousands)&quot;</span>, 
+     <span class="dt">main =</span> <span class="st">&quot;Number of international air passengers&quot;</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">7</span>), <span class="dt">type =</span> <span class="st">&quot;b&quot;</span>, <span class="dt">pch =</span> <span class="dv">20</span>)
+<span class="kw">polygon</span>(<span class="dt">x=</span><span class="kw">c</span>(timelo, <span class="kw">rev</span>(timelo)), <span class="dt">y =</span> <span class="kw">c</span>(forecasted<span class="op">$</span>f <span class="op">+</span><span class="st"> </span><span class="kw">qnorm</span>(<span class="fl">0.95</span>)<span class="op">*</span><span class="kw">sqrt</span>(<span class="kw">unlist</span>(forecasted<span class="op">$</span>Q)), 
+        <span class="kw">rev</span>(forecasted<span class="op">$</span>f <span class="op">-</span><span class="st"> </span><span class="kw">qnorm</span>(<span class="fl">0.95</span>)<span class="op">*</span><span class="kw">sqrt</span>(<span class="kw">unlist</span>(forecasted<span class="op">$</span>Q)))), <span class="dt">col=</span>scales<span class="op">::</span><span class="kw">alpha</span>(<span class="st">&quot;blue&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>))
+<span class="kw">lines</span>(timelo, forecasted<span class="op">$</span>f, <span class="dt">col =</span> <span class="dv">4</span>, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Data&quot;</span>,<span class="st">&quot;One-step forecasts&quot;</span>), <span class="dt">lty=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="dt">pch=</span><span class="kw">c</span>(<span class="dv">20</span>,<span class="ot">NA</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/AirPassenger_DLM-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoothed &lt;-<span class="st"> </span><span class="kw">dlmSmooth</span>(filtered)
+<span class="kw">plot</span>(time, smoothed<span class="op">$</span>s[<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>], <span class="dt">type=</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="fl">6.5</span>), <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Smoothed states&quot;</span>)
+<span class="kw">lines</span>(time, <span class="fl">4.5</span> <span class="op">+</span><span class="st"> </span>smoothed<span class="op">$</span>s[<span class="op">-</span><span class="dv">1</span>,<span class="dv">3</span>], <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">4</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Local linear&quot;</span>,<span class="st">&quot;Seasonal + 4.5&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)
+<span class="kw">abline</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>time)<span class="op">$</span>coefficients)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/AirPassenger_DLM-3.png" width="672" /></p>
+<p>Let us do the same analysis, this time with <code>KFAS</code>. The model is defined analogously, but this time, the parameters to be estimated are left as <code>NA</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y2 &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">window</span>(AirPassengers, <span class="dt">end =</span> <span class="kw">c</span>(<span class="dv">1958</span>)))
+<span class="kw">library</span>(KFAS)
+model &lt;-<span class="st"> </span><span class="kw">SSModel</span>(y2 <span class="op">~</span><span class="st"> </span><span class="kw">SSMtrend</span>(<span class="dv">2</span>, <span class="dt">Q =</span> <span class="kw">list</span>(<span class="kw">matrix</span>(<span class="ot">NA</span>), <span class="kw">matrix</span>(<span class="ot">NA</span>))) <span class="op">+</span><span class="st"> </span><span class="kw">SSMseasonal</span>(<span class="dt">period =</span> <span class="dv">12</span>, 
+    <span class="dt">sea.type =</span> <span class="st">&quot;dummy&quot;</span>, <span class="dt">Q =</span> <span class="ot">NA</span>), <span class="dt">H =</span> <span class="kw">matrix</span>(<span class="ot">NA</span>))
+fit2 &lt;-<span class="st"> </span><span class="kw">fitSSM</span>(model, <span class="dt">inits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>)
+<span class="co"># Maximum likelihood estimate for sigmas</span>
+<span class="kw">exp</span>(fit2<span class="op">$</span>optim.out<span class="op">$</span>par)</code></pre></div>
+<pre><code>[1] 5.961276e-04 3.468949e-09 1.377059e-08 3.703626e-04</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Kalman filtering and smoothing</span>
+out &lt;-<span class="st"> </span><span class="kw">KFS</span>(fit2<span class="op">$</span>model)
+out</code></pre></div>
+<pre><code>Smoothed values of states and standard errors at time n = 109:
+             Estimate   Std. Error
+level         5.923737   0.018009 
+slope         0.010225   0.002386 
+sea_dummy1   -0.089207   0.010058 
+sea_dummy2   -0.097948   0.010232 
+sea_dummy3   -0.219836   0.010212 
+sea_dummy4   -0.079318   0.010196 
+sea_dummy5    0.063466   0.010185 
+sea_dummy6    0.187795   0.010178 
+sea_dummy7    0.199432   0.010176 
+sea_dummy8    0.104437   0.010178 
+sea_dummy9   -0.014626   0.010185 
+sea_dummy10  -0.000807   0.010196 
+sea_dummy11   0.041156   0.010212 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_air &lt;-<span class="st"> </span>fit2<span class="op">$</span>model
+<span class="co"># Confidence and prediction intervals for the expected value and the</span>
+<span class="co"># observations.  Note that predict uses original model object (with</span>
+<span class="co"># estimated parameters), not the output from KFS.</span>
+conf_air &lt;-<span class="st"> </span><span class="kw">predict</span>(model_air, <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>, <span class="dt">level =</span> <span class="fl">0.9</span>)
+pred_air &lt;-<span class="st"> </span><span class="kw">predict</span>(model_air, <span class="dt">interval =</span> <span class="st">&quot;prediction&quot;</span>, <span class="dt">level =</span> <span class="fl">0.9</span>)
+
+<span class="co"># Plot of estimated states If we do not estimate the initial states, we</span>
+<span class="co"># should get rid of first 12+1 first values Because they are used for the</span>
+<span class="co"># initialization</span>
+<span class="kw">plot</span>(<span class="kw">window</span>(out<span class="op">$</span>a[, <span class="st">&quot;level&quot;</span>], <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1950</span>, <span class="dv">2</span>)), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="fl">6.5</span>), 
+    <span class="dt">ylab =</span> <span class="st">&quot;log monthly total passengers (in thousands)&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Smoothed states&quot;</span>)
+<span class="co"># lines(window(out$a[,&#39;slope&#39;] + 5, start = c(1950, 2)), col = 3, lwd = 2)</span>
+<span class="kw">lines</span>(<span class="kw">window</span>(out<span class="op">$</span>a[, <span class="st">&quot;sea_dummy1&quot;</span>] <span class="op">+</span><span class="st"> </span><span class="fl">4.5</span>, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1950</span>, <span class="dv">2</span>)), <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Local level&quot;</span>, <span class="st">&quot;Seasonal + 4.5&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="dt">lwd =</span> <span class="dv">2</span>, 
+    <span class="dt">col =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Airpassenger_kfas-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filtering backwards plus one-step ahead forecasts Plot has one-step ahead</span>
+<span class="co"># forecasts, confidence intervals and one-step ahead prediction intervals</span>
+<span class="kw">ts.plot</span>(<span class="kw">cbind</span>(y2, pred_air, conf_air[, <span class="op">-</span><span class="dv">1</span>]), <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">ylab =</span> <span class="st">&quot;log monthly total passengers (in thousands)&quot;</span>, 
+    <span class="dt">main =</span> <span class="st">&quot;Number of international air passengers&quot;</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Observed&quot;</span>, <span class="st">&quot;Predictions&quot;</span>, <span class="st">&quot;Prediction interval&quot;</span>, <span class="st">&quot;Confidence interval&quot;</span>), 
+    <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Airpassenger_kfas-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Predictions ahead</span>
+pred_air &lt;-<span class="st"> </span><span class="kw">predict</span>(model_air, <span class="dt">interval =</span> <span class="st">&quot;prediction&quot;</span>, <span class="dt">level =</span> <span class="fl">0.9</span>, <span class="dt">n.ahead =</span> <span class="dv">36</span>)
+<span class="kw">ts.plot</span>(<span class="kw">cbind</span>(<span class="kw">log</span>(<span class="kw">window</span>(AirPassengers, <span class="dt">start =</span> <span class="dv">1955</span>, <span class="dt">end =</span> <span class="dv">1961</span>)), pred_air), 
+    <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="st">&quot;grey&quot;</span>, <span class="st">&quot;grey&quot;</span>), <span class="dt">ylab =</span> <span class="st">&quot;log monthly total passengers (in thousands)&quot;</span>, 
+    <span class="dt">main =</span> <span class="st">&quot;Number of international air passengers&quot;</span>, <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>))
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Observed&quot;</span>, <span class="st">&quot;Predictions&quot;</span>, <span class="st">&quot;Prediction intervals&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, 
+    <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="st">&quot;grey&quot;</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/Airpassenger_kfas-3.png" width="672" /></p>
+<p>It now remains to perform some validation diagnostics. We check first the (partial) correlograms to ensure that there is no residual autocorrelation, then test the normality of the residuals and the hypothesis that they are white noise.</p>
+<p>To add a confidence interval to the QQ-plots, we can use two methods. Recall that the standard normal quantile-quantile plot has - on the <span class="math inline">\(x\)</span> axis, the theoretical quantiles, <span class="math inline">\(\Phi^{-1}(\mathrm{rank}(X_i)/(n+1))\)</span> - on the <span class="math inline">\(y\)</span> axis, the empirical quantiles, <span class="math inline">\(X_i\)</span></p>
+<p>Under the null hypothesis that the observations are independent and identically distributed from <span class="math inline">\(\mathcal{N}(0,1)\)</span></p>
+<ul>
+<li>the <span class="math inline">\(i\)</span>th order statistic of the uniform <span class="math inline">\(U_{(i)}=\Phi^{-1}(X_{(i)})\)</span> is distributed as Beta <span class="math inline">\(\mathcal{B}(i, n-i+1)\)</span>. Thus, a 95% pointwise confidence interval can be obtained by taking the 2.5 and 97.5 percentiles of the Beta and applying the transformation <span class="math inline">\(\Phi^{-1}\)</span> to the latter.</li>
+<li>We can resort to the bootstrap and simulate <span class="math inline">\(B=1000\)</span> samples under the null hypothesis. Here, we would thus generate <span class="math inline">\(B\)</span> samples from <span class="math inline">\(\mathcal{N}(0,1)\)</span> of size <span class="math inline">\(n\)</span> and order each of them. This yields <span class="math inline">\(\{X_{i,b}\}\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span> and <span class="math inline">\(b = 1, \ldots, B\)</span> where <span class="math inline">\(X_{1,b} &lt; X_{2, b} &lt; \ldots, X_{n,b}\)</span>. It remains to take the 2.5 and 97.5 percentiles of the <span class="math inline">\(i\)</span>th order statistic <span class="math inline">\(\{X_{i, b}\}, b=1, \ldots, B\)</span>. Note that if your residuals were <span class="math inline">\(\mathcal{N}(\mu, \sigma^2)\)</span> rather than <span class="math inline">\(\mathcal{N}(0,1)\)</span> and you scaled them by subtracting <span class="math inline">\(\hat{\mu}\)</span> and dividing by <span class="math inline">\(\hat{\sigma}\)</span>, you should scale the replicate samples in an analogous fashion by estimating the mean and variance of each of the <span class="math inline">\(B\)</span> samples.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">oldpar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> <span class="ot">TRUE</span>)
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">resid</span>(filtered)<span class="op">$</span>res, <span class="dt">main =</span> <span class="st">&quot;Residuals - Air passengers&quot;</span>)
+<span class="kw">pacf</span>(<span class="kw">resid</span>(filtered)<span class="op">$</span>res, <span class="dt">main =</span> <span class="st">&quot;Residuals - Air passengers&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(oldpar)
+
+<span class="co"># Normal quantile-quantile plot with confidence intervals</span>
+res &lt;-<span class="st"> </span><span class="kw">resid</span>(filtered)<span class="op">$</span>res
+n &lt;-<span class="st"> </span><span class="kw">length</span>(res)
+quant &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="kw">rank</span>(res)<span class="op">/</span>(n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))
+<span class="co"># Pointwise limits based on distribution of order statistics</span>
+confint_lim &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="cf">function</span>(i) {
+    <span class="kw">qnorm</span>(<span class="kw">qbeta</span>(<span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), i, n <span class="op">-</span><span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))
+}))
+<span class="kw">matplot</span>(<span class="kw">sort</span>(quant), confint_lim, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Normal QQ-plot&quot;</span>, 
+    <span class="dt">xlab =</span> <span class="st">&quot;Theoretical quantiles&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Empirical quantiles&quot;</span>)
+<span class="co"># Pointwise limits based on draws from null model</span>
+confint_lim2 &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">apply</span>(<span class="kw">apply</span>(<span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>n), <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> <span class="dv">1000</span>), 
+    <span class="dv">2</span>, sort), <span class="dv">1</span>, <span class="cf">function</span>(x) {
+    <span class="kw">quantile</span>(x, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))
+}))
+<span class="kw">matplot</span>(<span class="kw">sort</span>(quant), confint_lim, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Normal QQ-plot&quot;</span>, 
+    <span class="dt">xlab =</span> <span class="st">&quot;Theoretical quantiles&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Empirical quantiles&quot;</span>)
+<span class="kw">matplot</span>(<span class="kw">sort</span>(quant), confint_lim2, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&quot;lightgrey&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+<span class="kw">points</span>(quant, res, <span class="dt">pch =</span> <span class="dv">20</span>)
+<span class="kw">abline</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-39-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ljung-Box test on residuals</span>
+<span class="kw">plot</span>(<span class="kw">sapply</span>(<span class="dv">4</span><span class="op">:</span><span class="dv">24</span>, <span class="cf">function</span>(l) {
+    <span class="kw">Box.test</span>(<span class="dt">x =</span> res, <span class="dt">lag =</span> l, <span class="dt">type =</span> <span class="st">&quot;L&quot;</span>, <span class="dt">fitdf =</span> <span class="dv">3</span>)<span class="op">$</span>p.value
+}), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylab =</span> <span class="st">&quot;P-value&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Ljung-Box test on residuals&quot;</span>, 
+    <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="fl">0.05</span>, <span class="dt">col =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-39-3.png" width="672" /></p>
+<p>The diagnostic plots here indicate that the results are not quite white noise, but the correlogram indicates that there is no residual linear dependence (they are uncorrelated). The quantile-quantile plot shows that the fit is satisfactory - more than 95% of the values falls within the confidence bands.</p>
+<p><strong>YOUR TURN</strong> ### Exercise 1: Dynamic linear model for the Nile river dataset</p>
+<ol style="list-style-type: decimal">
+<li>Try removing the trend component. Does your conclusions change?</li>
+<li>Fix the variance component corresponding to the seasonal part to zero (making the effect deterministic). Test whether the latter was significant.</li>
+<li>Remove the initial states from the analysis and compare the filtered estimates.</li>
+<li>Repeat the analysis on the <code>nile</code> dataset.</li>
+<li>Add an intervention covariate to the model for <code>nile</code>, corresponding to a structural break in level in 1902 due to the Assouan dam construction.</li>
+</ol>
+
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="simulation-based-prediction-intervals-for-arima-garch-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="notes-on-irregular-time-series-and-missing-values.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["timeseRies.pdf", "timeseRies.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

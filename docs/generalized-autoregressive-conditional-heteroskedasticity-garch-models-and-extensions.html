@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>timeseRies</title>
+  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="timeseRies" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="github-repo" content="lbelzile/timeseRies" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="timeseRies" />
+  
+  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  
+
+<meta name="author" content="Léo Belzile">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="boostrap-methods-for-time-series.html">
+<link rel="next" href="predictions.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Time Series</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
+<li class="chapter" data-level="1" data-path="practical-series-1.html"><a href="practical-series-1.html"><i class="fa fa-check"></i><b>1</b> Practical series 1</a><ul>
+<li class="chapter" data-level="1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1.1</b> Exploratory Data Analysis</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#libraries"><i class="fa fa-check"></i><b>1.1.1</b> Libraries</a></li>
+<li class="chapter" data-level="1.1.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#loading-datasets"><i class="fa fa-check"></i><b>1.1.2</b> Loading datasets</a></li>
+<li class="chapter" data-level="1.1.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#time-series-objects-and-basic-plots"><i class="fa fa-check"></i><b>1.1.3</b> Time series objects and basic plots</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-the-basic-time-series-functions.html"><a href="introduction-to-the-basic-time-series-functions.html"><i class="fa fa-check"></i><b>1.2</b> Introduction to the basic time series functions</a></li>
+<li class="chapter" data-level="1.3" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html"><i class="fa fa-check"></i><b>1.3</b> Second order stationarity</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html#exercise-2.-sp500-daily-returns"><i class="fa fa-check"></i><b>1.3.1</b> Exercise 2. SP500 daily returns</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>1.4</b> Simulations</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="simulations.html"><a href="simulations.html#exercise-3.-simulated-data"><i class="fa fa-check"></i><b>1.4.1</b> Exercise 3. Simulated data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="spectral-analysis.html"><a href="spectral-analysis.html"><i class="fa fa-check"></i><b>1.5</b> Spectral analysis</a></li>
+<li class="chapter" data-level="1.6" data-path="smoothing-and-detrending.html"><a href="smoothing-and-detrending.html"><i class="fa fa-check"></i><b>1.6</b> Smoothing and detrending</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html"><i class="fa fa-check"></i><b>2</b> Practical series 1 (solutions)</a><ul>
+<li class="chapter" data-level="2.0.1" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-1.-beaver-temperature-1"><i class="fa fa-check"></i><b>2.0.1</b> Exercise 1. Beaver temperature</a></li>
+<li class="chapter" data-level="2.0.2" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-2.-sp500-daily-returns-1"><i class="fa fa-check"></i><b>2.0.2</b> Exercise 2. SP500 daily returns</a></li>
+<li class="chapter" data-level="2.0.3" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-3.-simulated-data-1"><i class="fa fa-check"></i><b>2.0.3</b> Exercise 3. Simulated data</a></li>
+<li class="chapter" data-level="2.0.4" data-path="practical-series-1-solutions.html"><a href="practical-series-1-solutions.html#exercise-4-mauna-loa-atmospheric-co2-concentration"><i class="fa fa-check"></i><b>2.0.4</b> Exercise 4: Mauna Loa Atmospheric CO<sub>2</sub> Concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="practical-series-2.html"><a href="practical-series-2.html"><i class="fa fa-check"></i><b>3</b> Practical series 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html"><i class="fa fa-check"></i><b>3.1</b> Manual maximum likelihood estimation</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html#exercise-1-ubs-stock-returns"><i class="fa fa-check"></i><b>3.1.1</b> Exercise 1: UBS stock returns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html"><i class="fa fa-check"></i><b>3.2</b> Box–Jenkins methodology for ARMA models</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html#exercise-2-simulated-series"><i class="fa fa-check"></i><b>3.2.1</b> Exercise 2: Simulated series</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html"><i class="fa fa-check"></i><b>3.3</b> Information criterion, model selection and profile likelihood</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html#exercise-3-lake-erie-height"><i class="fa fa-check"></i><b>3.3.1</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html"><i class="fa fa-check"></i><b>4</b> Practical series 2 (solutions)&quot;</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-1-ubs-stock-returns-1"><i class="fa fa-check"></i><b>4.0.1</b> Exercise 1: UBS stock returns</a></li>
+<li class="chapter" data-level="4.0.2" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-2-simulated-series-1"><i class="fa fa-check"></i><b>4.0.2</b> Exercise 2: Simulated series</a></li>
+<li class="chapter" data-level="4.0.3" data-path="practical-series-2-solutions.html"><a href="practical-series-2-solutions.html#exercise-3-lake-erie-height-1"><i class="fa fa-check"></i><b>4.0.3</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="practical-series-3.html"><a href="practical-series-3.html"><i class="fa fa-check"></i><b>5</b> Practical series 3</a><ul>
+<li class="chapter" data-level="5.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>5.1</b> SARIMA models: estimation and forecasting</a></li>
+<li class="chapter" data-level="5.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html"><i class="fa fa-check"></i><b>5.2</b> An aside on models with regressors (optional)</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>5.2.1</b> Mauna Loa CO2 dataset</a></li>
+<li class="chapter" data-level="5.2.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>5.2.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>5.3</b> Boostrap methods for time series</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>5.3.1</b> Bootstrapping a linear model</a></li>
+<li class="chapter" data-level="5.3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>5.3.2</b> Testing for heteroscedasticity</a></li>
+<li class="chapter" data-level="5.3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>5.3.3</b> AR-sieve bootstrap</a></li>
+<li class="chapter" data-level="5.3.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>5.3.4</b> Boostrap models for uncertainty assesment</a></li>
+<li class="chapter" data-level="5.3.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>5.3.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>5.4</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a></li>
+<li class="chapter" data-level="5.5" data-path="predictions.html"><a href="predictions.html"><i class="fa fa-check"></i><b>5.5</b> Predictions</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="predictions.html"><a href="predictions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>5.5.1</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html"><i class="fa fa-check"></i><b>6</b> Practical series 3 (solutions)</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>6.0.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="6.0.2" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>6.0.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="6.0.3" data-path="practical-series-3-solutions.html"><a href="practical-series-3-solutions.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>6.0.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="practical-series-4.html"><a href="practical-series-4.html"><i class="fa fa-check"></i><b>7</b> Practical series 4</a><ul>
+<li class="chapter" data-level="7.1" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>7.1</b> Spectral analysis and filtering</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#tapering"><i class="fa fa-check"></i><b>7.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="7.1.2" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#a-data-example"><i class="fa fa-check"></i><b>7.1.2</b> A data example</a></li>
+<li class="chapter" data-level="7.1.3" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html#smoothing"><i class="fa fa-check"></i><b>7.1.3</b> Smoothing</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>7.2</b> Summary of nonparametric spectral estimation</a></li>
+<li class="chapter" data-level="7.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>7.3</b> Spectral estimation in R</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#smoothing-and-seasonally-adjusted-values"><i class="fa fa-check"></i><b>7.3.1</b> Smoothing and seasonally adjusted values</a></li>
+<li class="chapter" data-level="7.3.2" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#exercise-1-southern-oscillation-index-soi-and-fish-recruitement"><i class="fa fa-check"></i><b>7.3.2</b> Exercise 1: Southern oscillation index (SOI) and fish recruitement</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="practical-series-5.html"><a href="practical-series-5.html"><i class="fa fa-check"></i><b>8</b> Practical series 5&quot;</a><ul>
+<li class="chapter" data-level="8.1" data-path="simulation-based-prediction-intervals-for-arima-garch-models.html"><a href="simulation-based-prediction-intervals-for-arima-garch-models.html"><i class="fa fa-check"></i><b>8.1</b> Simulation-based prediction intervals for ARIMA-GARCH models</a></li>
+<li class="chapter" data-level="8.2" data-path="state-space-models-and-the-kalman-filter.html"><a href="state-space-models-and-the-kalman-filter.html"><i class="fa fa-check"></i><b>8.2</b> State-space models and the Kalman filter</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="notes-on-irregular-time-series-and-missing-values.html"><a href="notes-on-irregular-time-series-and-missing-values.html"><i class="fa fa-check"></i><b>9</b> Notes on irregular time series and missing values&quot;</a><ul>
+<li class="chapter" data-level="9.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html"><i class="fa fa-check"></i><b>9.1</b> Irregular time series</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html#exercise-1.-jussy-air-temperature"><i class="fa fa-check"></i><b>9.1.1</b> Exercise 1. Jussy air temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>9.2</b> Imputation of missing values</a></li>
+<li class="chapter" data-level="9.3" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html"><i class="fa fa-check"></i><b>9.3</b> Diagnostics for missing values and smoothing</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html#exercise-2.-tyne-river-flow"><i class="fa fa-check"></i><b>9.3.1</b> Exercise 2. Tyne river flow</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html"><i class="fa fa-check"></i><b>10</b> Notes on irregular time series and missing values (solutions)&quot;</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html#exercise-1.-jussy-air-temperature-1"><i class="fa fa-check"></i><b>10.0.1</b> Exercise 1. Jussy air temperature</a></li>
+<li class="chapter" data-level="10.0.2" data-path="notes-on-irregular-time-series-and-missing-values-solutions.html"><a href="notes-on-irregular-time-series-and-missing-values-solutions.html#exercise-2.-tyne-river-flow-1"><i class="fa fa-check"></i><b>10.0.2</b> Exercise 2. Tyne river flow</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">timeseRies</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions" class="section level2">
+<h2><span class="header-section-number">5.4</span> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</h2>
+<p>We look at estimation of (G)ARCH models. The simple ARMA(<span class="math inline">\(p, q\)</span>)-GARCH(<span class="math inline">\(m, r\)</span>) model is <span class="math display">\[
+\begin{align*}
+Y_t -\mu &amp;=   \sum_{h = 1}^p \phi_h (Y_{t-h}-\mu)+ \sum_{l = 1}^q \vartheta_lV_{t-l}+ V_t, \qquad V_t = \sigma_t\varepsilon_t, \quad\varepsilon_t\stackrel{\mathrm{iid}}{\sim} F(0, 1) \\ \sigma^2_t &amp;= \alpha_0+\sum_{i = 1}^m \alpha_iV_{t-i}^2 + \sum_{j = 1}^r \beta_j\sigma^2_{t-j}. 
+\end{align*}
+\]</span> The residuals from the ARMA models, <span class="math inline">\(V_t\)</span> thus follow a GARCH model. The parameters of the GARCH <span class="math inline">\(\alpha_0, \alpha_1, \ldots, \alpha_m, \beta_1, \ldots, \beta_r\)</span> must be positive. Furthermore, for the variance <span class="math inline">\(\sigma^2_t\)</span> to be stationary, we require <span class="math inline">\(\sum_{i=1}^m \alpha_i + \sum_{j=1}^r \beta_j &lt;1\)</span>, akin to the ARMA setting. The <span class="math inline">\(V_t\)</span> are typically leptokurtic (and thus heavy-tailed) as a result of the conditional heteroscedastic structure.</p>
+<p>If we have <span class="math inline">\(V_t=\sigma_t^2\varepsilon_t\)</span>, where <span class="math inline">\(\varepsilon_t \stackrel{\mathrm{iid}}{\sim}F(0, 1)\)</span> is iid white noise, then <span class="math display">\[\mathrm{E}(V_t^2 \mid \mathcal{H}_{t-1}) = \sigma^2_t.\]</span> Here, <span class="math inline">\(\mathcal{H}_{t-1}\)</span> denotes the information set at time <span class="math inline">\(t-1\)</span>. One can see that <span class="math inline">\(V_t^2\)</span> has the form of an ARMA(<span class="math inline">\(m, r\)</span>) process, but the iid white noise is replaced with a martingale difference sequence <span class="math inline">\(\eta_t\)</span>. We can rewrite <span class="math display">\[V_t^2 -\nu = \sum_{i=1}^{\max\{m, r\}} (\alpha_i+\beta_i)(V_{t-i}^2-\nu) - \sum_{j=1}^r \beta_j \eta_{t-j} + \eta_t,\]</span> where <span class="math inline">\(\nu = \alpha_0/ \sum_{i=1}^{\max\{m, r\}}(\alpha_i+\beta_i)\)</span>, and we define for simplicity <span class="math inline">\(\alpha_i=0\)</span> for <span class="math inline">\(i&gt;m\)</span> and <span class="math inline">\(\beta_j\)</span> for <span class="math inline">\(j&gt;r\)</span>. We can identify from there the AR coefficients <span class="math inline">\(\tilde{\phi}_i=\alpha_i+\beta_i\)</span> and the MA coefficients <span class="math inline">\(\tilde{\theta}_j=-\beta_j\)</span>. A necessary condition for covariance stationarity is that <span class="math inline">\(\sum_{i=1}^m \alpha_i + \sum_{j=1}^r \beta_j &lt;1\)</span>, The strategy for modelling is thus to fit an ARIMA-type model to the original series, then examine squared residuals. One suitable orders <span class="math inline">\(p, q, m, r\)</span> have been determined, we can estimate the models jointly. The autocorrelation function of the GARCH(1,1),</p>
+<p><span class="math display">\[
+\begin{align}
+  \rho(1) &amp;= \frac{\alpha_1(1-\beta_1^2-\alpha_1\beta_1)}{(1-\beta_1^2-2\alpha_1\beta_1)} \\
+  \rho(h) &amp;= (\alpha_1+\beta_1)\rho(h-1), \quad h \geq 2,
+\end{align}
+\]</span> decays geometrically at rate <span class="math inline">\(\alpha_1+\beta_1\)</span>.</p>
+<p>Joint estimation of ARMA-GARCH type models can be handled with functions from the <code>rugarch</code> package. Apart from the documentation of the package, there is a <a href="http://unstarched.net/wp-content/uploads/2013/06/an-example-in-rugarch.pdf">worked out example here</a> and more <a href="http://unstarched.net/r-examples/rugarch/a-short-introduction-to-the-rugarch-package/">examples on the package author’s blog</a>. You can specify different types of GARCH model other than the standard GARCH, or <code>sGARCH</code>, add external regressors and choose the distribution function of the errors. This provides a neat way to include an ARMA-GARCH type model for your analysis.</p>
+<p>How does one proceed with the estimation of a GARCH model? Maximum likelihood is the standard option, but the MLE must be found numerically. This function from a preprint by <a href="http://www-stat.wharton.upenn.edu/~steele/Courses/956/RResources/GarchAndR/WurtzEtAlGarch.pdf">Würtz, Chalabi and Luskan</a>, shows how to construct the likelihood for a simple GARCH(1,1) model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># From Wurtz, Chalabi, Luskan (JSS)</span>
+garch11Fit =<span class="st"> </span><span class="cf">function</span>(x) {
+    <span class="kw">require</span>(numDeriv)
+    <span class="co"># Step 1: Initialize Model Parameters and Bounds:</span>
+    Mean =<span class="st"> </span><span class="kw">mean</span>(x)
+    Var =<span class="st"> </span><span class="kw">var</span>(x)
+    S =<span class="st"> </span><span class="fl">1e-06</span>
+    params =<span class="st"> </span><span class="kw">c</span>(<span class="dt">mu =</span> Mean, <span class="dt">omega =</span> <span class="fl">0.1</span> <span class="op">*</span><span class="st"> </span>Var, <span class="dt">alpha =</span> <span class="fl">0.1</span>, <span class="dt">beta =</span> <span class="fl">0.8</span>)
+    lowerBounds =<span class="st"> </span><span class="kw">c</span>(<span class="dt">mu =</span> <span class="op">-</span><span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">abs</span>(Mean), <span class="dt">omega =</span> S<span class="op">^</span><span class="dv">2</span>, <span class="dt">alpha =</span> S, <span class="dt">beta =</span> S)
+    upperBounds =<span class="st"> </span><span class="kw">c</span>(<span class="dt">mu =</span> <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">abs</span>(Mean), <span class="dt">omega =</span> <span class="dv">100</span> <span class="op">*</span><span class="st"> </span>Var, <span class="dt">alpha =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>S, <span class="dt">beta =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>
+<span class="st">        </span>S)
+    <span class="co"># Step 2: Set Conditional Distribution Function:</span>
+    garchDist =<span class="st"> </span><span class="cf">function</span>(z, hh) {
+        <span class="kw">dnorm</span>(<span class="dt">x =</span> z<span class="op">/</span>hh)<span class="op">/</span>hh
+    }
+    <span class="co"># Step 3: Compose log-Likelihood Function:</span>
+    garchLLH =<span class="st"> </span><span class="cf">function</span>(parm) {
+        mu =<span class="st"> </span>parm[<span class="dv">1</span>]
+        omega =<span class="st"> </span>parm[<span class="dv">2</span>]
+        alpha =<span class="st"> </span>parm[<span class="dv">3</span>]
+        beta =<span class="st"> </span>parm[<span class="dv">4</span>]
+        z =<span class="st"> </span>(x <span class="op">-</span><span class="st"> </span>mu)
+        Mean =<span class="st"> </span><span class="kw">mean</span>(z<span class="op">^</span><span class="dv">2</span>)
+        <span class="co"># Use Filter Representation:</span>
+        e =<span class="st"> </span>omega <span class="op">+</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span><span class="kw">c</span>(Mean, z[<span class="op">-</span><span class="kw">length</span>(x)]<span class="op">^</span><span class="dv">2</span>)
+        h =<span class="st"> </span><span class="kw">filter</span>(e, beta, <span class="st">&quot;r&quot;</span>, <span class="dt">init =</span> Mean)
+        hh =<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">abs</span>(h))
+        <span class="op">-</span><span class="kw">sum</span>(<span class="kw">log</span>(<span class="kw">garchDist</span>(z, hh)))  <span class="co">#llh</span>
+        
+    }
+    <span class="co"># print(garchLLH(params)) Step 4: Estimate Parameters and Compute</span>
+    <span class="co"># Numerically Hessian:</span>
+    fit =<span class="st"> </span><span class="kw">nlminb</span>(<span class="dt">start =</span> params, <span class="dt">objective =</span> garchLLH, <span class="dt">lower =</span> lowerBounds, 
+        <span class="dt">upper =</span> upperBounds)
+    Hessian &lt;-<span class="st"> </span>numDeriv<span class="op">::</span><span class="kw">hessian</span>(<span class="dt">func =</span> garchLLH, <span class="dt">x =</span> fit<span class="op">$</span>par)
+    <span class="co"># Step 5: Create and Print Summary Report:</span>
+    se.coef =<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">solve</span>(Hessian)))
+    tval =<span class="st"> </span>fit<span class="op">$</span>par<span class="op">/</span>se.coef
+    matcoef =<span class="st"> </span><span class="kw">cbind</span>(fit<span class="op">$</span>par, se.coef, tval, <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="kw">abs</span>(tval))))
+    <span class="kw">dimnames</span>(matcoef) =<span class="st"> </span><span class="kw">list</span>(<span class="kw">names</span>(tval), <span class="kw">c</span>(<span class="st">&quot; Estimate&quot;</span>, <span class="st">&quot; Std. Error&quot;</span>, <span class="st">&quot; t value&quot;</span>, 
+        <span class="st">&quot;Pr(&gt;|t|)&quot;</span>))
+    <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Coefficient(s):</span><span class="ch">\n</span><span class="st">&quot;</span>)
+    <span class="kw">printCoefmat</span>(matcoef, <span class="dt">digits =</span> <span class="dv">6</span>, <span class="dt">signif.stars =</span> <span class="ot">TRUE</span>)
+}</code></pre></div>
+<p>We consider in the sequel the log-returns of the Microsoft stock.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tseries) <span class="co">#to extract quotes from internet</span>
+<span class="co">#Obtain Microsoft series from Internet</span>
+msft.prices =<span class="st"> </span><span class="kw">get.hist.quote</span>(
+<span class="dt">instrument =</span> <span class="st">&quot;MSFT&quot;</span>, 
+<span class="dt">quote =</span> <span class="st">&quot;Close&quot;</span>,  <span class="co">#adjusted does not exist anymore</span>
+<span class="dt">provider =</span> <span class="kw">c</span>(<span class="st">&quot;yahoo&quot;</span>), <span class="dt">origin =</span> <span class="st">&quot;1999-12-30&quot;</span>, <span class="dt">start=</span><span class="st">&quot;2000-01-01&quot;</span>, <span class="dt">end=</span><span class="st">&quot;2010-01-01&quot;</span>,
+<span class="dt">retclass =</span> <span class="kw">c</span>(<span class="st">&quot;zoo&quot;</span>), <span class="dt">quiet =</span> <span class="ot">FALSE</span>, <span class="dt">drop =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>time series starts 2000-01-03
+time series ends   2009-12-31</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Transform to log-returns</span>
+msft &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(msft.prices)
+N &lt;-<span class="st"> </span><span class="kw">length</span>(msft[, <span class="dv">1</span>])
+msft.returns &lt;-<span class="st"> </span><span class="dv">100</span><span class="op">*</span>(<span class="kw">log</span>(msft[<span class="dv">2</span><span class="op">:</span>N, ])<span class="op">-</span><span class="kw">log</span>(msft[<span class="dv">1</span><span class="op">:</span>(N<span class="op">-</span><span class="dv">1</span>), ]))</code></pre></div>
+<p>Now that we have our financial time series, we can try fitting a GARCH model to it. We start with the code provided above.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit with function akin to that found in library(fGarch)</span>
+garch11_model &lt;-<span class="st"> </span><span class="kw">garch11Fit</span>(msft.returns)</code></pre></div>
+<pre><code>
+Coefficient(s):
+        Estimate  Std. Error  t value   Pr(&gt;|t|)    
+mu    0.00428664  0.03218567  0.13318    0.89405    
+omega 0.07139907  0.01408702  5.06843 4.0111e-07 ***
+alpha 0.08454825  0.01262800  6.69530 2.1523e-11 ***
+beta  0.90354370  0.01320064 68.44697 &lt; 2.22e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kurtosis_garch11 &lt;-<span class="st"> </span><span class="cf">function</span>(alpha1, beta1) {
+    <span class="dv">3</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>alpha1 <span class="op">+</span><span class="st"> </span>beta1) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha1 <span class="op">-</span><span class="st"> </span>beta1)<span class="op">/</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>beta1<span class="op">^</span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>alpha1 <span class="op">*</span><span class="st"> </span>
+<span class="st">        </span>beta1 <span class="op">-</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>alpha1<span class="op">^</span><span class="dv">2</span>)
+}
+<span class="kw">kurtosis_garch11</span>(garch11_model[<span class="dv">3</span>, <span class="dv">1</span>], garch11_model[<span class="dv">4</span>, <span class="dv">1</span>])</code></pre></div>
+<pre><code>[1] 7.573766</code></pre>
+<p>The parameter estimates for the parameters <span class="math inline">\(\alpha_1\)</span>, <span class="math inline">\(\beta_1\)</span> are typical of those of stock returns (<span class="math inline">\(\alpha_1\)</span> small, <span class="math inline">\(\beta_1\)</span> large, their sum close to 1). The parameter <span class="math inline">\(\alpha_0\)</span> is the positive constant <span class="math inline">\(\alpha_0\)</span>, which is small. For the process to be covariance stationary (meaning it has finite fourth moments), we need <span class="math inline">\(\alpha_1+\beta_1&lt;1\)</span>. The closer the sum <span class="math inline">\(\alpha_1+\beta_1\)</span> to 1, the slower is the decay in the autocorrelation function of squared residuals. Here, the estimates are 0.9880919, which is close to the boundary and is nearly integrated.</p>
+<p>The kurtosis of the GARCH(1,1) model is <span class="math display">\[\kappa = \frac{\mathrm{E}\{(Y-\mu)^4\}}{[\mathrm{E}\{(Y-\mu)^2\}]^2}= \frac{3(1+\alpha_1+\beta_1)(1-\alpha_1-\beta_1)}{(1-\beta_1^2-2\alpha_1\beta_1-3\alpha_1^2)}\]</span> if <span class="math inline">\(3\alpha_1^2+2\alpha_1\beta_1+\beta_1^2&lt;1\)</span>, provided the fourth moment exist (when <span class="math inline">\(0 \leq \alpha_1+\beta_1 &lt;1\)</span>) and that <span class="math inline">\(\alpha_1 &lt; 3^{-1/2}\)</span>. Recall for reference that the kurtosis of a standard normal variate is 3. The unconditional variance will be proportional to <span class="math inline">\(\alpha_0/(1-\alpha_1-\beta_1)\)</span>. If we specify the errors of the distribution to be Student-<span class="math inline">\(t\)</span>, then the hierarchical construction can be employed to derive the mle.</p>
+<p>I will now illustrate the routines in the package <code>rugarch</code>, which returns S4 objects. This class has slots (accessible via <code>@</code> and methods. See <code>?uGARCHfit-class</code> for more info.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rugarch)
+<span class="co"># Specification of GARCH(1, 1) model using rugarch workhorse with ARMA(1,0)</span>
+<span class="co"># + mean, normal errors</span>
+model &lt;-<span class="st"> </span><span class="kw">ugarchspec</span>(<span class="dt">variance.model =</span> <span class="kw">list</span>(<span class="dt">model =</span> <span class="st">&quot;sGARCH&quot;</span>, <span class="dt">garchOrder =</span> <span class="kw">c</span>(<span class="dv">1</span>, 
+    <span class="dv">1</span>)), <span class="dt">mean.model =</span> <span class="kw">list</span>(<span class="dt">armaOrder =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">TRUE</span>), <span class="dt">distribution.model =</span> <span class="st">&quot;norm&quot;</span>)
+<span class="co"># Model fitting</span>
+model_fit &lt;-<span class="st"> </span><span class="kw">ugarchfit</span>(<span class="dt">spec =</span> model, <span class="dt">data =</span> msft.returns, <span class="dt">solver =</span> <span class="st">&quot;nloptr&quot;</span>, 
+    <span class="dt">solver.control =</span> <span class="kw">list</span>(<span class="dt">solver =</span> <span class="dv">9</span>))
+<span class="co"># Did the optimization routine converge?</span>
+<span class="kw">convergence</span>(model_fit)  <span class="co">#0 == TRUE, indicating convergence</span></code></pre></div>
+<pre><code>[1] 0</code></pre>
+<p>A nice feature of this function is the possibility to include regressors in the mean and in the variance. The arguments <code>variance.model</code> and <code>mean.model</code>, which are lists, can be given <code>external.regressors</code> matrices. For the variance, the standard formulation as <span class="math inline">\(\sigma^2_t\)</span> is not adequate since we possibly get negative variance with regressors. The choice of an <code>eGARCH</code>, which models <span class="math inline">\(\log(\sigma^2_t)\)</span>, solves this problem. The eGARCH(<span class="math inline">\(m,r\)</span>) model for <span class="math inline">\(V_t=\sigma_t \varepsilon_t\)</span> is <span class="math display">\[\log(\sigma^2_t) = \alpha_0 + \sum_{i=1}^m \gamma_i\{|\varepsilon_{t-1}|-\mathrm{E}(|\varepsilon_{t-1}|)\} + \alpha_i \varepsilon_{t-1}+\sum_{j=1}^r\beta_j \log(\sigma^2_{t-1}).
+\]</span> It includes a leverage effect. The eGARCH model is appealing because of the lack of restriction imposed on the parameters. The logarithmic transform complicates the derivation of unbiased forecasts.</p>
+<p>The package <code>rugarch</code> outputs among other things plenty of test statistics and diagnostics, most of which we won’t cover. A very well known one is the value-at-risk (VaR), which measures conditional volatility. The VaR(<span class="math inline">\(\alpha\)</span>) is defined as <span class="math inline">\(\Pr\{L_{t}&gt;\mathrm{VaR}_t(\alpha)\}=\alpha\)</span>, the probability of the loss <span class="math inline">\(L_t\)</span> at time <span class="math inline">\(t\)</span> to exceed the quantile given by <span class="math inline">\(\mathrm{VaR}_t(\alpha)\)</span>. For a pure GARCH-type model <span class="math inline">\(Y_t=V_t=\sigma_t\varepsilon_t\)</span>, if <span class="math inline">\(\hat{\sigma}_t^{t+1}\)</span> is the one-step ahead conditional standard error, the value-at-risk for time <span class="math inline">\(t+1\)</span> is given by <span class="math inline">\(F^{\leftarrow}(1-\alpha)\hat{\sigma}_t^{t+1}\)</span>, where <span class="math inline">\(F^{\leftarrow}(1-\alpha)\)</span> is the <span class="math inline">\(1-\alpha\)</span> quantile of the postulated distribution of the centered residuals <span class="math inline">\(\varepsilon_t\)</span>.</p>
+<p>One can assess whether the model is adequate by back-testing. Fit the model until time <span class="math inline">\(T\)</span>, forecast one-step ahead variance, verify if the observed volatility is within the confidence band. Then, the number of days for which the loss is greater than the estimated VaR follows a binomial distribution and a likelihood ratio test can be used to check if the number of counts is too high. The function <code>ugarchroll</code> provides this. The vignette of the package also discusses a bootstrap method for ARMA-GARCH models.</p>
+<p>The following plots illustrate pointwise confidence intervals (with the conditional standard deviations <span class="math inline">\(\hat{\sigma}_t\)</span>, the 99% VaR, estimates of <span class="math inline">\(\hat{\sigma}_t\)</span> against time, the correlogram of the residuals and squared residuals and a quantile-quantile plot (for the normal distribution, unnormalized). Watch out as the information criterion returned by <code>rugarch</code>, AIC and BIC, are scaled by <span class="math inline">\(n\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print(model_fit) Plots, can get in interactive mode or use `which` to</span>
+<span class="co"># select one plot</span>
+<span class="kw">plot</span>(model_fit, <span class="dt">which =</span> <span class="dv">1</span>)  <span class="co"># series with 95% conf. int (+/- 2 conditional std. dev.)</span></code></pre></div>
+<p><img src="timeseRies_files/figure-html/rugarch_diag-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(model_fit, <span class="dt">which =</span> <span class="dv">2</span>)  <span class="co">#VaR 99%</span></code></pre></div>
+<pre><code>
+please wait...calculating quantiles...</code></pre>
+<p><img src="timeseRies_files/figure-html/rugarch_diag-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(model_fit, <span class="dt">which =</span> <span class="dv">3</span>)  <span class="co">#Conditional standard derivation</span></code></pre></div>
+<p><img src="timeseRies_files/figure-html/rugarch_diag-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(model_fit, <span class="dt">which =</span> <span class="dv">10</span>)  <span class="co">#ACF of residual</span></code></pre></div>
+<p><img src="timeseRies_files/figure-html/rugarch_diag-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(model_fit, <span class="dt">which =</span> <span class="dv">11</span>)  <span class="co">#ACF of squared residuals</span></code></pre></div>
+<p><img src="timeseRies_files/figure-html/rugarch_diag-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(model_fit, <span class="dt">which =</span> <span class="dv">9</span>)  <span class="co">#Normal QQ plot</span></code></pre></div>
+<p><img src="timeseRies_files/figure-html/rugarch_diag-6.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Information criterion</span>
+<span class="kw">infocriteria</span>(model_fit)</code></pre></div>
+<pre><code>                     
+Akaike       4.174893
+Bayes        4.186487
+Shibata      4.174885
+Hannan-Quinn 4.179101</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_fit<span class="op">@</span>fit<span class="op">$</span>coef</code></pre></div>
+<pre><code>          mu          ar1        omega       alpha1        beta1 
+-0.006676741 -0.072497762  0.003350150  0.036392525  0.963607475 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">residuals</span>(model_fit, <span class="dt">standardize =</span> <span class="ot">TRUE</span>), <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Residuals from AR(1, 0) - GARCH (1, 1) model</span><span class="ch">\n</span><span class="st"> msft daily log-returns&quot;</span>, 
+    <span class="dt">major.ticks =</span> <span class="st">&quot;years&quot;</span>, <span class="dt">grid.ticks.on =</span> <span class="st">&quot;years&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/rugarch_diag-7.png" width="672" /></p>
+<p>We note that while the GARCH structure captures the linear dependence well, the normality of the errors is doubtful. One could change the distribution of the errors to Student by changing <code>distribution.model = &quot;std&quot;</code>. The fit is then noticeably better, except for some negative returns. Indeed, the GARCH(1,1) model fails to adequately capture the negative returns. There are empirical evidences that the market response to losses is asymmetric, and GARCH fails to capture this. To remediate this, we could consider a variant of the GARCH model, such as eGARCH. Another popular alternative is the GJR-GARCH model, which includes a leverage term. The conditional variance of the GJR-GARCH(1,1) model is of the form <span class="math display">\[\sigma^2_t = \alpha_0+(\gamma_1\mathrm{sign}|\varepsilon_{t-1}|+\alpha_1)\varepsilon_{t-1}^2+\beta_1\sigma^2_{t-1}).\]</span></p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="boostrap-methods-for-time-series.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="predictions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["timeseRies.pdf", "timeseRies.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

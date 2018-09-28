@@ -1,0 +1,112 @@
+# Notes on irregular time series and missing values"
+
+## Irregular time series
+
+We consider an ozone dataset from Richard L. Smith. He writes
+
+''Daily maximum 8-hour ozone in Raleigh, NC; units are parts per billion (ppb). The data are only available from the months April through October.''
+
+The file contains the actual data from EPA, and we see many `NA`s (missing values) and a time stamp in the first column of the data frame. We will create a time series object from the latter. The most common classes are `ts`, but I prefer to work with `xts` since the latter handles irregular time series and has subsetting options not available for `ts` objects. You can convert strings (or numerical) to  `Date` using `as.Date`. See `?DateTimeClasses` for more information about the classes used to represent date and time objects.
+```{r package, echo=TRUE, message=FALSE}
+library(xts)
+library(lubridate)
+```
+
+```{r ozone, cache=TRUE}
+#Load a text file from the internet
+#xts library obtained from Github
+#devtools::install_github("joshuaulrich/xts") #CRAN version is obsolete
+#library(xts); library(lubridate)
+ozone_dat <- read.table(file="http://www.unc.edu/~rls/s754/raleighozone.txt", header=FALSE, stringsAsFactors = FALSE)
+head(ozone_dat)
+#The first column contains the time stamp
+#It is a numerical value, so we convert it to a string, then a date object
+#Create a time series object
+ozone <- as.xts(x=ozone_dat[,2], order.by = lubridate::ymd(as.character(ozone_dat[,1])))
+#Could also use as.Date(as.character(ozone_dat[,1]), "%Y%m%d"))
+#We can remove the trailing NAs from either sides
+ozone <- zoo::na.trim(object=ozone, sides="both")
+#Create a plot (somewhat customized to look pretty)
+plot(ozone, grid.ticks.on = "year", main="Ozone concentration in Raleigh, NC\nDaily maximum 8-hour ozone (parts per billion)", yaxis.right=FALSE)
+```
+
+
+**YOUR TURN** 
+  
+### Exercise 1. Jussy air temperature
+  
+1. Load the data from the website, available at <http://sma.epfl.ch/~lbelzile/math342/jussy_temp.csv>, using the command
+```{r eval=FALSE}
+jussy <- read.csv("http://sma.epfl.ch/~lbelzile/math342/jussy_temp.csv", header = TRUE, 
+                  sep=";", na.strings = "######", stringsAsFactors = FALSE)[,1:2]
+```
+2. Extract the time object and mutate the object to keep only the daily maximum (`xts::apply.daily`).
+3. Plot the daily maximum and comment on any particularity of the dataset (trend, seasonality, structural breaks, time window).
+5. Find how many days on average per year have temperature below zero.
+6. How many heatwaves have taken place during the data collection and how long did they last? For simplicity, define a heatwave as a period of more than 3 consecutive days during which the temperature exceeds 30C during the day, but does no down below 18C at night.
+
+
+
+## Imputation of missing values
+
+If there are missing values in a time series, one ought to handle them with caution. This section adresses this problem, and is there mostly for students whose project dataset features missing values. A simple call to `summary` will tell you if your object contains `NA`s.
+
+Suppose we remove some values from `sunspots`.
+```{r sunmiss}
+sun_miss <- sunspots
+#We remove 300 values at random
+sun_miss[ints <- sample.int(length(sunspots), 300, replace = FALSE)] <- NA
+#The acf function will return an error if we do nothing
+#acf(sun_miss)
+#Ask the function to omit those values from the calculations (correct way if we keep them)
+correlo_pass <- acf(sun_miss, na.action=na.pass)
+correlo_excl <- acf(sun_miss, na.action=na.exclude, plot=FALSE) #equivalent acf(na.omit(as.vector(sun_miss)))
+#The second is incorrect, because it changes the labels
+points(correlo_pass$lag+0.01, correlo_excl$acf) 
+```
+
+The output is slightly different, but moreover the time stamps are off! This loss of information is even more dramatic if there are multiple consecutive values missing, which may distort the seasonality. Some datasets, for example financial time series, are **irregular**. This is due to closure of the stock market on holydays and week-ends, so there are apriori no missing values there. Just work with the classes `zoo` or `xts` and use `na.pass` as argument. This way, however, you won't ever compute lag one correlation between Friday and Monday, but will classify the empirical estimates as three days. You can also remove the weekly seasonality first and later use `na.remove` (just be careful with your interpretation then).
+
+If your series has values that are missing at random and there is very few of them (1%), you could as a preliminary step impute them.
+Including new datapoints will bias your standard errors (you are adding information that was not present in the original dataset) unless you adjust for this carefully. 
+
+##Diagnostics for missing values and smoothing
+
+The package `stlplus` handles missing values, contrary to `stl`. Likewise, there are utilities in `zoo` to perform linear interpolation or use smoothing estimates from a seasonal Kalman filter (which we will cover at the end of the course).
+These are available respectively under the name `zoo::na.approx` and `zoo::na.StrucTS` (see also the help file). More sophisticated methods can be found in the package `imputeTS`. The latter provides more tools for plotting data with missing values (`plotNA.distribution`) and obtaining summary statistics out of the box (`statsNA`).
+
+```{r imputation}
+library(imputeTS)
+plotNA.distribution(tsAirgap)
+plotNA.imputations(x.withNA = tsAirgap, x.withImputations = na.seadec(tsAirgap, "kalman"), x.withTruth = tsAirgapComplete)
+
+#Install package if not already present, otherwise load it
+if(suppressWarnings(!require(stlplus))){
+install.packages("stlplus"); 
+library(stlplus)
+}
+
+plot(stl_Airgap <- stlplus(tsAirgap, s.window="periodic"))
+#Increasing variance with number of air passengers - 
+#would need to transform the series to stabilize the variance
+```
+
+
+The following illustrates the use of local fit to interpolate the missing values, but one could equally well fit using a local linear model with `loess` and use the fitted values by predicting at unobserved time points. In general, these predictions are *wrong* because they do not include any time dependence structure. Another useful feature from the package `zoo` is `na.trim` to removing trailing `NA`s at the beginning and the end of a series.
+
+
+**YOUR TURN**
+
+### Exercise 2. Tyne river flow
+
+1. Import the following dataset and look at the summary
+```{r}
+tyne <- read.csv(file="http://sma.epfl.ch/~lbelzile/math342/23001-Tyne_at_Bywell.csv",
+header=FALSE, sep=",", skip=16, col.names=c("time", "height", "flag"),
+as.is=TRUE, na.strings="NA")[,1:2]
+```
+
+2. The dataset contains missing values. Transform `tyne` into an object of class `ts`. Plot the series with `plotNA.distribution`. Comment on the implications of imputing those values and on the values of the (partial) correlogram.
+3. Try using `zoo::na.locf`. What does the function do?
+4. Perform an `stl` decomposition with `stlplus` and comment on the output.
+

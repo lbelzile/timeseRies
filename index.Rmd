@@ -1,0 +1,27 @@
+--- 
+title: "timeseRies"
+author: "Léo Belzile"
+date: "version of `r Sys.Date()`"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook:
+    highlight: tango
+documentclass: book
+biblio-style: apalike2
+link-citations: yes
+github-repo: lbelzile/timeseRies
+always_allow_html: yes
+description: "This is a web complement to MATH 342 (Time series) given at EPFL."
+---
+
+# Preliminary remarks {-}
+
+This is a web complement to MATH 342 (Time Series), a first regression course for EPFL mathematicians.
+
+
+We shall use the **R** programming language througout the course (as it is free and it is used in other statistics courses at EPFL). Visit [the R-project website](https://cran.r-project.org/) to download the program. The most popular graphical cross-platform front-end is [RStudio Desktop](https://www.rstudio.com/products/rstudio/download/).
+
+**R** is an object-oriented interpreted language. It differs from usual programming languages in that it is designed for interactive analyses. 
+
+
+Since **R** is not a conventional programming language, my teaching approach will be learning-by-doing. The benefit of using *Rmarkdown* is that you see the output directly and you can also copy the code.

@@ -1,0 +1,535 @@
+# Practical series 3
+
+
+## SARIMA models: estimation and forecasting
+
+We have covered the estimation of ARIMA model in the last tutorial. Extension to SARIMA models is immediate: simply use 
+- argument `seasonal` (a vector of length 3) for `forecast::Arima`
+- arguments `P`, `D`, `Q` and the period `S` in the function `astsa::sarima`
+- a list `seasonal` with components `order` and `period` (the latter is facultative if supplying `ts` objects) for `stats::arima`. 
+
+Estimation is done using a state-space formulation of the model; an alternative would be to fit the parameters using [an artificial regression](http://russell-davidson.arts.mcgill.ca/e761/mlzero3.pdf).
+
+We have yet to address the matter of prediction. The latter proceeds by one-step ahead forecasting and emploies again the state-space representation. Note however that
+
+> The standard errors of prediction exclude the uncertainty in the estimation of the ARMA model and the regression coefficients. According to Harvey (1993, pp. 58–9) the effect is small.
+
+The `predict.Arima` method gives forecast for $h$-lags ahead for `arima` objects. For objects of class `Arima`, the `forecast` function from the eponym package handles the additional features from `forecast::Arima`, namely  Box--Cox transformation viz `lambda` and bootstrap prediction intervals, as a logical supplied to the argument `bootstrap` (more later on this). If you use `astsa::sarima`, the forecast function `astsa::sarima.for` allows you to do estimation and prediction all in one go.
+
+##An aside on models with regressors (optional)
+
+Rather than performing your inference in multiple steps (detrending, then modelling the residuals), it is sometimes better to do all at once to correctly characterize the uncertainty arising from estimation. You can do so in a regression context by using a generalized least squares specification.
+
+That is, we can consider fitting a model of the form
+\[\boldsymbol{y} = \mathbf{X}\boldsymbol{\beta}+\boldsymbol{\varepsilon}\]
+where $\mathbf{X}$ is assumed to be non-stochastic, $\mathsf{E}(\boldsymbol{\varepsilon}) = 0$ and $\mathsf{Var}(\boldsymbol{\varepsilon}) = \boldsymbol{\Omega}$.
+
+The GLS estimator that solves the minimization problem for correlated errors is 
+\[\boldsymbol{\hat{\beta}} = (\mathbf{X}^\top\boldsymbol{\Omega}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{\Omega}^{-1}\boldsymbol{y}\]
+and one can easily show it is best linear unbiased predictor (BLUE). The function `gls` in **R** has an argument `correlation`. One can specify `corARMA(p, q)` to provide the structure of the errors, but the fitting procedure is time-consuming and may fail to converge.
+
+
+The `arima` (and variants thereof) function allows one to specify a model whose errors follow an ARMA model, viz.
+\[ y_t = \mathbf{X}_t\boldsymbol{\beta} + \eta_t, \qquad \eta_t = \sum_{j = 1}^p\phi_j\eta_{t-j} + \sum_{k = 1}^q \theta_k\varepsilon_{t-k} + \varepsilon_t.\]
+This is a somewhat modern variant of the Cochran--Orcutt procedure.
+
+
+A matrix of external regressors can be supplied to any of `arima` functions via the argument `xreg`. There are subtleties associated with fitting time series models with regressors. See notably [The ARIMAX model muddle by Rob Hyndman](http://robjhyndman.com/hyndsight/arimax/).
+
+
+### Mauna Loa CO2 dataset
+
+We revisit the Mauna Loa CO~2~ example. While one can see very clear trend and seasonality. One could in principle add a linear trend to the model. Detrending is difficult because there is clear evidence that the growth is exponential and not linear. One could nevertheless fit a model to the deterministic part and then model residuals. This would likely require removing the components $(1-B)(1-B^{12})$ from the model, but may create artifacts that will be due to model misspecification. The SARIMA prediction seemingly works because of the combination of the seasonal unit root and the unit root (note however how the observed pattern from the last cycle gets reproduced).
+
+```{r maunaloaco2_example_sarima}
+data("co2", package = "datasets")
+#Look at the deterministic structure of the model, ignoring the time component
+n <- length(co2)
+month <- as.vector(round((time(co2)*12)%%12))
+par(mfrow = c(1, 2))
+#Residual from simple linear model
+plot(c(time(co2)), resid(linmod <- lm(co2~c(1:n))), ylab = "Residual", 
+     main = "Residual\n from linear model", xlab = "Time", pch = 20)
+plot(month, resid(linmod), ylab = "Residual", xlab = "Month",
+     main = "Monthly residual\n from linear model", pch = 20)
+par(mfrow = c(1, 1))
+plot(diff(diff(co2, lag = 12)), ylab = expression(CO[2]~differences~at~lag~1~and~12~(ppm)), bty = "l")
+
+#Forecasting methods illustrated
+#Commented methods are the default
+library(forecast)
+#Selected model - see data analysis handout by Prof. Davison
+tsmod_co2 <- Arima(co2, order = c(0, 1, 1), seasonal = c(0, 1, 1)) #Fit an ARIMA model
+#tsmod_co2 <- arima(co2, order = c(0, 1, 1), seasonal = list(order = c(0, 1, 1), period = 12)) 
+for_std <- forecast(tsmod_co2) #returns matrix with forecast, 80 and 95% pointwise confidence intervals
+#for_std <- predict(tsmod_co2, n.ahead = 24) #
+#To get equivalent output to that of the forecast package, can derive confint manually viz
+#cbind(for_std$pred, for_std$pred-qnorm(0.975)*for_std$se, for_std$pred+qnorm(0.975)*for_std$se)
+yl <- expression(CO[2]~concentration~(ppm)) #label for plot
+autoplot(for_std, include = 48, ylab = yl)
+#ggplot2 plot, focusing on last four years for readability + two predicted
+#plot(for_std, include = 48, ylab = yl) #regular R plot 
+```
+
+Contrast this prediction with one that includes a drift linear drift, but without the unit root (set `include.drift = TRUE`). You can also try fitting a deterministic seasonal variation, removing the latter, fitting a SARIMA model to the deseasonalized series and including  back the cyclic seasonal component in the forecast. Here is an example of how to proceed:
+
+```{r stl_ex_co2}
+#Fit a seasonal + trend decomposition to data, with robust LOESS
+stl_co2 <- stl(co2, s.window = "periodic", t.window = 99, robust = TRUE)
+#Extract and plot the seasonally adjusted component
+deseas_co2 <- seasadj(stl_co2)
+plot(deseas_co2, ylab = expression(Seas.~adj.~CO[2]~concentration~(ppm)))
+#Fit a seasonal model, with double differencing to remove trend and level
+plot(deseas_diff_co2 <- diff(diff(deseas_co2)), ylab = "Differenced and deasonalized series")
+#Box-Jenkins model selection
+par(mfrow = c(1, 2))
+TSA::acf(deseas_diff_co2, main = "Differenced and deasonalized series"); 
+pacf(deseas_diff_co2, main = "Differenced and deasonalized series")
+#Trial and error
+#Suggests an MA(2) + autoregressive part (seasonal) b/c not purely deterministic!
+deseas_co2_arima <- Arima(deseas_co2, order = c(0, 2, 2), seasonal = c(1, 0, 0))
+#(Partial) correlogram of residuals?
+main <- "Residuals from ARIMA(0, 2, 2)x(1, 0, 0)[12]"
+TSA::acf(resid(deseas_co2_arima), main = main); pacf(resid(deseas_co2_arima), main = main)
+#Omitted step: Ljung-Box test for ARIMA residuals
+#Forecasting three years ahead using the deseasonalized series
+for_stl <- forecast(deseas_co2_arima, h = 36)
+#Adding back the seasonal component
+for_stl$mean <- for_stl$mean + seasonal(stl_co2)[1:36]
+for_stl$lower <- for_stl$lower + seasonal(stl_co2)[1:36]
+for_stl$upper <- for_stl$upper + seasonal(stl_co2)[1:36]
+#Substituting the deseasonalized series by the original series
+for_stl$x <- co2
+#Plot the forecast with four previous observed year as guideline
+par(mfrow = c(1, 1))
+plot(for_stl, include = 48)
+```
+
+In practice, it seems clear that the uncertainty is underestimated. We did look at multiple models (or would normally have) before settling on this particular SARIMA model. The parameter uncertainty also needs to be considered, as well as prior data transformation. In the sequel, we provide a brief overview of boostrap methods for time series.
+
+
+**YOUR TURN**
+
+### Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports
+1. Fit a SARIMA model on the Nottingham average monthly temperature  dataset `nottem` and obtain predictions for the three subsequent years.
+2. Fit a SARIMA model to the latter, this time including seasonal dummies as regressors
+3. Compare the forecasts from both models
+4. Import the dataset `hk_trade_m.csv` using the command `HKTrade<-read.csv("http://sma.epfl.ch/~lbelzile/math342/hk_trade_m.csv", header = FALSE)` and try fitting a suitable SARIMA model to the exports (on the log scale). Contrast the forecasts for different models with their complexity as described by the number of components. What do you notice? Plot the forecasted values on the original scale of the data after back-transforming.
+
+
+## Boostrap methods for time series
+
+The boostrap is a computer-intensive resampling-based methodology that arises as alternative to asymptotic theory. 
+
+The idea of the bootstrap is to approximate the data generating process. Suppose our time series $\boldsymbol{Y}=\{Y_1, \ldots, Y_T\}$ is generated by some model $\mathrm{DGP}$. We approximate the latter by an estimate $\widehat{\mathrm{DGP}}$ and use this model to simulate new replicate series $\boldsymbol{Y}^*=\{Y_1^* , \ldots , Y_n^*\}$ . We can then reproduce the estimation of the quantity of interest, say $\widehat{\boldsymbol{\theta}}$, by repeating the estimation procedure over the (new) simulated datasets. The relationship between the test statistic and the population value  $\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}$ should be also closely approximated by the bootstrap replicates $\widehat{\boldsymbol{\theta}}{}^*-\boldsymbol{\theta}^*$, so it is paramount that the latter reproduce the features under study.
+
+To recap: rather than relying on the asymptotic distribution of the test statistics, one simulates artificial datasets under the postulated model and calculate the test statistic on each replicate dataset. For testing, this model should correspond to sampling under the *null hypothesis*. We use the empirical distribution of the so-called $B$ bootstrap replicates as distribution for the test statistic to calculate standard errors, confidence intervals, critical values or $P$-values.
+
+We illustrate the use of the boostrap on a simple example from linear models, than detail its use in time series. 
+
+### Bootstrapping a linear model
+
+Consider a simple linear model with independent and identically distributed errors, \[\boldsymbol{Y} = \mathbf{X}\boldsymbol{\beta}+\boldsymbol{\varepsilon}\] where $\boldsymbol{\varepsilon} \stackrel{\mathrm{iid}}{\sim} F(\boldsymbol{0}, \sigma^2\mathbf{I}_n)$ and the first column of the $n \times k$ matrix of regressors $\mathbf{X}$ is $\boldsymbol{1}_n$. The parameter estimated obtained by ordinary least squares are such that the fitted values are orthogonal to the estimated errors, meaning $\mathbf{X}\hat{\boldsymbol{\beta}} \perp \hat{\boldsymbol{\varepsilon}}$ by construction, and that $\overline{\hat{\boldsymbol{\varepsilon}}} = 0$ provided we include $\boldsymbol{1}_n$ as a regressor. 
+
+
+Suppose for simplicity that the linear model takes the form $y_i=\alpha+\beta x_i + \varepsilon_i$, where $\varepsilon_i \stackrel{\mathrm{iid}}{\sim}F(0,\sigma^2)$ and that we want to test the null hypothesis $\mathsf{H}_0: \beta=0$. 
+
+The simplest bootstrap scheme is the nonparametric bootstrap, due to Efron (1976). It goes as follows: the bootstrap data generating process consists in resampling residuals (with replacement) from $\tilde{F}$, the empirical distribution of the errors.
+
+1. Fit the model $\boldsymbol{y}=\widehat{\alpha} + \widehat{\beta}\boldsymbol{x} + \widehat{\boldsymbol{\varepsilon}}$; the Wald test statistic takes the form $T=\hat{\beta}/\mathrm{se}(\hat{\beta})$.
+2. Estimate the model postulated under $\mathsf{H}_0$ and obtain residuals $\widetilde{\boldsymbol{\varepsilon}}=\boldsymbol{y}-\widetilde{\alpha}$.
+3. Create bootstrap series $\boldsymbol{y}_b^* = \widetilde{\alpha}\boldsymbol{1}_n + \boldsymbol{\varepsilon}_b^*$ for $b=1, \ldots, B$, where $\varepsilon_{i_b}^*$ are resampled with replacement from the empirical distribution  $\{\widetilde{\varepsilon}\}_{i=1}^n$ with probability $1/n$.
+4. Obtain bootstrap test statistics by fitting $\boldsymbol{y}_b^*=\widehat{\alpha}_{b}^* + \widehat{\beta}_{b}\boldsymbol{x} + \widehat{\boldsymbol{\varepsilon}}_b^*$ and obtain $T_b=\hat{\beta}_b/\mathrm{se}(\hat{\beta}_b)$
+5. The $P$-value for $T$ will be the rescaled rank
+\[\frac{1}{B}\sum_{b=1}^B \mathrm{I}(T_b>T)\]
+for a one sided test, otherwise we use the rank of the absolute values, $\sum_{b=1}^B \mathrm{I}(|T_b|>|T|)$ for a two-sided test.
+
+Nothing prevents one to take $T=\hat{\beta}$ as test statistic in the above. It is however best to bootstrap a pivotal quantity should the latter be available. Indeed, if the test statistic of interest is pivotal under the null hypothesis, then the bootstrap is a Monte-Carlo test and the latter is exact at level $\alpha$ if $\alpha(B+1)$ is integer.
+
+The parametric bootstrap for the linear regression would specify a model for the generic distribution $F$, for example Normal. One construct bootstrap series as before, this time replacing the sampling in Step 3. with $\boldsymbol{\varepsilon}^*_b \sim \mathcal{N}_n(\boldsymbol{0}_n, \widehat{\sigma}^2\mathbf{I}_n)$, where the estimator $\widehat{\sigma}^2$ of the model fitted under $\mathsf{H}_0$ should be the unbiased estimator of the variance, whose denominator is $n-k-1$ rather than $n$.
+
+Many test statistics can be cast as regression problems. We have seen that conditional maximum likelihood estimates for AR($p$) models coincide with least square estimates from the regression $y_t=\mu+\boldsymbol{\phi}^\top(y_{t-1}, \ldots, y_{t-p})^\top$ for $t=p, \ldots, n$ because of the Markov structure. 
+
+### Testing for heteroscedasticity
+
+Consider a GARCH(1,1) model
+$y_t=\mu + v_t, v_t = \sigma_t\varepsilon_t, \varepsilon_t \stackrel{\mathrm{iid}}{\sim}F(0,\sigma^2)$ and 
+\[\sigma^2_t = \alpha_0 + \alpha_1 v_{t-1}^2 + \beta \sigma^2_{t-1}\]
+and suppose that we wish to test the null hypothesis that the $v_t \stackrel{\mathrm{iid}}{\sim}F(0,\sigma^2)$. The easiest way to test this would be 
+to run the regression $\widehat{v}_t^2 = b_0 + b_1 \widehat{v}_{t-1}^2 + \eta_t$, where $\widehat{v}_t$ are residuals from a linear model $y_t=\mu +v_t$. The null hypothesis that $\alpha_1=\beta=0=0$ is equivalent to testing $b_1=0$, and the ordinary $t$ statistic could be used and we are back in the framework just presented.
+
+
+Bootstrap replicates must reproduce the postulated model. This is complicated for time series, because of the serial dependence and the potential heteroscedasticity. If we resample residuals without taking into account the time dependence, our replicates won't be anymore time series!
+
+### AR-sieve bootstrap
+
+Approximating a stationary time series by an AR($p$) leads to a parametric bootstrap termed "sieve" bootstrap, after Grenander (1981). Under what kind of assumptions can AR models reproduce features of the underlying stochastic process?
+By the Wold-decomposition, any purely stochastic mean-zero stationary process with a positive and continuous spectral density can be written as 
+\[Y_t= \sum_{j=1}^\infty \phi_j Y_{t-j} + \varepsilon_t.\]
+for uncorrelated white noise sequence $\varepsilon_t$. Another possible (stronger) assumption is to assume that the process $Y_t$  admits an AR($\infty$) representation, 
+\[Y_t-\mu=\sum_{j=1}^\infty \varphi_j (Y_{t-j}-\mu) + e_t, \qquad e_t \stackrel{\mathrm{iid}}{\sim}F(0, \sigma^2), \quad \sum_{j=1}^\infty |\varphi_j| < \infty.\]
+
+Under the bootstrap scheme, the replicated white noise series will have the same marginal properties as those of the original $\varepsilon_t$. The model is Markov, so we can simulate the observations in a recursive fashion. We proceed as follows
+
+1. Estimate residuals $\widehat{\varepsilon}_t = \sum_{j=0}^p \widehat{\phi}_j (X_{t-j}-\widehat{\mu})$ for $t=p+1, \ldots, n$.
+2. Center the residuals $\widetilde{\varepsilon}_t=\widehat{\varepsilon}_t-\overline{\widehat{\varepsilon}} = \widehat{\varepsilon}_t - (n-p)^{-1} \sum_{j=p+1}^n \widehat{\varepsilon}_j$ for $t=p+1, \ldots, n$.
+3. Resample iid realizations $\varepsilon^*_t$ from the empirical distribution function of $\{\widetilde{\varepsilon}_t\}$.
+4. Simulate $\{Y_t^*\}_{t\in \mathbb{Z}}$ recursively as $Y_t^*=\widehat{\mu}+\sum_{j=1}^p\widehat{\phi}_jY_{t-j}^*+\varepsilon^*_t$.  One can initialize with observations and burn-in the Markov chain where necessary.
+
+*Remark*: when we fit an AR($p$) model in bootstrap loops, it is customary to use the Yule--Walker equations since this ensures a stationary and causal solution, does not require optimization and is very fast in contrast to maximum likelihood estimation. It is however wrong to use the latter to estimate AIC or the log-likelihood value!
+
+In the slides, we are interested in confidence intervals for $h$-step ahead forecasts. The latter are defined as ${y}_{t+1}^t\pm \mathfrak{z}_{1-\alpha/2}\mathrm{se}({y}_{t+1}^t)$ and thus depend on the forecast error $y_{t+1}^t-y_{t+1}$ through estimates of the standard error. However, the latter cannot be estimated with a single realization, so is approximated under the assumption of the parametric model with $\varepsilon_i \stackrel{\mathrm{iid}}{\sim}F(0,\widehat{\sigma}^2)$. This plug-in method ignores the model selection procedure and the parameter estimation uncertainty.
+
+**Estimation procedure**: we take data from 1930-1988 and fit an AR model to data from 1930-1979, keeping observations from 1980-1988 to validate our forecasts. We select the AR model whose order minimizes AIC. 
+
+**Simulation procedure**: The process is irreversible, so we should do forward simulations conditional on observed samples, and it is thus convenient to use some of the data for the period 1700-1930. We simulate from an AR($p$) model of high order conditional on  $p$ initial values $X_{1930-1}, \ldots, X_{1930-p}$. We then repeat our estimation procedure, fit an AR model to the observations corresponding to the period 1930-1979 in the bootstrap series and obtain $h$-step ahead forecasts for the years 1980-1988, $X_{t+h}^{*t}, h=1, \ldots, 9$, that can be compared to the actual realization $X^{*}_{t+h}$. For an autoregressive models, the residuals $\{e_{t}\}$ are the difference between fitted values (the one-step ahead prediction) and observed values, namely $\{X_{t}^{t-1}-X_{t}\}$ --- this is easily seen if we write the model as a linear regression.
+
+
+
+We now detail the bootstrap procedure employed by Prof. Davison in his slides. The sieve bootstrap is employed to account for the variation due to (a) future innovations (b) parameter estimation and (c) model selection. The test statistics are the pair (AIC, prediction errors). The counts are not normally distributed and are overdispersed, with a clear multiplicative structure for the variance and a 11 year cycle.  The first simulation uses the AR model that minimizes AIC, while the second simulation ignores model selection uncertainty by fixing the order to 11.
+
+
+### Boostrap models for uncertainty assesment
+The following code is my own adaptation of Example 8.3 from Davison and Hinkley (1997).
+
+
+```{r arfit_sunspot, cache=TRUE}
+#Counts are overdispersed
+library(boot); library(forecast)
+#Variance stabilizing transform
+sun <- 2*(sqrt(sunspot.year+1)-1)
+#QQ plot of the variance-transformed observations
+qqnorm(scale(sun), pty="s"); abline(a = 0, b = 1)
+#Alternative would be a Box-Cox transform
+# sun_bc <- BoxCox(window(sunspot.year, 1818), 
+#                     forecast::BoxCox.lambda(window(sunspot.year, 1818), method = "loglik"))
+# qqnorm(scale(sun_bc)); abline(a = 0, b = 1)
+# plot(sun_bc, main = "Average number of sunspots\n(Box-Cox transformed)", ylab = "")
+#apparent cycle of 11
+
+#Fit a time series model to transformed sunspot
+sun_ar_auto <- forecast::auto.arima(window(sun, 1930, 1979), max.q = 0, max.Q = 0, 
+                                    max.d = 0, allowdrift = FALSE, max.D = 0, max.P = 0, 
+                                    max.p = 25, max.order = 25, stepwise = FALSE, ic = "aic")
+p <- sun_ar_auto$arma[1]
+res <- sun_ar_auto$residuals #residuals
+res <- res - mean(res) #under the null, epsilon are mean zero
+
+ar_coef <- sun_ar_auto$model$phi #coefficients
+#Create a list with model components for arima.sim
+
+
+#Simulate series, resampling errors (should be centered)
+#and condition on p preceding values (since they are known, but not used)
+sim_unc <- function(tseries, mod, nobs, res){ 
+  init <- rev(window(tseries, c(tail(time(sun),1)-nobs-mod$arma[1]+1), 
+                     c(tail(time(sun),1)) - nobs)) - mod$coef["intercept"]
+  mod$coef["intercept"] + filter(sample(res, size = 59, replace=TRUE), 
+                   filter = mod$model$phi, method = "recursive", sides = 1, 
+                   init = init)
+}
+
+plot(sim_unc(sun, mod = sun_ar_auto, nobs = 59, res = res), ylab = "Unconditional simulation")
+
+#Boostrap statistics, returned as a list here
+boot_stat <- function(tseries, npredict, p, fixorder = FALSE){
+  n <- length(tseries)
+  #Fit the AR model
+  if(fixorder){
+    ar_boot <- try(forecast::Arima(tseries[-((n-npredict+1):n)], order = c(p, 0, 0),
+                               include.mean = TRUE, include.drift = FALSE, method = "ML"))
+    if(is.character(ar_boot)){
+      return(list(forecast_error = rep(NA, npredict),  #forecast error
+            ar_order = p, #order of AR component
+            mu = NA #intercept
+            )
+       )
+    }
+  } else {
+    ar_boot <- forecast::auto.arima(tseries[-((n-npredict+1):n)], 
+                                max.q = 0, max.Q = 0, max.d = 0, allowdrift = FALSE,
+                                max.D = 0, max.P = 0, max.p = 25,
+                                max.order = 25, stepwise = FALSE)
+  }
+  #Obtain forecast error for 9 periods ahead (equivalent of 1980-1988) for simulated data
+  for_err <- as.vector(tseries[(n-npredict+1):n] - forecast(ar_boot, h = npredict)$mean)
+  
+#Collect test statistics
+return(list(forecast_error = for_err,  #forecast error
+            ar_order = ar_boot$arma[1], #order of AR component
+            mu = ar_boot$coef["intercept"] #intercept
+            )
+       )
+}
+
+
+boot_full <- replicate(n = 199, expr = boot_stat(sim_unc(tseries = sun, 
+                              mod = sun_ar_auto, res = res, nobs = 59), 
+                              npredict = 9, p = p))
+
+boot_fixed <- replicate(n = 199, expr = boot_stat(sim_unc(tseries = sun, 
+                              mod = sun_ar_auto, res = res, nobs = 59), 
+                              npredict = 9, p = p, fixorder = TRUE))
+
+
+
+#bootstrap replicates - obtain the standard errors of the forecast errors
+for_err_full_boot <- apply(t(matrix(unlist(boot_full[1,]), nrow = 9)), 2, sd) #unconditional 
+for_err_fixed_boot <- apply(t(matrix(unlist(boot_fixed[1,]), nrow = 9)), 2, sd, na.rm = TRUE) #AR(11)
+#AR order 
+ar_order_boot <- unlist(boot_full[2,])
+plot(table(c(sun_ar_auto$arma[1], ar_order_boot))/(1+length(ar_order_boot)), ylab = "Proportion", xlab = "Order based on AIC", 
+      main = "Distribution of autoregressive model order \nbased on the AIC criterion (sieve)")
+
+forec <- forecast(sun_ar_auto, h = 9)
+#Forecasts from forecast::forecast does not return the se
+#So reverse-engineer the calculation to retrieve those
+forec$se <- (-forec$lower[, 1] + forec$mean)/qnorm(0.5 * (1 + forec$level[1]/100))
+```
+
+```{r prediction_error_table}
+library(knitr)
+tab <- rbind(c(forec$se), for_err_full_boot, for_err_fixed_boot)
+row.names(tab) <- c("Nominal", "AR", "AR(11)") 
+colnames(tab) <-  as.character(1:9)
+kable(tab, caption = "h-step ahead prediction standard errors", digits=2)
+
+```
+
+While I have computed manually everything, the package `boot` provides options for bootstrap and wrappers for standard methods. The sieve bootstrap is implemented using `tsboot` with option `sim = model`, reflecting the fact that it is model-based. The example in the slides (and from the book *Bootstrap methods and their applications*, example 8.3, used the `ar` command to fit the autoregressive model via the Yule-Walker equations). The function `ar` subtract the sample mean to ensure the errors are residuals are centered and uses a conditional model. As mentioned before, don't use the latter to estimate an information criterion (although it is okay for predictions).  
+
+
+```{r sieveboot_bootpackage}
+library(boot)
+#Estimate the AR coefficients
+sun_ar <- ar(window(sun, 1930, 1979), aic = FALSE, order.max = p)
+# ar automatically selects order by AIC unless `aic = FALSE`
+# in which case it fits the model with order.max
+sun_ar$order 
+model <- list(ar = sun_ar$ar, order = c(p, 0, 0))
+#Statistic under study with the bootstrap
+#Manual fitting and collection of the results
+sun_fun <- function(tsb){
+  ar.fit <- ar(window(tsb, 1, 50), aic=FALSE, order.max = p) 
+  #Fitted using Yule-Walker equations, to avoid convergence issues
+  #and because it is MUCH faster
+  c(mean(tsb), c(predict(ar.fit, newdata = window(tsb, 1, 50), 
+            n.ahead = 9, se.fit = FALSE) - window(tsb, 51, 59))
+    ) 
+  #return prediction of time series, mean 
+}
+
+#Simulation from fitted AR model, with arguments
+#res: residuals from model fit
+#n.sim: length of series to simulate
+#ran.args: list with components `ar` and `order`
+#From "Bootstrap methods and their applications", copyright CUP
+#ran.gen must have precisely these arguments, in this order.
+sun_sim <- function(tseries, n.sim, ran.args){
+  rg1 <- function(n, res){ sample(res - mean(res), n, replace = TRUE)}
+  ts.orig <- ran.args$ts
+  ts.mod <- ran.args$model
+  mean(ts.orig) + ts(arima.sim(model = ts.mod, n = n.sim, 
+    rand.gen = rg1, res = as.vector(ran.args$res))) 
+}
+#Model based bootstrap
+#Specify the ARIMA model parameters
+sun_model <- list(order = c(sun_ar$order, 0, 0), ar = sun_ar$ar)
+sun_res <- c(scale(sun_ar$resid[!is.na(sun_ar$resid)], scale = FALSE))
+#Sieve bootstrap - also computes the test statistic on the original dataset
+#hence problems, because would usually pass residuals, and these are shorter
+#and have different time stamps
+#use orig.t = FALSE to desactivate this option 
+sun_boot <- tsboot(ts(c(window(sun, 1930))), sun_fun, R = 999, sim = "model", n.sim = 59, 
+     ran.gen = sun_sim, ran.args = list(res = sun_res, ts = window(sun, 1930), model = sun_model))
+
+#Standard deviations of prediction error
+apply(sun_boot$t[, -1], 2, sd)
+
+```
+
+More details about bootstrap methods for time series can be found in [Bühlmann (2002)](https://projecteuclid.org/euclid.ss/1023798998) or [Kreiss and Lahiri (2012)](https://www.kevinsheppard.com/images/0/0a/Kreiss_and_lahiri.pdf).
+
+More sophisticated methods will be needed depending on the model considered. If you have heteroscedasticity, then the residuals $v_t$ cannot be sampled independently from the fitted residuals. One can use then the so-called **wild** bootstrap and resample $v_t^*=s_t^*v_t$, where $s_t^* \stackrel{\mathrm{iid}}{\sim}F(0,1)$. The simplest such example is the Rademacher distribution, a two point distribution that puts mass $1/2$ on $\{-1, 1\}$. One could also resample from $\mathcal{N}(0,1)$.
+
+**YOUR TURN**
+
+### Exercice 2: Lake Erie and Lake Huron levels
+1. Fit a linear model to the January observations of the Lake Erie data of the form $y_t=\beta_0+\beta_1t+\varepsilon_t$, ignoring the temporal dependence. Test the null hypothesis that the trend is not significant.
+2. Use a parametric sieve bootstrap with normal errors to assess the presence of a trend in the Lake Huron dataset. Report your conclusion as a P-value.
+3. Recall the estimation of the Lake Huron level in Practical 2. There, we saw that fitting an ARMA(2,1) led to a parameter value of $\theta_1 \approx 1$. Using a parametric bootstrap, test the hypothesis that the parameter $\theta_1=0$. (Indication: fit an AR(2) model, simulate replicates of the latter and fit an ARMA(2,1) model to the bootstrap time series. Compare the value of your test statistic $\hat{\theta}_1$ with the estimates $\{\hat{\theta}_{1b}^{*}\}_{b=1}^B$).
+
+
+## Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions
+
+
+We look at estimation of (G)ARCH models. 
+The simple ARMA($p, q$)-GARCH($m, r$) model is 
+$$
+\begin{align*}
+Y_t -\mu &=   \sum_{h = 1}^p \phi_h (Y_{t-h}-\mu)+ \sum_{l = 1}^q \vartheta_lV_{t-l}+ V_t, \qquad V_t = \sigma_t\varepsilon_t, \quad\varepsilon_t\stackrel{\mathrm{iid}}{\sim} F(0, 1) \\ \sigma^2_t &= \alpha_0+\sum_{i = 1}^m \alpha_iV_{t-i}^2 + \sum_{j = 1}^r \beta_j\sigma^2_{t-j}. 
+\end{align*}
+$$
+The residuals from the ARMA models, $V_t$ thus follow a GARCH model. The parameters of the GARCH $\alpha_0, \alpha_1, \ldots, \alpha_m, \beta_1, \ldots, \beta_r$ must be positive. Furthermore, for the variance $\sigma^2_t$ to be stationary, we require $\sum_{i=1}^m \alpha_i + \sum_{j=1}^r \beta_j <1$, akin to the ARMA setting. The $V_t$ are typically leptokurtic (and thus heavy-tailed) as a result of the conditional heteroscedastic structure.
+
+If we have $V_t=\sigma_t^2\varepsilon_t$, where $\varepsilon_t \stackrel{\mathrm{iid}}{\sim}F(0, 1)$ is iid white noise, then 
+\[\mathrm{E}(V_t^2 \mid \mathcal{H}_{t-1}) = \sigma^2_t.\]
+Here, $\mathcal{H}_{t-1}$ denotes the information set at time $t-1$. One can see that $V_t^2$ has the form of an ARMA($m, r$) process, but the iid white noise is replaced with a martingale difference sequence $\eta_t$. We can rewrite 
+\[V_t^2 -\nu = \sum_{i=1}^{\max\{m, r\}} (\alpha_i+\beta_i)(V_{t-i}^2-\nu) - \sum_{j=1}^r \beta_j \eta_{t-j} + \eta_t,\]
+where $\nu = \alpha_0/ \sum_{i=1}^{\max\{m, r\}}(\alpha_i+\beta_i)$, and we define for simplicity $\alpha_i=0$ for $i>m$ and $\beta_j$ for $j>r$. We can identify from there the AR coefficients $\tilde{\phi}_i=\alpha_i+\beta_i$ and the MA coefficients $\tilde{\theta}_j=-\beta_j$. A necessary condition for covariance stationarity is that $\sum_{i=1}^m \alpha_i + \sum_{j=1}^r \beta_j <1$, 
+The strategy for modelling is thus to fit an ARIMA-type model to the original series, then examine squared residuals. One suitable orders $p, q, m, r$ have been determined, we can estimate the models jointly. The autocorrelation function of the GARCH(1,1),
+
+$$
+\begin{align}
+  \rho(1) &= \frac{\alpha_1(1-\beta_1^2-\alpha_1\beta_1)}{(1-\beta_1^2-2\alpha_1\beta_1)} \\
+  \rho(h) &= (\alpha_1+\beta_1)\rho(h-1), \quad h \geq 2,
+\end{align}
+$$
+decays geometrically at rate $\alpha_1+\beta_1$.
+
+Joint estimation of ARMA-GARCH type models can be handled with functions from the `rugarch` package. Apart from the documentation of the package, there is a [worked out example here](http://unstarched.net/wp-content/uploads/2013/06/an-example-in-rugarch.pdf) and more [examples on the package author's blog](http://unstarched.net/r-examples/rugarch/a-short-introduction-to-the-rugarch-package/).
+You can specify different types of GARCH model other than the standard GARCH, or `sGARCH`, add external regressors and choose the distribution function of the errors. This provides a neat way to include an ARMA-GARCH type model for your analysis. 
+
+
+How does one proceed with the estimation of a GARCH model? Maximum likelihood is the standard option, but the MLE must be found numerically. This function from a preprint by [Würtz, Chalabi and Luskan](http://www-stat.wharton.upenn.edu/~steele/Courses/956/RResources/GarchAndR/WurtzEtAlGarch.pdf), shows how to construct the likelihood for a simple GARCH(1,1) model.
+
+```{r garchfit_manual, eval=TRUE}
+#From Wurtz, Chalabi, Luskan (JSS)
+garch11Fit = function(x){
+  require(numDeriv)
+  # Step 1: Initialize Model Parameters and Bounds:
+  Mean = mean(x); Var = var(x); S = 1e-6
+  params = c(mu = Mean, omega = 0.1*Var, alpha = 0.1, beta = 0.8)
+  lowerBounds = c(mu = -10*abs(Mean), omega = S^2, alpha = S, beta = S)
+  upperBounds = c(mu = 10*abs(Mean), omega = 100*Var, alpha = 1-S, beta = 1-S)
+  # Step 2: Set Conditional Distribution Function:
+  garchDist = function(z, hh) { dnorm(x = z/hh)/hh }
+  # Step 3: Compose log-Likelihood Function:
+  garchLLH = function(parm) {
+    mu = parm[1]; omega = parm[2]; alpha = parm[3]; beta = parm[4]
+    z = (x-mu); Mean = mean(z^2)
+    # Use Filter Representation:
+    e = omega + alpha * c(Mean, z[-length(x)]^2)
+    h = filter(e, beta, "r", init = Mean)
+    hh = sqrt(abs(h))
+    -sum(log(garchDist(z, hh))) #llh
+     
+  }
+  #print(garchLLH(params))
+  # Step 4: Estimate Parameters and Compute Numerically Hessian:
+  fit = nlminb(start = params, objective = garchLLH,
+  lower = lowerBounds, upper = upperBounds)
+  Hessian <- numDeriv::hessian(func = garchLLH, x = fit$par)
+  # Step 5: Create and Print Summary Report:
+  se.coef = sqrt(diag(solve(Hessian)))
+  tval = fit$par/se.coef
+  matcoef = cbind(fit$par, se.coef, tval, 2*(1-pnorm(abs(tval))))
+  dimnames(matcoef) = list(names(tval), c(" Estimate", " Std. Error", " t value", "Pr(>|t|)"))
+  cat("\nCoefficient(s):\n")
+  printCoefmat(matcoef, digits = 6, signif.stars = TRUE)
+}
+
+```
+
+We consider in the sequel the log-returns of the Microsoft stock.
+
+```{r msftrugarch, cache = TRUE}
+library(tseries) #to extract quotes from internet
+#Obtain Microsoft series from Internet
+msft.prices = get.hist.quote(
+instrument = "MSFT", 
+quote = "Close",  #adjusted does not exist anymore
+provider = c("yahoo"), origin = "1999-12-30", start="2000-01-01", end="2010-01-01",
+retclass = c("zoo"), quiet = FALSE, drop = FALSE)
+#Transform to log-returns
+msft <- as.data.frame(msft.prices)
+N <- length(msft[, 1])
+msft.returns <- 100*(log(msft[2:N, ])-log(msft[1:(N-1), ]))
+```
+
+Now that we have our financial time series, we can try fitting a GARCH model to it. We start with the code provided above.
+
+```{r fitGarch}
+#Fit with function akin to that found in library(fGarch)
+garch11_model <- garch11Fit(msft.returns)
+kurtosis_garch11 <- function(alpha1, beta1){ 3*(1+alpha1+beta1)*(1-alpha1-beta1)/(1-beta1^2-2*alpha1*beta1-3*alpha1^2)}
+kurtosis_garch11(garch11_model[3,1], garch11_model[4,1])
+```
+
+The parameter estimates for the parameters $\alpha_1$, $\beta_1$ are typical of those of stock returns ($\alpha_1$ small, $\beta_1$ large, their sum close to 1). The parameter $\alpha_0$ is the positive constant $\alpha_0$, which is small. For the process to be covariance stationary (meaning it has finite fourth moments), we need $\alpha_1+\beta_1<1$. The closer the sum $\alpha_1+\beta_1$ to 1, the slower is the decay in the autocorrelation function of squared residuals. Here, the estimates are `r sum(garch11_model[3:4,1])`, which is close to the boundary and is nearly integrated.
+
+The kurtosis of the GARCH(1,1) model is \[\kappa = \frac{\mathrm{E}\{(Y-\mu)^4\}}{[\mathrm{E}\{(Y-\mu)^2\}]^2}= \frac{3(1+\alpha_1+\beta_1)(1-\alpha_1-\beta_1)}{(1-\beta_1^2-2\alpha_1\beta_1-3\alpha_1^2)}\] if $3\alpha_1^2+2\alpha_1\beta_1+\beta_1^2<1$, provided the fourth moment exist (when $0 \leq \alpha_1+\beta_1 <1$) and that $\alpha_1 < 3^{-1/2}$. Recall for reference that the kurtosis of a standard normal variate is 3. The unconditional variance will be proportional to $\alpha_0/(1-\alpha_1-\beta_1)$. If we specify the errors of the distribution to be Student-$t$, then the hierarchical construction can be employed to derive the mle.
+
+I will now illustrate the routines in the package `rugarch`, which returns S4 objects. This class has slots (accessible via `@` and methods. See `?uGARCHfit-class` for more info.
+
+```{r fitGarch_rugarch}
+library(rugarch)
+#Specification of GARCH(1, 1) model using rugarch workhorse
+#with ARMA(1,0) + mean, normal errors
+model <- ugarchspec(
+  variance.model = list(model = "sGARCH", garchOrder = c(1, 1)), 
+  mean.model = list(armaOrder = c(1, 0), include.mean = TRUE), 
+  distribution.model = "norm"
+)
+#Model fitting
+model_fit <- ugarchfit(spec = model, data = msft.returns, 
+                       solver = "nloptr", solver.control = list(solver = 9))
+#Did the optimization routine converge?
+convergence(model_fit) #0 == TRUE, indicating convergence
+```
+
+A nice feature of this function is the possibility to include regressors in the mean and in the variance. The arguments `variance.model` and `mean.model`, which are lists, can be given `external.regressors` matrices. For the variance, the standard formulation as $\sigma^2_t$ is not adequate since we possibly get negative variance with regressors. The choice of an `eGARCH`, which models $\log(\sigma^2_t)$, solves this problem. The eGARCH($m,r$) model for $V_t=\sigma_t \varepsilon_t$ is 
+\[\log(\sigma^2_t) = \alpha_0 + \sum_{i=1}^m \gamma_i\{|\varepsilon_{t-1}|-\mathrm{E}(|\varepsilon_{t-1}|)\} + \alpha_i \varepsilon_{t-1}+\sum_{j=1}^r\beta_j \log(\sigma^2_{t-1}).
+\]
+It includes a leverage effect. The eGARCH model is appealing because of the lack of restriction imposed on the parameters. The logarithmic transform complicates the derivation of unbiased forecasts.
+
+The package `rugarch` outputs among other things plenty of test statistics and diagnostics, most of which we won't cover. A very well known one is the value-at-risk (VaR), which measures conditional volatility. The VaR($\alpha$) is defined as $\Pr\{L_{t}>\mathrm{VaR}_t(\alpha)\}=\alpha$, the probability of the loss $L_t$ at time $t$ to exceed the quantile given by $\mathrm{VaR}_t(\alpha)$. For a pure GARCH-type model $Y_t=V_t=\sigma_t\varepsilon_t$, if $\hat{\sigma}_t^{t+1}$ is the one-step ahead conditional standard error, the value-at-risk for time $t+1$ is given by $F^{\leftarrow}(1-\alpha)\hat{\sigma}_t^{t+1}$, where $F^{\leftarrow}(1-\alpha)$ is the $1-\alpha$ quantile of the postulated distribution of the centered residuals $\varepsilon_t$.
+
+One can assess whether the model is adequate by back-testing. Fit the model until time $T$, forecast one-step ahead variance, verify if the observed volatility is within the confidence band. Then, the number of days for which the loss is greater than the estimated VaR follows a binomial distribution and a likelihood ratio test can be used to check if the number of counts is too high. The function `ugarchroll` provides this. The vignette of the package also discusses a bootstrap method for ARMA-GARCH models.
+
+The following plots illustrate pointwise confidence intervals (with the conditional standard deviations $\hat{\sigma}_t$, the 99% VaR, estimates of $\hat{\sigma}_t$ against time, the correlogram of the residuals and squared residuals and a quantile-quantile plot (for the normal distribution, unnormalized). Watch out as the information criterion returned by `rugarch`, AIC and BIC, are scaled by $n$.
+
+```{r rugarch_diag}
+#print(model_fit)
+#Plots, can get in interactive mode or use `which` to select one plot
+plot(model_fit, which = 1) # series with 95% conf. int (+/- 2 conditional std. dev.)
+plot(model_fit, which = 2) #VaR 99%
+plot(model_fit, which = 3) #Conditional standard derivation
+plot(model_fit, which = 10) #ACF of residual
+plot(model_fit, which = 11) #ACF of squared residuals
+plot(model_fit, which = 9) #Normal QQ plot
+
+#Information criterion
+infocriteria(model_fit)
+model_fit@fit$coef
+plot(residuals(model_fit, standardize = TRUE), type = "h", main = "Residuals from AR(1, 0) - GARCH (1, 1) model\n msft daily log-returns", major.ticks = "years", grid.ticks.on = "years")
+```
+
+We note that while the GARCH structure captures the linear dependence well, the normality of the errors is doubtful. One could change the distribution of the errors to Student by changing `distribution.model = "std"`. The fit is then noticeably better, except for some negative returns. Indeed, the GARCH(1,1) model fails to adequately capture the negative returns. There are empirical evidences that the market response to losses is asymmetric, and GARCH fails to capture this. To remediate this, we could consider a variant of the GARCH model, such as eGARCH. Another popular alternative is the GJR-GARCH model, which includes a leverage term. The conditional variance of the GJR-GARCH(1,1) model is of the form
+\[\sigma^2_t = \alpha_0+(\gamma_1\mathrm{sign}|\varepsilon_{t-1}|+\alpha_1)\varepsilon_{t-1}^2+\beta_1\sigma^2_{t-1}).\]
+
+## Predictions
+
+It is best to use rolling windows for large time series to perform out-of-sample validation. That is, fit the model to observations $t_k, \ldots, t_{k+N}$, then to $t_{k+1}, \ldots, t_{k+N+1}$ for $k=1, \ldots, n$. $N$ depends on the context, but for time series it should be roughly 5 years. The function `ugarchroll` can do this for you (but it is computationally intensive, so beware). It is not hard to code your own function (see e.g. [this blog post](http://unstarched.net/2012/12/26/rolling-garch-forecasts/)).
+An bootstrap prediction for returns and volatilities in GARCH models is also implemented; I can provide more details upon request.
+
+The package `fGarch` also has a function `garchFit` and many options, but accessing its output is sometimes more complicated. 
+
+```{r fGarch, cache = TRUE}
+library(fGarch)
+msft_ts <- as.timeSeries(msft.returns) 
+gjrGARCHfit <- garchFit(~ arma(3, 0) + garch(1, 1), #fit a gjr
+  data = msft_ts, trace = FALSE, leverage = TRUE, cond.dist = "QMLE", include.skew = FALSE)
+#plot(gjrGARCHfit, which = 3) # series with 95% conf. int (+/- 2 conditional std. dev.)
+#plot(gjrGARCHfit, which = 13) #QQ-plot
+```
+
+
+**YOUR TURN**
+
+### Exercice 3: International Business Machines (IBM) stock
+
+
+1. Download the daily IBM stocks price from 2003 to 2010 (inclusively). Fit a GARCH(1,1) model with normal errors. Is the model satisfactory? Make sure to check that the GARCH process is not integrated. Does the process display excess kurtosis, relative to that of the normal distribution (for which $\kappa=3$).
+2. If the errors are not normally distributed, experiment with a heavy-tailed distribution. Assess the adequacy of the latter using a QQ-plot.
+3. If your returns are asymmetric, try a GARCH-type model that includes a leverage term. Is the fit better?
