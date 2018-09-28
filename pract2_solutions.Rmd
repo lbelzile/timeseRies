@@ -1,4 +1,4 @@
-# Practical series 2 (solutions)"
+## Solutions to Exercises
 
 ### Exercise 1: UBS stock returns
 

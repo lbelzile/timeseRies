@@ -1,7 +1,7 @@
-# Notes on irregular time series and missing values (solutions)"
+## Solutions to Exercises
 
 
-### Exercise 1. Jussy air temperature
+### Exercise 1: Jussy air temperature
 
 ```{r jussy_analysis}
 jussy <- read.csv("http://sma.epfl.ch/~lbelzile/math342/jussy_temp.csv", header = TRUE, 
@@ -22,7 +22,7 @@ sum(I(y$lengths[y$values==1]>3)) #how many are above 3 days
 #Unsurprisingly, they occur in June and August 2003
 ```
 
-### Exercise 2. Tyne river flow
+### Exercise 2: Tyne river flow
 
 ```{r tyne_analysis}
 tyne <- read.csv(file="http://sma.epfl.ch/~lbelzile/math342/23001-Tyne_at_Bywell.csv",

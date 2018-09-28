@@ -1,4 +1,4 @@
-# Practical series 5"
+# Covariates and dynamic linear models
 
 
 This tutorial addresses the following:
@@ -283,7 +283,6 @@ abline(h=0.05, col = 2)
 
 The diagnostic plots here indicate that the results are not quite white noise, but the correlogram indicates that there is no residual linear dependence (they are uncorrelated). The quantile-quantile plot shows that the fit is satisfactory - more than 95% of the values falls within the confidence bands.
 
-**YOUR TURN**
 ### Exercise 1: Dynamic linear model for the Nile river dataset
 
 1. Try removing the trend component. Does your conclusions change?

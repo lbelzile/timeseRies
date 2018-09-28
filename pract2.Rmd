@@ -1,4 +1,12 @@
-# Practical series 2
+# Likelihood estimation and the Box--Jenkins method
+
+
+
+This tutorial addresses the following:
+
+- estimation of ARIMA and ARCH models using conditional maximum likelihood.
+- the Box--Jenkins methodology for selecting the order of ARMA processes based on analysis of the (partial) correlogram.
+- model selection using information criterion, unit roots and problems arising from model fit.
 
 
 ## Manual maximum likelihood estimation
@@ -159,7 +167,6 @@ par(pty = "s")
 qqnorm(res2, panel.first = { abline(0, 1, col = "red")})
 ```
 
-**YOUR TURN**
 
 ### Exercise 1: UBS stock returns
 
@@ -300,8 +307,6 @@ mod_c
 
 You can (and should) check the roots of the AR and MA polynomials to make sure this is not happening. The argument `transform.pars` transforms the AR polynomial to the causal representation if it does not have a root on the unit circle. If the process is not invertible, the parameter lies on the boundary of the space and the usual standard errors obtained from the observed information matrix are not reliable. It is possible to use these models for forecasting, but their interpretation is awkward.
 
-
-**YOUR TURN**
 
 ### Exercise 2: Simulated series
 1. The `Simulated_ARMA` dataset contains 8 time series (these examples are from Charlotte Wickham's website). Fit ARMA models to those and select a model, justifying your choice. Be skeptical of the optimization routine and analyze the models carefully.
@@ -467,8 +472,6 @@ mean(I(abs(MAcoefdist)>0.999))
 ```
 
 We wish to restrict to causal and invertible processes. The latter implies that the AR($\infty$) representation of the process exists; the latter is used for prediction. However, while unit roots happen rarely, you only get one sample and it may happen in yours. This makes life more complicated because the asymptotics are non-regular for the problem. It is thus best to rely on procedures that only require estimation of the model under the null hypothesis, such as a score test.
-
-**Your turn**
 
 
 ### Exercise 3: Lake Erie height

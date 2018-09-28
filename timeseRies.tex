@@ -166,9 +166,7 @@ approach will be learning-by-doing. The benefit of using
 \emph{Rmarkdown} is that you see the output directly and you can also
 copy the code.
 
-\chapter{Practical series 1}\label{practical-series-1}
-
-\section{Exploratory Data Analysis}\label{exploratory-data-analysis}
+\chapter{Introduction}\label{introduction}
 
 This online tutorial for MATH 342 is meant to provide a review of basic
 R syntax, including plotting functions.
@@ -210,6 +208,8 @@ The first thing to know about R is how to access help files. If you want
 to read about time series, type \texttt{help.search("time\ series")}. If
 you want to read the help file on a particular function, for example
 \texttt{plot}, use \texttt{?plot} or \texttt{help("plot")}.
+
+\section{Exploratory Data Analysis}\label{exploratory-data-analysis}
 
 \subsection{Libraries}\label{libraries}
 
@@ -543,10 +543,8 @@ the function \texttt{lm}, which fits linear models. The function
 
 \includegraphics{timeseRies_files/figure-latex/unnamed-chunk-5-1.pdf}
 
-\textbf{YOUR TURN}
-
-\subsubsection{Exercise 1. Beaver
-temperature}\label{exercise-1.-beaver-temperature}
+\subsection{Exercise 1: Beaver
+temperature}\label{exercise-1-beaver-temperature}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -717,10 +715,8 @@ different lags and may be useful for diagnostic purposes.
 \end{Highlighting}
 \end{Shaded}
 
-\textbf{YOUR TURN}
-
-\subsection{Exercise 2. SP500 daily
-returns}\label{exercise-2.-sp500-daily-returns}
+\subsection{Exercise 2: SP500 daily
+returns}\label{exercise-2-sp500-daily-returns}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -807,10 +803,7 @@ variables as driving noise.
 \end{Highlighting}
 \end{Shaded}
 
-\textbf{YOUR TURN}
-
-\subsection{Exercise 3. Simulated
-data}\label{exercise-3.-simulated-data}
+\subsection{Exercise 3: Simulated data}\label{exercise-3-simulated-data}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1012,11 +1005,9 @@ and irregular components. We illustrate the use of the function on the
 
 \includegraphics{timeseRies_files/figure-latex/unnamed-chunk-8-1.pdf}
 
-\textbf{YOUR TURN}
-
-\subsubsection{\texorpdfstring{Exercise 4. Mauna Loa Atmospheric
+\subsection{\texorpdfstring{Exercise 4: Mauna Loa Atmospheric
 CO\textsubscript{2}
-Concentration}{Exercise 4. Mauna Loa Atmospheric CO2 Concentration}}\label{exercise-4.-mauna-loa-atmospheric-co2-concentration}
+Concentration}{Exercise 4: Mauna Loa Atmospheric CO2 Concentration}}\label{exercise-4-mauna-loa-atmospheric-co2-concentration}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1060,11 +1051,10 @@ Concentration}{Exercise 4. Mauna Loa Atmospheric CO2 Concentration}}\label{exerc
   with the output of the linear model.
 \end{enumerate}
 
-\chapter{Practical series 1
-(solutions)}\label{practical-series-1-solutions}
+\section{Solutions to Exercises}\label{solutions-to-exercises}
 
-\subsection{Exercise 1. Beaver
-temperature}\label{exercise-1.-beaver-temperature-1}
+\subsection{Solutions 1: Beaver
+temperature}\label{solutions-1-beaver-temperature}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1235,8 +1225,8 @@ temperature}\label{exercise-1.-beaver-temperature-1}
 
 \includegraphics{timeseRies_files/figure-latex/unnamed-chunk-9-5.pdf}
 
-\subsection{Exercise 2. SP500 daily
-returns}\label{exercise-2.-sp500-daily-returns-1}
+\subsection{Solutions 2: SP500 daily
+returns}\label{solutions-2-sp500-daily-returns}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1344,8 +1334,8 @@ null device
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{Exercise 3. Simulated
-data}\label{exercise-3.-simulated-data-1}
+\subsection{Solutions 3: Simulated
+data}\label{solutions-3-simulated-data}
 
 The first 5 parts of the question are straightforward and left to the
 reader.
@@ -1493,9 +1483,9 @@ X-squared = 91.204, df = 1, p-value < 2.2e-16
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{\texorpdfstring{Exercise 4: Mauna Loa Atmospheric
+\subsection{\texorpdfstring{Solutions 4: Mauna Loa Atmospheric
 CO\textsubscript{2}
-Concentration}{Exercise 4: Mauna Loa Atmospheric CO2 Concentration}}\label{exercise-4-mauna-loa-atmospheric-co2-concentration}
+Concentration}{Solutions 4: Mauna Loa Atmospheric CO2 Concentration}}\label{solutions-4-mauna-loa-atmospheric-co2-concentration}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1773,7 +1763,23 @@ KPSS Trend = 0.17017, Truncation lag parameter = 6, p-value =
 
 \includegraphics{timeseRies_files/figure-latex/Question_4-16.pdf}
 
-\chapter{Practical series 2}\label{practical-series-2}
+\chapter{Likelihood estimation and the Box--Jenkins
+method}\label{likelihood-estimation-and-the-boxjenkins-method}
+
+This tutorial addresses the following:
+
+\begin{itemize}
+\tightlist
+\item
+  estimation of ARIMA and ARCH models using conditional maximum
+  likelihood.
+\item
+  the Box--Jenkins methodology for selecting the order of ARMA processes
+  based on analysis of the (partial) correlogram.
+\item
+  model selection using information criterion, unit roots and problems
+  arising from model fit.
+\end{itemize}
 
 \section{Manual maximum likelihood
 estimation}\label{manual-maximum-likelihood-estimation}
@@ -2068,8 +2074,6 @@ is white noise).
 \end{Shaded}
 
 \includegraphics{timeseRies_files/figure-latex/diagnostics_ARCH-1.pdf}
-
-\textbf{YOUR TURN}
 
 \subsection{Exercise 1: UBS stock
 returns}\label{exercise-1-ubs-stock-returns}
@@ -2502,8 +2506,6 @@ errors obtained from the observed information matrix are not reliable.
 It is possible to use these models for forecasting, but their
 interpretation is awkward.
 
-\textbf{YOUR TURN}
-
 \subsection{Exercise 2: Simulated
 series}\label{exercise-2-simulated-series}
 
@@ -2829,8 +2831,6 @@ life more complicated because the asymptotics are non-regular for the
 problem. It is thus best to rely on procedures that only require
 estimation of the model under the null hypothesis, such as a score test.
 
-\textbf{Your turn}
-
 \subsection{Exercise 3: Lake Erie
 height}\label{exercise-3-lake-erie-height}
 
@@ -2862,8 +2862,7 @@ height}\label{exercise-3-lake-erie-height}
   Perform a Ljung-Box test on the residuals. What can you conclude?
 \end{enumerate}
 
-\chapter{Practical series 2
-(solutions)"}\label{practical-series-2-solutions}
+\section{Solutions to Exercises}\label{solutions-to-exercises-1}
 
 \subsection{Exercise 1: UBS stock
 returns}\label{exercise-1-ubs-stock-returns-1}
@@ -3488,7 +3487,13 @@ shall see in the next weeks, with SARIMA models.
 \textbf{Note}: An ARMA(4, 1) would fit well the data if you started with
 the residuals from \texttt{decompose} or \texttt{stl}.
 
-\chapter{Practical series 3}\label{practical-series-3}
+\chapter{Seasonal ARIMA and GARCH
+models}\label{seasonal-arima-and-garch-models}
+
+This tutorial addresses the following: - estimation and forecasting for
+SARIMA models. - uncertainty quantification using the bootstrap for time
+series. This material is optional. - estimation of GARCH and forecast
+from the latter using rolling-windows.
 
 \section{SARIMA models: estimation and
 forecasting}\label{sarima-models-estimation-and-forecasting}
@@ -3561,7 +3566,8 @@ associated with fitting time series models with regressors. See notably
 \href{http://robjhyndman.com/hyndsight/arimax/}{The ARIMAX model muddle
 by Rob Hyndman}.
 
-\subsection{Mauna Loa CO2 dataset}\label{mauna-loa-co2-dataset}
+\subsection{\texorpdfstring{Mauna Loa CO\textsubscript{2}
+dataset}{Mauna Loa CO2 dataset}}\label{mauna-loa-co2-dataset}
 
 We revisit the Mauna Loa CO\textsubscript{2} example. While one can see
 very clear trend and seasonality. One could in principle add a linear
@@ -3708,8 +3714,6 @@ did look at multiple models (or would normally have) before settling on
 this particular SARIMA model. The parameter uncertainty also needs to be
 considered, as well as prior data transformation. In the sequel, we
 provide a brief overview of boostrap methods for time series.
-
-\textbf{YOUR TURN}
 
 \subsection{Exercice 1: Nottingham average monthly temperature and Hong
 Kong monthly
@@ -4192,8 +4196,6 @@ The simplest such example is the Rademacher distribution, a two point
 distribution that puts mass \(1/2\) on \(\{-1, 1\}\). One could also
 resample from \(\mathcal{N}(0,1)\).
 
-\textbf{YOUR TURN}
-
 \subsection{Exercice 2: Lake Erie and Lake Huron
 levels}\label{exercice-2-lake-erie-and-lake-huron-levels}
 
@@ -4586,7 +4588,7 @@ GJR-GARCH model, which includes a leverage term. The conditional
 variance of the GJR-GARCH(1,1) model is of the form
 \[\sigma^2_t = \alpha_0+(\gamma_1\mathrm{sign}|\varepsilon_{t-1}|+\alpha_1)\varepsilon_{t-1}^2+\beta_1\sigma^2_{t-1}).\]
 
-\section{Predictions}\label{predictions}
+\subsection{Predictions}\label{predictions}
 
 It is best to use rolling windows for large time series to perform
 out-of-sample validation. That is, fit the model to observations
@@ -4614,8 +4616,6 @@ many options, but accessing its output is sometimes more complicated.
 \end{Highlighting}
 \end{Shaded}
 
-\textbf{YOUR TURN}
-
 \subsection{Exercice 3: International Business Machines (IBM)
 stock}\label{exercice-3-international-business-machines-ibm-stock}
 
@@ -4637,8 +4637,7 @@ stock}\label{exercice-3-international-business-machines-ibm-stock}
   leverage term. Is the fit better?
 \end{enumerate}
 
-\chapter{Practical series 3
-(solutions)}\label{practical-series-3-solutions}
+\section{Solutions to Exercises}\label{solutions-to-exercises-2}
 
 \subsection{Exercice 1: Nottingham average monthly temperature and Hong
 Kong monthly
@@ -5260,9 +5259,7 @@ stationarity.
 \end{Highlighting}
 \end{Shaded}
 
-\chapter{Practical series 4}\label{practical-series-4}
-
-\section{Spectral analysis and
+\chapter{Spectral analysis and
 filtering}\label{spectral-analysis-and-filtering}
 
 The following section is adapted from Percival and Walden \emph{Spectral
@@ -5284,7 +5281,8 @@ stationary process \(\{\boldsymbol{X}_t\}, t \in \mathbb{Z}\). All the
 information is contained in the spectral density function assuming the
 latter exists.
 
-\textbf{Nonparametric spectral estimation}
+\section{Nonparametric spectral
+estimation}\label{nonparametric-spectral-estimation}
 
 In the course, the sampling interval \(\Delta_t\) is one, so that the
 Nyquist frequency \(\omega_\mathsf{N}\equiv 1/(2\Delta_t)\) is 1/2.
@@ -5735,8 +5733,6 @@ into account).
 
 \includegraphics{timeseRies_files/figure-latex/unnamed-chunk-38-1.pdf}
 
-\textbf{YOUR TURN}
-
 \subsection{Exercise 1: Southern oscillation index (SOI) and fish
 recruitement}\label{exercise-1-southern-oscillation-index-soi-and-fish-recruitement}
 
@@ -5762,7 +5758,8 @@ recruitement statistics for the same period.
   variation. Plot the periodogram and comment on the resulting estimate.
 \end{enumerate}
 
-\chapter{Practical series 5"}\label{practical-series-5}
+\chapter{Covariates and dynamic linear
+models}\label{covariates-and-dynamic-linear-models}
 
 This tutorial addresses the following:
 
@@ -6306,8 +6303,8 @@ dependence (they are uncorrelated). The quantile-quantile plot shows
 that the fit is satisfactory - more than 95\% of the values falls within
 the confidence bands.
 
-\textbf{YOUR TURN} \#\#\# Exercise 1: Dynamic linear model for the Nile
-river dataset
+\subsection{Exercise 1: Dynamic linear model for the Nile river
+dataset}\label{exercise-1-dynamic-linear-model-for-the-nile-river-dataset}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -6395,10 +6392,8 @@ represent date and time objects.
 
 \includegraphics{timeseRies_files/figure-latex/ozone-1.pdf}
 
-\textbf{YOUR TURN}
-
-\subsection{Exercise 1. Jussy air
-temperature}\label{exercise-1.-jussy-air-temperature}
+\subsection{Exercise 1: Jussy air
+temperature}\label{exercise-1-jussy-air-temperature}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -6542,10 +6537,8 @@ because they do not include any time dependence structure. Another
 useful feature from the package \texttt{zoo} is \texttt{na.trim} to
 removing trailing \texttt{NA}s at the beginning and the end of a series.
 
-\textbf{YOUR TURN}
-
-\subsection{Exercise 2. Tyne river
-flow}\label{exercise-2.-tyne-river-flow}
+\subsection{Exercise 2: Tyne river
+flow}\label{exercise-2-tyne-river-flow}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -6578,11 +6571,10 @@ flow}\label{exercise-2.-tyne-river-flow}
   comment on the output.
 \end{enumerate}
 
-\chapter{Notes on irregular time series and missing values
-(solutions)"}\label{notes-on-irregular-time-series-and-missing-values-solutions}
+\section{Solutions to Exercises}\label{solutions-to-exercises-3}
 
-\subsection{Exercise 1. Jussy air
-temperature}\label{exercise-1.-jussy-air-temperature-1}
+\subsection{Exercise 1: Jussy air
+temperature}\label{exercise-1-jussy-air-temperature-1}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6625,8 +6617,8 @@ temperature}\label{exercise-1.-jussy-air-temperature-1}
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{Exercise 2. Tyne river
-flow}\label{exercise-2.-tyne-river-flow-1}
+\subsection{Exercise 2: Tyne river
+flow}\label{exercise-2-tyne-river-flow-1}
 
 \begin{Shaded}
 \begin{Highlighting}[]

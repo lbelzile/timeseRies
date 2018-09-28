@@ -1,4 +1,4 @@
-# Practical series 4
+# Spectral analysis and filtering
 
 ```{r sample_dbp, echo = FALSE} 
 source("http://faculty.washington.edu/dbp/s520/R-code/step-down-LD-recursions.R")
@@ -10,7 +10,6 @@ source("http://faculty.washington.edu/dbp/s520/R-code/circular-shift.R")
 source("http://faculty.washington.edu/dbp/s520/R-code/tapers.R")
 ```
 
-## Spectral analysis and filtering
 
 The following section is adapted from Percival and Walden *Spectral Analysis for physical applications*, CUP (1993). I will try to extract the most relevant notions so you can understand in greater details nonparametric spectral estimation, the periodogram, tapering and smoothing, and testing procedures.
 
@@ -22,7 +21,7 @@ Roughly speaking, the aim of spectral analysis is to break the variability of th
   
 We shall analyze stationary sequences $\boldsymbol{X} \in \mathbb{R}^n$  thought to originate from a stationary process $\{\boldsymbol{X}_t\}, t \in \mathbb{Z}$. All the information is contained in the spectral density function assuming the latter exists. 
 
-**Nonparametric spectral estimation**
+## Nonparametric spectral estimation
   
 In the course, the sampling interval $\Delta_t$ is one, so that the Nyquist frequency $\omega_\mathsf{N}\equiv 1/(2\Delta_t)$ is 1/2.  
   
@@ -666,7 +665,6 @@ plot(ts.union("Raw" = u1, "Low" = u_low, "High" = u_hi, "Business cycles" = u_cy
 
 ```
 
-**YOUR TURN**
 
 ### Exercise 1: Southern oscillation index (SOI) and fish recruitement
 The data `soi` from the package `astsa` contains 453 monthly measures of the SOI. The dataset `rec` contains fish recruitement statistics for the same period.

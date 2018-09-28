@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>timeseRies</title>
+  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="timeseRies" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="github-repo" content="lbelzile/timeseRies" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="timeseRies" />
+  
+  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  
+
+<meta name="author" content="Léo Belzile">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="spectral-analysis-and-filtering.html">
+<link rel="next" href="summary-of-nonparametric-spectral-estimation.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Time Series</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1.1</b> Exploratory Data Analysis</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#libraries"><i class="fa fa-check"></i><b>1.1.1</b> Libraries</a></li>
+<li class="chapter" data-level="1.1.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#loading-datasets"><i class="fa fa-check"></i><b>1.1.2</b> Loading datasets</a></li>
+<li class="chapter" data-level="1.1.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#time-series-objects-and-basic-plots"><i class="fa fa-check"></i><b>1.1.3</b> Time series objects and basic plots</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-the-basic-time-series-functions.html"><a href="introduction-to-the-basic-time-series-functions.html"><i class="fa fa-check"></i><b>1.2</b> Introduction to the basic time series functions</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-to-the-basic-time-series-functions.html"><a href="introduction-to-the-basic-time-series-functions.html#exercise-1-beaver-temperature"><i class="fa fa-check"></i><b>1.2.1</b> Exercise 1: Beaver temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html"><i class="fa fa-check"></i><b>1.3</b> Second order stationarity</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html#exercise-2-sp500-daily-returns"><i class="fa fa-check"></i><b>1.3.1</b> Exercise 2: SP500 daily returns</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>1.4</b> Simulations</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="simulations.html"><a href="simulations.html#exercise-3-simulated-data"><i class="fa fa-check"></i><b>1.4.1</b> Exercise 3: Simulated data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="spectral-analysis.html"><a href="spectral-analysis.html"><i class="fa fa-check"></i><b>1.5</b> Spectral analysis</a></li>
+<li class="chapter" data-level="1.6" data-path="smoothing-and-detrending.html"><a href="smoothing-and-detrending.html"><i class="fa fa-check"></i><b>1.6</b> Smoothing and detrending</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="smoothing-and-detrending.html"><a href="smoothing-and-detrending.html#exercise-4-mauna-loa-atmospheric-co2-concentration"><i class="fa fa-check"></i><b>1.6.1</b> Exercise 4: Mauna Loa Atmospheric CO<sub>2</sub> Concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i><b>1.7</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#solutions-1-beaver-temperature"><i class="fa fa-check"></i><b>1.7.1</b> Solutions 1: Beaver temperature</a></li>
+<li class="chapter" data-level="1.7.2" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#solutions-2-sp500-daily-returns"><i class="fa fa-check"></i><b>1.7.2</b> Solutions 2: SP500 daily returns</a></li>
+<li class="chapter" data-level="1.7.3" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#solutions-3-simulated-data"><i class="fa fa-check"></i><b>1.7.3</b> Solutions 3: Simulated data</a></li>
+<li class="chapter" data-level="1.7.4" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#solutions-4-mauna-loa-atmospheric-co2-concentration"><i class="fa fa-check"></i><b>1.7.4</b> Solutions 4: Mauna Loa Atmospheric CO<sub>2</sub> Concentration</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="likelihood-estimation-and-the-boxjenkins-method.html"><a href="likelihood-estimation-and-the-boxjenkins-method.html"><i class="fa fa-check"></i><b>2</b> Likelihood estimation and the Box–Jenkins method</a><ul>
+<li class="chapter" data-level="2.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html"><i class="fa fa-check"></i><b>2.1</b> Manual maximum likelihood estimation</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html#exercise-1-ubs-stock-returns"><i class="fa fa-check"></i><b>2.1.1</b> Exercise 1: UBS stock returns</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html"><i class="fa fa-check"></i><b>2.2</b> Box–Jenkins methodology for ARMA models</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html#exercise-2-simulated-series"><i class="fa fa-check"></i><b>2.2.1</b> Exercise 2: Simulated series</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html"><i class="fa fa-check"></i><b>2.3</b> Information criterion, model selection and profile likelihood</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html#exercise-3-lake-erie-height"><i class="fa fa-check"></i><b>2.3.1</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="solutions-to-exercises-1.html"><a href="solutions-to-exercises-1.html"><i class="fa fa-check"></i><b>2.4</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="solutions-to-exercises-1.html"><a href="solutions-to-exercises-1.html#exercise-1-ubs-stock-returns-1"><i class="fa fa-check"></i><b>2.4.1</b> Exercise 1: UBS stock returns</a></li>
+<li class="chapter" data-level="2.4.2" data-path="solutions-to-exercises-1.html"><a href="solutions-to-exercises-1.html#exercise-2-simulated-series-1"><i class="fa fa-check"></i><b>2.4.2</b> Exercise 2: Simulated series</a></li>
+<li class="chapter" data-level="2.4.3" data-path="solutions-to-exercises-1.html"><a href="solutions-to-exercises-1.html#exercise-3-lake-erie-height-1"><i class="fa fa-check"></i><b>2.4.3</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="seasonal-arima-and-garch-models.html"><a href="seasonal-arima-and-garch-models.html"><i class="fa fa-check"></i><b>3</b> Seasonal ARIMA and GARCH models</a><ul>
+<li class="chapter" data-level="3.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>3.1</b> SARIMA models: estimation and forecasting</a></li>
+<li class="chapter" data-level="3.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html"><i class="fa fa-check"></i><b>3.2</b> An aside on models with regressors (optional)</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>3.2.1</b> Mauna Loa CO<sub>2</sub> dataset</a></li>
+<li class="chapter" data-level="3.2.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>3.2.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>3.3</b> Boostrap methods for time series</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>3.3.1</b> Bootstrapping a linear model</a></li>
+<li class="chapter" data-level="3.3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>3.3.2</b> Testing for heteroscedasticity</a></li>
+<li class="chapter" data-level="3.3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>3.3.3</b> AR-sieve bootstrap</a></li>
+<li class="chapter" data-level="3.3.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>3.3.4</b> Boostrap models for uncertainty assesment</a></li>
+<li class="chapter" data-level="3.3.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>3.3.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>3.4</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#predictions"><i class="fa fa-check"></i><b>3.4.1</b> Predictions</a></li>
+<li class="chapter" data-level="3.4.2" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>3.4.2</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html"><i class="fa fa-check"></i><b>3.5</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>3.5.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="3.5.2" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>3.5.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="3.5.3" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>3.5.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>4</b> Spectral analysis and filtering</a><ul>
+<li class="chapter" data-level="4.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.1</b> Nonparametric spectral estimation</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#tapering"><i class="fa fa-check"></i><b>4.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.2</b> A data example</a></li>
+<li class="chapter" data-level="4.1.3" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.3</b> Smoothing</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.2</b> Summary of nonparametric spectral estimation</a></li>
+<li class="chapter" data-level="4.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>4.3</b> Spectral estimation in R</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#smoothing-and-seasonally-adjusted-values"><i class="fa fa-check"></i><b>4.3.1</b> Smoothing and seasonally adjusted values</a></li>
+<li class="chapter" data-level="4.3.2" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#exercise-1-southern-oscillation-index-soi-and-fish-recruitement"><i class="fa fa-check"></i><b>4.3.2</b> Exercise 1: Southern oscillation index (SOI) and fish recruitement</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="covariates-and-dynamic-linear-models.html"><a href="covariates-and-dynamic-linear-models.html"><i class="fa fa-check"></i><b>5</b> Covariates and dynamic linear models</a><ul>
+<li class="chapter" data-level="5.1" data-path="simulation-based-prediction-intervals-for-arima-garch-models.html"><a href="simulation-based-prediction-intervals-for-arima-garch-models.html"><i class="fa fa-check"></i><b>5.1</b> Simulation-based prediction intervals for ARIMA-GARCH models</a></li>
+<li class="chapter" data-level="5.2" data-path="state-space-models-and-the-kalman-filter.html"><a href="state-space-models-and-the-kalman-filter.html"><i class="fa fa-check"></i><b>5.2</b> State-space models and the Kalman filter</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="state-space-models-and-the-kalman-filter.html"><a href="state-space-models-and-the-kalman-filter.html#exercise-1-dynamic-linear-model-for-the-nile-river-dataset"><i class="fa fa-check"></i><b>5.2.1</b> Exercise 1: Dynamic linear model for the Nile river dataset</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="notes-on-irregular-time-series-and-missing-values.html"><a href="notes-on-irregular-time-series-and-missing-values.html"><i class="fa fa-check"></i><b>6</b> Notes on irregular time series and missing values&quot;</a><ul>
+<li class="chapter" data-level="6.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html"><i class="fa fa-check"></i><b>6.1</b> Irregular time series</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html#exercise-1-jussy-air-temperature"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1: Jussy air temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>6.2</b> Imputation of missing values</a></li>
+<li class="chapter" data-level="6.3" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html"><i class="fa fa-check"></i><b>6.3</b> Diagnostics for missing values and smoothing</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html#exercise-2-tyne-river-flow"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 2: Tyne river flow</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html"><i class="fa fa-check"></i><b>6.4</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-1-jussy-air-temperature-1"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1: Jussy air temperature</a></li>
+<li class="chapter" data-level="6.4.2" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-2-tyne-river-flow-1"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2: Tyne river flow</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">timeseRies</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="nonparametric-spectral-estimation" class="section level2">
+<h2><span class="header-section-number">4.1</span> Nonparametric spectral estimation</h2>
+<p>In the course, the sampling interval <span class="math inline">\(\Delta_t\)</span> is one, so that the Nyquist frequency <span class="math inline">\(\omega_\mathsf{N}\equiv 1/(2\Delta_t)\)</span> is 1/2.</p>
+<p>The spectrum is the Fourier transform of the autocovariance, viz. <span class="math display">\[f(\omega) = \sum_{h =-\infty}^\infty \gamma_h \exp(-2 \pi i  h \omega).\]</span></p>
+<p>We thus first must estimate <span class="math inline">\(\gamma_h=\mathrm{E}\{(X_{t+h}-\mu)(X_t-\mu)\}\)</span>. We typically use the sample mean <span class="math inline">\(\overline{X}\)</span>. <!---
+One should use the most efficient estimator available, either the BLUE of $\mu$ (typically if $f(\omega) \rightarrow 0$ rapidly as $\omega\rightarrow 0$) or else the sample mean $\overline{X}$; assume the latter is taken hereafter. 
+--> The sample autocovariance is <span class="math display">\[\widehat{\gamma}_h = \frac{1}{n} \sum_{t=1}^{n-|h|} (X_{t+|h|}-\overline{X})(X_t-\overline{X}) = \left( 1- \frac{|h|}{n}\right)\widehat{\gamma}_h^{(u)}\]</span> where <span class="math display">\[\widehat{\gamma}_h^{(u)} = \frac{1}{n-|h|} \sum_{t=1}^{n-|h|} (X_{t+|h|}-\overline{X})(X_t-\overline{X})\]</span> is the usual unbiased estimator of <span class="math inline">\(\gamma_h\)</span>.</p>
+<p>If we replaced the sample mean estimate <span class="math inline">\(\overline{X}\)</span> by <span class="math inline">\(\mu\)</span>, then <span class="math display">\[\mathrm{E}(\widehat{\gamma}_h) = \left(1- \frac{|h|}{n}\right)\gamma_h.\]</span> The estimator <span class="math inline">\(\widehat{\gamma}_h\)</span> is thus biased, but</p>
+<ol style="list-style-type: decimal">
+<li>it has typically lower mean squared error than <span class="math inline">\(\widehat{\gamma}_h^{(u)}\)</span>,</li>
+<li>it gives a positive definite sequence.</li>
+<li>if <span class="math inline">\(\gamma_h \to 0\)</span> as <span class="math inline">\(h \to \infty\)</span>, then <span class="math inline">\(\widehat{\gamma}_h\)</span> is guaranteed to go to zero as <span class="math inline">\(h \rightarrow n\)</span>.</li>
+</ol>
+<p>The discrete time autocovariance are related to the estimates of the spectrum at continuous frequency, <span class="math display">\[\widehat{\gamma}_h = \int_{-1/2}^{1/2} \widehat{f}(\omega)\exp(2\pi i h\omega) \mathrm{d} \omega.\]</span> The estimates <span class="math inline">\(\{\widehat{\gamma}_k: k = -n+1, \ldots, n-1\}\)</span> and <span class="math inline">\(\{\widehat{f}(\omega_k): \omega_k = k/(2n-1), k=-n+1, \ldots, n-1\}\)</span> thus form a Fourier transform pair.</p>
+<p>Let us look at the periodogram estimate <span class="math inline">\(I(\omega)\)</span> of a simulated stationary autoregressive process with <span class="math inline">\(n=1000\)</span>. We can compare it to the true spectrum of the AR(2) process with <span class="math inline">\(\phi_1=0.75\)</span>, <span class="math inline">\(\phi_2=-0.5\)</span> and <span class="math inline">\(\sigma^2=1\)</span>.</p>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>What we notice right away is how noisy the periodogram estimate is. The truth is that the periodogram is biased, inconsistent (we estimate a frequency based on 2 observations, so even as <span class="math inline">\(n \rightarrow \infty\)</span>, the estimates remain extremely variable). The estimates for distinct frequencies are however almost uncorrelated provided the Fourier frequencies are far and that the bias is not too large.</p>
+<p>The expectation of the periodogram is <span class="math display">\[
+\begin{align*}\mathrm{E}\left(I(\omega_j)\right) &amp;= \sum_{h = -n+1}^{n-1} \left(1-\frac{|h|}{n}\right)\gamma_h\exp(-2\pi i \omega h)
+\\&amp;= \int_{-1/2}^{1/2}n\mathcal{D}_n^2(\omega_j-\omega)f(\omega)\mathrm{d} \omega
+\end{align*}
+\]</span> and <span class="math inline">\(n\mathcal{D}^2(\omega)\equiv W_n(\omega)\)</span> (in the course notation) is the rescaled squared Dirichlet kernel, also known as Fejér’s kernel, <span class="math display">\[\mathcal{F}(\omega)=n\mathcal{D}^2(\omega) = \frac{\sin^2(n \pi \omega)}{n\sin^2(\pi\omega)}.\]</span></p>
+<p>The Fejér kernel concentrates as <span class="math inline">\(n \rightarrow \infty\)</span> and behaves asymptotically like a <span class="math inline">\(\delta\)</span> function. However, for finite <span class="math inline">\(n\)</span>, it has marked side lobes — these are more visible on the log scale or the decibel scale (<span class="math inline">\(10\log_{10}(\cdot)\)</span>). One can view the effect of increased sample size by plotting the Fejér kernel for <span class="math inline">\(n=4, 16, 64\)</span>.</p>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>The periodogram is asymptotically unbiased, but the bias largely depends on the dynamic range. The latter is defined as <span class="math display">\[d_r = 10 \log_{10} \left( \frac{\max_{\omega}f(\omega)}{\min_{\omega}f(\omega)}\right).\]</span> For white noise, this is zero, so the bias is barely visible even in small samples. However, for processes with high dynamic range, it can be significant even (with <span class="math inline">\(n\)</span> as large as a million!)</p>
+<p>The following example from Percival and Walden illustrates both the bias and the leakage, plus the effect of the sidelobes. The plot shows the true spectrum and the expected values for the periodogram ordinates.</p>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>How did these lobes appear? Let’s look at what the Fejér kernel does when convolved with the spectrum. Again, the effect is more apparent on the decibel scale. We focus on the frequency <span class="math inline">\(\omega=1/8\)</span>, which corresponds to the center between the two peaks. The left panels show the Fejér kernel centered at <span class="math inline">\(\omega=1/8\)</span>, while the right one shows the product of the kernel with the spectrum. While we typically only plot <span class="math inline">\(f(\omega)\)</span> on <span class="math inline">\((0,1/2)\)</span> because of the symmetry, the <span class="math inline">\(f(\omega)\)</span> contributes for <span class="math inline">\((-1/2,0)\)</span> as well so it is displayed. The contribution is the sum of the product of the Fejér kernel at <span class="math inline">\(\omega=1/8\)</span> with the true spectrum.</p>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<!---
+The discrete Fourier transform can be regarded as implicitly extending $f(\omega)$ periodically. 
+-->
+<p>Same thing, but this time for the frequency <span class="math inline">\(\omega = 1/4\)</span>.</p>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-27-1.png" width="672" /> For our AR(4) process with <span class="math inline">\(n=64\)</span> observations, leakage will happen mostly at high frequencies, <span class="math inline">\(\omega &gt; 0.3\)</span>, where the true spectrum is nearly flat.</p>
+<div id="tapering" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Tapering</h3>
+<p>The goal of tapering is to reduce the bias by reducing the magnitude of sidelobs in the Fejér kernel. In order to do so, we multiply the data by a taper <span class="math inline">\(h_t\)</span>, to form a new series <span class="math inline">\(X_th_t\)</span> on which we compute the usual periodogram. The resulting estimator is a direct estimate, denoted <span class="math inline">\(I^d(\omega)\)</span>.</p>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>One can show that <span class="math display">\[\mathrm{E}\left(I^d(\omega_j)\right) = \int_{-1/2}^{1/2}W_n(\omega_j-\omega)f(\omega)\mathrm{d} \omega\]</span> where the spectral window <span class="math inline">\(W_n(\omega)\)</span>, in the course notation, is <span class="math display">\[W_n(\omega) = \frac{1}{n}\left| \sum_{t=0}^{n-1} h_t \exp(-2\pi i \omega t) \right|^2\]</span> A rectangular data taper in which <span class="math inline">\(h_t = 1\)</span> gives back Fejer’s kernel <span class="math inline">\(\mathcal{F}\)</span> and the periodogram. We will thus consider other tapers, <span class="math inline">\(\mathcal{H}\)</span> say, which are such that <span class="math inline">\(h_t\)</span> progressively goes to zero.</p>
+<p>To reduce bias due to leakage, we want <span class="math inline">\(\mathcal{H}\)</span> to have smaller sidelobes than <span class="math inline">\(\mathcal{F}\)</span>. There is no free lunch: such kernels <span class="math inline">\(\mathcal{H}\)</span> typically have bigger main lobes and thus smears out the peaks, introducing a new source of bias. As such, tapering is most useful for processes with large dynamic ranges. Because tapering discards information, the variance of the estimates also increases.</p>
+<p>The next plots show the data taper sequences <span class="math inline">\(h_t\)</span> for <span class="math inline">\(t=1, \ldots, n\)</span> and the corresponding spectral window <span class="math inline">\(\mathcal{H}\)</span> function on the decibel scale. It corresponds to an mix between the Hanning taper, which ressembles a bell curve, and the rectangular weights. The default taper in R smooths the first and last <span class="math inline">\(p\)</span> percentage of the time points. <span class="math display">\[
+h_t = 
+\begin{cases}
+\frac{1}{2}\left(1-\cos\left(\frac{\pi t}{np}\right)\right), &amp; \text{ if } 1\le t&lt; np
+\\
+1,  &amp;\text{ if } np \le t \le n(1-p)
+\\
+\frac{1}{2}\left(1-\cos\left(\frac{\pi (n+1-t)}{np}\right)\right), &amp;\text{ if }  n(1-p)&lt;t\le n.
+\end{cases}
+\]</span></p>
+<p>The proportion <span class="math inline">\(p=0\)</span> gives back the raw periodogram, while <span class="math inline">\(p=1\)</span> gives the Hanning taper. The tapers and spectral windows (for the portion <span class="math inline">\((0,1/2)\)</span> are shown here for <span class="math inline">\(p=0, 0.2, 0.5, 1\)</span>.</p>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-29-1.png" width="672" /><img src="timeseRies_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
+<p>As we increase the tapering, the sidelobes of become progressively smaller, but the width of the main lobe increases. This we will illustrate with a special taper, for which the phenomenon is most visible.</p>
+<p>The Slepian tapers are special tapers that <!--or zeroth order  discrete prolate spheroidal sequence, DPSS(0), 
+--> minimize the energy in the side lob. They are the filters whose transfer function is maximized in a specified range <span class="math inline">\(|\omega|&lt; W\)</span>. <!--
+Specifically, they maximize the measure of concentration
+\[ \frac{\int_{-W}^W \mathcal{H}(\omega) \mathrm{d} \omega}{\int_{-1/2}^{1/2} \mathcal{H}(\omega) \mathrm{d} \omega}.\]
+--> They are oftentime parametrized in terms of <span class="math inline">\(nW\)</span>, and <span class="math inline">\(nW=1\)</span> gives back (roughly speaking) the Fejér kernel, while <span class="math inline">\(nW=2\)</span> is closer to the Hanning taper.</p>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-30-1.png" width="672" /><img src="timeseRies_files/figure-html/unnamed-chunk-30-2.png" width="672" /></p>
+<p>What happens when we overtaper a series? The following plot shows the expected value of the direct estimate of the spectrum based on 64 observations (!) compared to the true estimate. The underlying spectra is that of a AR(4) series.</p>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<!---
+
+### Autoregressive process of order 4
+
+The next example, from Percival and Walden, is that of an AR(4) series for which the spectrum is known. When the number of observations is larger than say 500, you should smooth the periodogram. We perform the calculations manually using fast Fourier transforms to illustrate the method. The following code is partly stolen from [this example by Dave Riegert](http://stats.stackexchange.com/questions/229530/spectral-density-of-a-time-series-r-implementation-explanation?rq=1).
+
+An advanced technique (not covered in the course) is multitapering. It consists of a combination of tapered estimates whose taper functions are orthogonal. The tapered estimates are averaged, hereby increasing the number of degrees of freedom and reducing the variance of the estimated spectra. This state of the art method is useful for peaks detection (via an harmonic F-test) and it allows one to build confidence intervals via the jackknife.  The package `multitaper` implements multitapering via `spec.mtm`; see `plot.mtm` for an example.
+-->
+</div>
+<div id="a-data-example" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> A data example</h3>
+<p>We now illustrate the calculation of the raw periodogram on the <code>sunspot</code> dataset.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;http://faculty.washington.edu/dbp/s520/R-code/tapers.R&quot;</span>)
+sunspot =<span class="st"> </span><span class="kw">c</span>(<span class="kw">scale</span>(<span class="kw">sqrt</span>(sunspot.year), <span class="dt">scale =</span> <span class="ot">FALSE</span>))  <span class="co">#Square root transformed sunspot, centered </span>
+n &lt;-<span class="st"> </span><span class="kw">length</span>(sunspot)
+nj &lt;-<span class="st"> </span><span class="kw">floor</span>(n<span class="op">/</span><span class="dv">2</span>)
+om &lt;-<span class="st"> </span>(<span class="dv">1</span><span class="op">:</span>nj)<span class="op">/</span>n
+<span class="co"># Calculate manually the periodogram using the formulas for the regression</span>
+<span class="co"># coefficients</span>
+a &lt;-<span class="st"> </span>b &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">mode =</span> <span class="st">&quot;numeric&quot;</span>, <span class="dt">length =</span> nj)
+<span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nj) {
+    a[j] &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="cf">function</span>(t) {
+        sunspot[t] <span class="op">*</span><span class="st"> </span><span class="kw">cos</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi <span class="op">*</span><span class="st"> </span>t <span class="op">*</span><span class="st"> </span>j<span class="op">/</span>n)
+    }))
+    b[j] &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="cf">function</span>(t) {
+        sunspot[t] <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi <span class="op">*</span><span class="st"> </span>t <span class="op">*</span><span class="st"> </span>j<span class="op">/</span>n)
+    }))
+}
+<span class="co"># Plot the log-periodogram</span>
+<span class="kw">plot</span>(om, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">log10</span>(<span class="dv">2</span><span class="op">/</span>n<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(a<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>b<span class="op">^</span><span class="dv">2</span>)), <span class="dt">main =</span> <span class="st">&quot;Scaled log-periodogram&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Fundamental frequencies (cycle per unit time)&quot;</span>, 
+    <span class="dt">ylab =</span> <span class="st">&quot;Decibels (dB)&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)
+<span class="co"># Repeat the calculations, this time using the FFT</span>
+<span class="kw">lines</span>(om, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">log10</span>(Per &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">Mod</span>(<span class="kw">fft</span>(sunspot))[<span class="dv">2</span><span class="op">:</span>(nj <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)]<span class="op">/</span>n)<span class="op">^</span><span class="dv">2</span>))  <span class="co">#lines overlayed</span></code></pre></div>
+<p><img src="timeseRies_files/figure-html/stoffer_nlts-1.png" width="672" /></p>
+<p>The two definitions are thus identical, but one must be careful with the different scalings employed in different references.</p>
+<p>It is customary to include trailing zeros in the series to make the latter divisible by a low prime, potentially doubling its length. Padding with zero does not affect the properties of the estimates, but rather the frequency at which they are computed. Padding is used to make the computations faster.</p>
+<p>We illustrate zero-padding and tapering in the next plots. We abstain from now from smoothing.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot((1:nj)/n, Per, type=&#39;l&#39;, xlab = &#39;Frequency&#39;, ylab = &#39;Spectral</span>
+<span class="co"># density&#39;, main = &#39;Periodogram&#39;) Zero padding</span>
+M &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">nextn</span>(n, <span class="dt">factors =</span> <span class="dv">2</span>)  <span class="co">#1024, next power of 2 greater than sample size</span>
+<span class="co"># calculate the periodogram with the FFT with zero padding</span>
+ffreq &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span><span class="op">/</span>M, <span class="fl">0.5</span>, <span class="dt">by =</span> <span class="dv">1</span><span class="op">/</span>M)
+spec_pgram &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">fft</span>(<span class="kw">c</span>(sunspot<span class="op">/</span><span class="kw">sqrt</span>(n), <span class="kw">rep</span>(<span class="dv">0</span>, M <span class="op">-</span><span class="st"> </span>n)))[<span class="dv">2</span><span class="op">:</span>(M<span class="op">/</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)])<span class="op">^</span><span class="dv">2</span>  <span class="co">#square modulus of FFT data, </span>
+<span class="kw">plot</span>(ffreq, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">log10</span>(spec_pgram), <span class="dt">xlab =</span> <span class="st">&quot;Fundamental frequencies (cycle per unit time)&quot;</span>, 
+    <span class="dt">ylab =</span> <span class="st">&quot;Decibels (dB)&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Log-periodogram&quot;</span>)
+<span class="co"># Tapering</span>
+tapc_sunspot &lt;-<span class="st"> </span><span class="kw">cosine.taper</span>(<span class="dt">N =</span> n, <span class="dt">p =</span> <span class="fl">0.5</span>) <span class="op">*</span><span class="st"> </span>sunspot
+taps_sunspot &lt;-<span class="st"> </span><span class="kw">slepian.taper</span>(<span class="dt">N =</span> n, <span class="dt">NW =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>sunspot
+spec_tap_cos &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">fft</span>(<span class="kw">c</span>(tapc_sunspot, <span class="kw">rep</span>(<span class="dv">0</span>, M <span class="op">-</span><span class="st"> </span>n)))[<span class="dv">2</span><span class="op">:</span>(M<span class="op">/</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)])<span class="op">^</span><span class="dv">2</span>
+spec_tap_sle &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">fft</span>(<span class="kw">c</span>(taps_sunspot, <span class="kw">rep</span>(<span class="dv">0</span>, M <span class="op">-</span><span class="st"> </span>n)))[<span class="dv">2</span><span class="op">:</span>(M<span class="op">/</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)])<span class="op">^</span><span class="dv">2</span>
+<span class="kw">lines</span>(ffreq, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">log10</span>(spec_tap_cos), <span class="dt">col =</span> <span class="dv">3</span>)
+<span class="kw">lines</span>(ffreq, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">log10</span>(spec_tap_sle), <span class="dt">col =</span> <span class="dv">4</span>)
+<span class="kw">legend</span>(<span class="dt">x =</span> <span class="st">&quot;bottomleft&quot;</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">3</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Fejer&quot;</span>, 
+    <span class="st">&quot;Slepian (NW=4)&quot;</span>, <span class="st">&quot;Cosine (0.5)&quot;</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p>Since the dynamic range is low, tapering has little effect here.</p>
+</div>
+<div id="smoothing" class="section level3">
+<h3><span class="header-section-number">4.1.3</span> Smoothing</h3>
+<p>Smoothing is the last modification we shall cover. The goal here is to convolve the periodogram estimate for the tapered data with a kernel. We typically consider linear filters that reproduce simple moving average. The effective range of the smoother depends on a bandwidth parameter, but the latter is model dependent.</p>
+<p>The smoothing illustrated below is performed using modified Daniell smoothers, which are simply moving averages that give half weight to the end values of the span. The simple Daniell filter gives equal weight, but it can be applied recursively. Increasing <code>spans</code> smooths the raw periodogram plotted in the first call to <code>spectrum</code>. The spans should be odd integers, and smoother results are obtained if they are different and at least two are used.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))
+<span class="kw">plot</span>(<span class="kw">kernel</span>(<span class="st">&quot;daniell&quot;</span>, <span class="dt">m =</span> <span class="dv">3</span>))
+<span class="kw">plot</span>(<span class="kw">kernel</span>(<span class="st">&quot;daniell&quot;</span>, <span class="dt">m =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">3</span>)))
+<span class="kw">plot</span>(<span class="kw">kernel</span>(<span class="st">&quot;modified.daniell&quot;</span>, <span class="dt">m =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">3</span>)))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ker &lt;-<span class="st"> </span><span class="kw">kernel</span>(<span class="st">&quot;modified.daniell&quot;</span>, <span class="dt">m =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">3</span>))
+<span class="kw">par</span>(oldpar)
+<span class="co"># Convolve the kernel with the periodogram</span>
+smooth_spec &lt;-<span class="st"> </span><span class="kw">kernapply</span>(spec_tap_sle, ker, <span class="dt">circular =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(ffreq, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">log10</span>(spec_pgram), <span class="dt">xlab =</span> <span class="st">&quot;Fundamental frequencies (cycle per unit time)&quot;</span>, 
+    <span class="dt">ylab =</span> <span class="st">&quot;Decibels (dB)&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Log-periodogram&quot;</span>)
+<span class="kw">lines</span>(ffreq, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">log10</span>(smooth_spec), <span class="dt">col =</span> <span class="dv">2</span>)
+<span class="kw">legend</span>(<span class="dt">x =</span> <span class="st">&quot;bottomleft&quot;</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;raw&quot;</span>, <span class="st">&quot;tapered and smoothed&quot;</span>), 
+    <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="spectral-analysis-and-filtering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="summary-of-nonparametric-spectral-estimation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["timeseRies.pdf", "timeseRies.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

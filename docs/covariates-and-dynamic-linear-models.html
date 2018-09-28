@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="exploratory-data-analysis.html">
-<link rel="next" href="second-order-stationarity.html">
+<link rel="prev" href="spectral-estimation-in-r.html">
+<link rel="next" href="simulation-based-prediction-intervals-for-arima-garch-models.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -219,106 +219,24 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="introduction-to-the-basic-time-series-functions" class="section level2">
-<h2><span class="header-section-number">1.2</span> Introduction to the basic time series functions</h2>
-<p>The first example we are going to handle is <code>lh</code>, a time series of 48 observations at 10-minute intervals on luteinizing hormone levels for a human female. Start by printing it.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lh</code></pre></div>
-<pre><code>Time Series:
-Start = 1 
-End = 48 
-Frequency = 1 
- [1] 2.4 2.4 2.4 2.2 2.1 1.5 2.3 2.3 2.5 2.0 1.9 1.7 2.2 1.8 3.2 3.2 2.7
-[18] 2.2 2.2 1.9 1.9 1.8 2.7 3.0 2.3 2.0 2.0 2.9 2.9 2.7 2.7 2.3 2.6 2.4
-[35] 1.8 1.7 1.5 1.4 2.1 3.3 3.5 3.5 3.1 2.6 2.1 3.4 3.0 2.9</code></pre>
-<p>Look at the information: <code>Start = 1</code>, <code>End = 48</code> and <code>Frequency = 1</code>.</p>
-<p>The second example, <code>deaths</code>, gives monthly deaths in the UK from a set of common lung diseases for the years 1974 to 1979.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;deaths&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>)
-deaths</code></pre></div>
-<pre><code>      Jan  Feb  Mar  Apr  May  Jun  Jul  Aug  Sep  Oct  Nov  Dec
-1974 3035 2552 2704 2554 2014 1655 1721 1524 1596 2074 2199 2512
-1975 2933 2889 2938 2497 1870 1726 1607 1545 1396 1787 2076 2837
-1976 2787 3891 3179 2011 1636 1580 1489 1300 1356 1653 2013 2823
-1977 3102 2294 2385 2444 1748 1554 1498 1361 1346 1564 1640 2293
-1978 2815 3137 2679 1969 1870 1633 1529 1366 1357 1570 1535 2491
-1979 3084 2605 2573 2143 1693 1504 1461 1354 1333 1492 1781 1915</code></pre>
-<p>Use <code>tsp(deaths)</code> to get <code>Start = 1974</code>, <code>End = 1979.917</code> and <code>Frequency = 12</code>. You can also access each of these attributes using the functions <code>start(deaths)</code>, <code>end(deaths)</code> and <code>frequency(deaths)</code>. Use <code>cycle(deaths)</code> to get the position in the cycle of each observation.</p>
-<p>Time series can be plotted by <code>plot</code>. The argument <code>lty</code> of the function <code>plot</code> controls the type of the plotted line (solid, dashed, dotted, …). For more details, type <code>?par</code> (for graphical parameters).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))  <span class="co">#2 plot side by side</span>
-<span class="kw">plot</span>(lh, <span class="dt">main =</span> <span class="st">&quot;Luteinizing Hormone in</span><span class="ch">\n</span><span class="st">Blood Samples&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;IU/L&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Number of 10 minutes intervals</span><span class="ch">\n</span><span class="st"> from first sample&quot;</span>)
-<span class="kw">plot</span>(deaths, <span class="dt">main =</span> <span class="st">&quot;Monthly Deaths from </span><span class="ch">\n</span><span class="st">Lung Diseases in the UK&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Monthly deaths&quot;</span>, 
-    <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">4000</span>))
-<span class="kw">lines</span>(mdeaths, <span class="dt">lty =</span> <span class="dv">2</span>)
-<span class="kw">lines</span>(fdeaths, <span class="dt">lty =</span> <span class="dv">3</span>)
-<span class="kw">legend</span>(<span class="dt">x =</span> <span class="st">&quot;topright&quot;</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Total&quot;</span>, <span class="st">&quot;Men&quot;</span>, <span class="st">&quot;Women&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, 
-    <span class="dv">2</span>, <span class="dv">3</span>))</code></pre></div>
-<p><img src="timeseRies_files/figure-html/basic_plots-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">graphics.off</span>()  <span class="co">#close console</span></code></pre></div>
-<p>Above, you can see plots of <code>lh</code> and the three series on deaths. In the right-hand plot, the dashed series is for males, the dotted series for females and the solid line for the total.</p>
-<p>The functions <code>ts.union</code> and <code>ts.intersect</code> bind together multiple time series which have a common frequency. The time axes are aligned and only observations at times that appear in all the series are retained with <code>ts.intersect</code>; with <code>ts.union</code> the combined series covers the whole range of the components, possibly as <code>NA</code> values.</p>
-<p>The function <code>window</code> extracts a sub-series of a single or multiple time series, by specifying <code>start</code>, <code>end</code> or both.</p>
-<p>The function <code>lag</code> shifts the time axis of a series back by <span class="math inline">\(k\)</span> positions (default is <code>k = 1</code>). Thus <code>lag(deaths, k=3)</code> is the series of deaths shifted one quarter into the past.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(deaths, <span class="dt">main =</span> <span class="st">&quot;Monthly Deaths from </span><span class="ch">\n</span><span class="st">Lung Diseases in the UK&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Monthly deaths&quot;</span>, 
-    <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>)
-<span class="kw">lines</span>(<span class="kw">lag</span>(deaths, <span class="dt">k =</span> <span class="dv">3</span>), <span class="dt">lty =</span> <span class="dv">3</span>)</code></pre></div>
-<p><img src="timeseRies_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>The function <code>diff</code> takes the difference between a series and its lagged values and so returns a series of length <span class="math inline">\(n-k\)</span> with values lost from the beginning (if <span class="math inline">\(k&gt;0\)</span>) or end. Beware: the argument <code>lag</code> (default is <code>lag = 1</code>) is used in the usual sense here, so <code>diff(deaths, lag=3)</code> is equal to <code>deaths - lag(deaths, k=-3)</code>! The function <code>diff</code> has an argument <code>differences</code> which causes the operation to be iterated.</p>
-<p>The function <code>aggregate</code> can be used to change the frequency of the time base.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aggregate</span>(deaths, <span class="dv">4</span>, sum)</code></pre></div>
-<pre><code>     Qtr1 Qtr2 Qtr3 Qtr4
-1974 8291 6223 4841 6785
-1975 8760 6093 4548 6700
-1976 9857 5227 4145 6489
-1977 7781 5746 4205 5497
-1978 8631 5472 4252 5596
-1979 8262 5340 4148 5188</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aggregate</span>(deaths, <span class="dv">1</span>, sum)</code></pre></div>
-<pre><code>Time Series:
-Start = 1974 
-End = 1979 
-Frequency = 1 
-[1] 26140 26101 25718 23229 23951 22938</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aggregate</span>(deaths, <span class="dv">4</span>, mean)</code></pre></div>
-<pre><code>         Qtr1     Qtr2     Qtr3     Qtr4
-1974 2763.667 2074.333 1613.667 2261.667
-1975 2920.000 2031.000 1516.000 2233.333
-1976 3285.667 1742.333 1381.667 2163.000
-1977 2593.667 1915.333 1401.667 1832.333
-1978 2877.000 1824.000 1417.333 1865.333
-1979 2754.000 1780.000 1382.667 1729.333</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aggregate</span>(deaths, <span class="dv">1</span>, mean)</code></pre></div>
-<pre><code>Time Series:
-Start = 1974 
-End = 1979 
-Frequency = 1 
-[1] 2178.333 2175.083 2143.167 1935.750 1995.917 1911.500</code></pre>
-<p>One way to compute the linear or polynomial trend of a series is to use the function <code>lm</code>, which fits linear models. The function <code>fitted</code> allows you to extract the model fitted values, while <code>c(1:48)</code> represents the integers from 1 to 48 and the function <code>poly</code> computes orthogonal polynomials.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(lh, <span class="dt">main =</span> <span class="st">&quot;Luteinizing Hormone in Blood Samples&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;IU/L&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Number of 10 minutes intervals</span><span class="ch">\n</span><span class="st"> from first sample&quot;</span>, 
-    <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">3.5</span>))
-<span class="kw">lines</span>(<span class="kw">fitted</span>(<span class="kw">lm</span>(lh <span class="op">~</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">48</span>))), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
-<span class="kw">lines</span>(<span class="kw">fitted</span>(<span class="kw">lm</span>(lh <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">48</span>, <span class="dv">2</span>))), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
-<span class="kw">legend</span>(<span class="dt">x =</span> <span class="st">&quot;bottomright&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;linear&quot;</span>, <span class="st">&quot;quadratic&quot;</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">2</span>), 
-    <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
-<p><img src="timeseRies_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<div id="exercise-1-beaver-temperature" class="section level3">
-<h3><span class="header-section-number">1.2.1</span> Exercise 1: Beaver temperature</h3>
-<ol style="list-style-type: decimal">
-<li>Load the <code>beav2</code> data from the library <code>MASS</code>.</li>
-<li>Examine the data frame using <code>summary</code>, <code>head</code>, <code>tail</code>. Query the help with <code>?beav2</code> for a description of the dataset</li>
-<li>Transform the temperature data into a time series object and plot the latter.</li>
-<li>Fit a linear model using <code>lm</code> and the variable <code>activ</code> as factor, viz. <code>lin_mod &lt;- lm(temp~as.factor(activ), data=beav2)</code>. Overlay the means on your plot with <code>lines(fitted(lin_mod))</code> replacing <code>lin_mod</code> with your <code>lm</code> result.</li>
-<li>Inspect the residuals (<code>resid(lin_mod)</code>) and determine whether there is any evidence of trend or seasonality.</li>
-<li>Look at a quantile-quantile (Q-Q) plot to assess normality. You can use the command <code>qqnorm</code> if you don’t want to transform manually the residuals with <code>qqline</code> or use <code>plot(lin_mod, which=2)</code>.</li>
-<li>Plot the lag-one residuals at time <span class="math inline">\(t\)</span> and <span class="math inline">\(t-1\)</span>. Is the dependence approximately linear?</li>
-</ol>
-</div>
+<div id="covariates-and-dynamic-linear-models" class="section level1">
+<h1><span class="header-section-number">5</span> Covariates and dynamic linear models</h1>
+<p>This tutorial addresses the following:</p>
+<ul>
+<li>estimation of ARIMA-GARCH models with parameter constraints</li>
+<li>inclusion of covariates in the specification of the variance</li>
+<li>model prediction based on simulations</li>
+<li>estimation of a dynamic linear model using the packages <code>dlm</code> and <code>KFAS</code></li>
+<li>confidence intervals for quantile-quantile plots.</li>
+</ul> 
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="exploratory-data-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="second-order-stationarity.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="spectral-estimation-in-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simulation-based-prediction-intervals-for-arima-garch-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

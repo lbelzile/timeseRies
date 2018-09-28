@@ -1,6 +1,6 @@
-# Practical series 1 (solutions)
+## Solutions to Exercises
 
-### Exercise 1. Beaver temperature
+### Solutions 1: Beaver temperature
 1. Load the `beav2` data from the library `MASS`.
 2. Examine the data frame using `summary`, `head`, `tail`. Query the help with `?beav2` for a description of the dataset
 3. Transform the temperature data into a time series object and plot the latter.
@@ -42,7 +42,7 @@ plot(qnorm(rank(res)/(length(res)+1)), res/sd(res), pty="s", bty="l",
 plot(res[-length(res)], res[-1], xlab=expression(Y[t-1]), ylab=expression(Y[t]), main="Lagged residuals")
 ```
 
-### Exercise 2. SP500 daily returns
+### Solutions 2: SP500 daily returns
 1. Download the dataset using the following command
 2. Obtain the daily percent return series and plot the latter against time. 
 3. With the help of graphs, discuss evidences of seasonality and nonstationarity. Are there seasons of returns?
@@ -85,7 +85,7 @@ pacf(I(spret^2), na.action=na.pass, main=title_sp)
 ```
 
 
-### Exercise 3. Simulated data
+### Solutions 3: Simulated data
 The first 5 parts of the question are straightforward and left to the reader. 
 
 1. Simulate 500 observations from an AR(1) process with parameter values $\alpha \in  \{0.1, 0.5, 0.9, 0.99\}$. 
@@ -135,7 +135,7 @@ plot(mult, main="Multiplicative series with lognormal margins", ylab="", xlab="T
 
 
 
-### Exercise 4: Mauna Loa Atmospheric CO~2~ Concentration
+### Solutions 4: Mauna Loa Atmospheric CO~2~ Concentration
 
 1. Load and plot the CO~2~ dataset from [NOAA](ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt). Pay special attention to the format, missing values, the handling of string and the description. Use `?read.table` for help, and look carefully at arguments `file`, `sep`, `na.strings`, `skip` and `stringsAsFactors`. From now on, we will work with the complete series (termed interpolated in the description).
 2. Try removing the trend using a linear model. Plot the residuals against month of the year.

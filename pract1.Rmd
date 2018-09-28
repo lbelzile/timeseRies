@@ -1,4 +1,4 @@
-# Practical series 1
+# Introduction 
 
 ```{r knitr_init, echo=FALSE, cache=FALSE}
 library(knitr)
@@ -12,8 +12,6 @@ opts_chunk$set(tidy=TRUE,
 opts_knit$set(width=150)
 ```
 
-
-## Exploratory Data Analysis
 
 This online tutorial for MATH 342 is meant to provide a review of basic R syntax, including plotting functions.
 
@@ -31,6 +29,8 @@ I will heavily focus on some time series libraries that are not part of the `bas
 
 
 The first thing to know about R is how to access help files. If you want to read about time series, type `help.search("time series")`. If you want to read the help file on a particular function, for example `plot`, use `?plot` or `help("plot")`.
+
+## Exploratory Data Analysis
 
 
 ### Libraries
@@ -159,9 +159,8 @@ legend(x="bottomright", legend = c("linear", "quadratic"), col = c(4,2), lty=c(1
 
 
 
-**YOUR TURN**
 
-#### Exercise 1. Beaver temperature
+### Exercise 1: Beaver temperature
 1. Load the `beav2` data from the library `MASS`.
 2. Examine the data frame using `summary`, `head`, `tail`. Query the help with `?beav2` for a description of the dataset
 3. Transform the temperature data into a time series object and plot the latter.
@@ -257,9 +256,9 @@ pairs.ts(sunspots)
 ```
 
 
-**YOUR TURN**
 
-### Exercise 2. SP500 daily returns
+
+### Exercise 2: SP500 daily returns
 
 1. Download the dataset using the following command
 ```{r, eval=FALSE}
@@ -313,9 +312,9 @@ Do it again with the following function, which has Student distributed variables
  y1 <- arch.sim2(n, a0=a0, a1=a1)
 ```
 
-**YOUR TURN**
 
-### Exercise 3. Simulated data
+
+### Exercise 3: Simulated data
 
 1. Simulate 500 observations from an AR(1) process with parameter values $\alpha \in  \{0.1, 0.5, 0.9, 0.99\}$. 
 2. Repeat for MA processes of different orders. There is no restriction on the coefficients of the latter for stationarity, unlike the AR process.
@@ -413,9 +412,7 @@ seasonal_decomp_death <- stl(deaths, s.window="periodic")
 plot(seasonal_decomp_death)
 ```
 
-**YOUR TURN**
-
-#### Exercise 4. Mauna Loa Atmospheric CO~2~ Concentration
+### Exercise 4: Mauna Loa Atmospheric CO~2~ Concentration
 
 1. Load and plot the CO~2~ dataset from [NOAA](ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt). Pay special attention to the format, missing values, the handling of string and the description. Use `?read.table` for help, and look carefully at arguments `file`, `sep`, `na.strings`, `skip` and `stringsAsFactors`. From now on, we will work with the complete series (termed interpolated in the description).
 2. Try removing the trend using a linear model. Plot the residuals against month of the year.

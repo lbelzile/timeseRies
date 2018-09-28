@@ -31,9 +31,7 @@ plot(ozone, grid.ticks.on = "year", main="Ozone concentration in Raleigh, NC\nDa
 ```
 
 
-**YOUR TURN** 
-  
-### Exercise 1. Jussy air temperature
+### Exercise 1: Jussy air temperature
   
 1. Load the data from the website, available at <http://sma.epfl.ch/~lbelzile/math342/jussy_temp.csv>, using the command
 ```{r eval=FALSE}
@@ -95,9 +93,7 @@ plot(stl_Airgap <- stlplus(tsAirgap, s.window="periodic"))
 The following illustrates the use of local fit to interpolate the missing values, but one could equally well fit using a local linear model with `loess` and use the fitted values by predicting at unobserved time points. In general, these predictions are *wrong* because they do not include any time dependence structure. Another useful feature from the package `zoo` is `na.trim` to removing trailing `NA`s at the beginning and the end of a series.
 
 
-**YOUR TURN**
-
-### Exercise 2. Tyne river flow
+### Exercise 2: Tyne river flow
 
 1. Import the following dataset and look at the summary
 ```{r}

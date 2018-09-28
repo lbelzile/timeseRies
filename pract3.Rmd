@@ -1,4 +1,12 @@
-# Practical series 3
+# Seasonal ARIMA and GARCH models
+
+
+This tutorial addresses the following:
+- estimation and forecasting for SARIMA models.
+- uncertainty quantification using the bootstrap for time series. This material is optional.
+- estimation of GARCH and forecast from the latter using rolling-windows.
+
+
 
 
 ## SARIMA models: estimation and forecasting
@@ -37,7 +45,7 @@ This is a somewhat modern variant of the Cochran--Orcutt procedure.
 A matrix of external regressors can be supplied to any of `arima` functions via the argument `xreg`. There are subtleties associated with fitting time series models with regressors. See notably [The ARIMAX model muddle by Rob Hyndman](http://robjhyndman.com/hyndsight/arimax/).
 
 
-### Mauna Loa CO2 dataset
+### Mauna Loa CO~2~ dataset
 
 We revisit the Mauna Loa CO~2~ example. While one can see very clear trend and seasonality. One could in principle add a linear trend to the model. Detrending is difficult because there is clear evidence that the growth is exponential and not linear. One could nevertheless fit a model to the deterministic part and then model residuals. This would likely require removing the components $(1-B)(1-B^{12})$ from the model, but may create artifacts that will be due to model misspecification. The SARIMA prediction seemingly works because of the combination of the seasonal unit root and the unit root (note however how the observed pattern from the last cycle gets reproduced).
 
@@ -107,8 +115,6 @@ plot(for_stl, include = 48)
 
 In practice, it seems clear that the uncertainty is underestimated. We did look at multiple models (or would normally have) before settling on this particular SARIMA model. The parameter uncertainty also needs to be considered, as well as prior data transformation. In the sequel, we provide a brief overview of boostrap methods for time series.
 
-
-**YOUR TURN**
 
 ### Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports
 1. Fit a SARIMA model on the Nottingham average monthly temperature  dataset `nottem` and obtain predictions for the three subsequent years.
@@ -352,7 +358,6 @@ More details about bootstrap methods for time series can be found in [Bühlmann 
 
 More sophisticated methods will be needed depending on the model considered. If you have heteroscedasticity, then the residuals $v_t$ cannot be sampled independently from the fitted residuals. One can use then the so-called **wild** bootstrap and resample $v_t^*=s_t^*v_t$, where $s_t^* \stackrel{\mathrm{iid}}{\sim}F(0,1)$. The simplest such example is the Rademacher distribution, a two point distribution that puts mass $1/2$ on $\{-1, 1\}$. One could also resample from $\mathcal{N}(0,1)$.
 
-**YOUR TURN**
 
 ### Exercice 2: Lake Erie and Lake Huron levels
 1. Fit a linear model to the January observations of the Lake Erie data of the form $y_t=\beta_0+\beta_1t+\varepsilon_t$, ignoring the temporal dependence. Test the null hypothesis that the trend is not significant.
@@ -508,7 +513,7 @@ plot(residuals(model_fit, standardize = TRUE), type = "h", main = "Residuals fro
 We note that while the GARCH structure captures the linear dependence well, the normality of the errors is doubtful. One could change the distribution of the errors to Student by changing `distribution.model = "std"`. The fit is then noticeably better, except for some negative returns. Indeed, the GARCH(1,1) model fails to adequately capture the negative returns. There are empirical evidences that the market response to losses is asymmetric, and GARCH fails to capture this. To remediate this, we could consider a variant of the GARCH model, such as eGARCH. Another popular alternative is the GJR-GARCH model, which includes a leverage term. The conditional variance of the GJR-GARCH(1,1) model is of the form
 \[\sigma^2_t = \alpha_0+(\gamma_1\mathrm{sign}|\varepsilon_{t-1}|+\alpha_1)\varepsilon_{t-1}^2+\beta_1\sigma^2_{t-1}).\]
 
-## Predictions
+### Predictions
 
 It is best to use rolling windows for large time series to perform out-of-sample validation. That is, fit the model to observations $t_k, \ldots, t_{k+N}$, then to $t_{k+1}, \ldots, t_{k+N+1}$ for $k=1, \ldots, n$. $N$ depends on the context, but for time series it should be roughly 5 years. The function `ugarchroll` can do this for you (but it is computationally intensive, so beware). It is not hard to code your own function (see e.g. [this blog post](http://unstarched.net/2012/12/26/rolling-garch-forecasts/)).
 An bootstrap prediction for returns and volatilities in GARCH models is also implemented; I can provide more details upon request.
@@ -524,8 +529,6 @@ gjrGARCHfit <- garchFit(~ arma(3, 0) + garch(1, 1), #fit a gjr
 #plot(gjrGARCHfit, which = 13) #QQ-plot
 ```
 
-
-**YOUR TURN**
 
 ### Exercice 3: International Business Machines (IBM) stock
 

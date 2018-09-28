@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>timeseRies</title>
+  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="timeseRies" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="github-repo" content="lbelzile/timeseRies" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="timeseRies" />
+  
+  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  
+
+<meta name="author" content="Léo Belzile">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html">
+<link rel="next" href="spectral-analysis-and-filtering.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Time Series</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminary remarks</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>1.1</b> Exploratory Data Analysis</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#libraries"><i class="fa fa-check"></i><b>1.1.1</b> Libraries</a></li>
+<li class="chapter" data-level="1.1.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#loading-datasets"><i class="fa fa-check"></i><b>1.1.2</b> Loading datasets</a></li>
+<li class="chapter" data-level="1.1.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#time-series-objects-and-basic-plots"><i class="fa fa-check"></i><b>1.1.3</b> Time series objects and basic plots</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-the-basic-time-series-functions.html"><a href="introduction-to-the-basic-time-series-functions.html"><i class="fa fa-check"></i><b>1.2</b> Introduction to the basic time series functions</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-to-the-basic-time-series-functions.html"><a href="introduction-to-the-basic-time-series-functions.html#exercise-1-beaver-temperature"><i class="fa fa-check"></i><b>1.2.1</b> Exercise 1: Beaver temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html"><i class="fa fa-check"></i><b>1.3</b> Second order stationarity</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="second-order-stationarity.html"><a href="second-order-stationarity.html#exercise-2-sp500-daily-returns"><i class="fa fa-check"></i><b>1.3.1</b> Exercise 2: SP500 daily returns</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="simulations.html"><a href="simulations.html"><i class="fa fa-check"></i><b>1.4</b> Simulations</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="simulations.html"><a href="simulations.html#exercise-3-simulated-data"><i class="fa fa-check"></i><b>1.4.1</b> Exercise 3: Simulated data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="spectral-analysis.html"><a href="spectral-analysis.html"><i class="fa fa-check"></i><b>1.5</b> Spectral analysis</a></li>
+<li class="chapter" data-level="1.6" data-path="smoothing-and-detrending.html"><a href="smoothing-and-detrending.html"><i class="fa fa-check"></i><b>1.6</b> Smoothing and detrending</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="smoothing-and-detrending.html"><a href="smoothing-and-detrending.html#exercise-4-mauna-loa-atmospheric-co2-concentration"><i class="fa fa-check"></i><b>1.6.1</b> Exercise 4: Mauna Loa Atmospheric CO<sub>2</sub> Concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i><b>1.7</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#solutions-1-beaver-temperature"><i class="fa fa-check"></i><b>1.7.1</b> Solutions 1: Beaver temperature</a></li>
+<li class="chapter" data-level="1.7.2" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#solutions-2-sp500-daily-returns"><i class="fa fa-check"></i><b>1.7.2</b> Solutions 2: SP500 daily returns</a></li>
+<li class="chapter" data-level="1.7.3" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#solutions-3-simulated-data"><i class="fa fa-check"></i><b>1.7.3</b> Solutions 3: Simulated data</a></li>
+<li class="chapter" data-level="1.7.4" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#solutions-4-mauna-loa-atmospheric-co2-concentration"><i class="fa fa-check"></i><b>1.7.4</b> Solutions 4: Mauna Loa Atmospheric CO<sub>2</sub> Concentration</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="likelihood-estimation-and-the-boxjenkins-method.html"><a href="likelihood-estimation-and-the-boxjenkins-method.html"><i class="fa fa-check"></i><b>2</b> Likelihood estimation and the Box–Jenkins method</a><ul>
+<li class="chapter" data-level="2.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html"><i class="fa fa-check"></i><b>2.1</b> Manual maximum likelihood estimation</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="manual-maximum-likelihood-estimation.html"><a href="manual-maximum-likelihood-estimation.html#exercise-1-ubs-stock-returns"><i class="fa fa-check"></i><b>2.1.1</b> Exercise 1: UBS stock returns</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html"><i class="fa fa-check"></i><b>2.2</b> Box–Jenkins methodology for ARMA models</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="boxjenkins-methodology-for-arma-models.html"><a href="boxjenkins-methodology-for-arma-models.html#exercise-2-simulated-series"><i class="fa fa-check"></i><b>2.2.1</b> Exercise 2: Simulated series</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html"><i class="fa fa-check"></i><b>2.3</b> Information criterion, model selection and profile likelihood</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="information-criterion-model-selection-and-profile-likelihood.html"><a href="information-criterion-model-selection-and-profile-likelihood.html#exercise-3-lake-erie-height"><i class="fa fa-check"></i><b>2.3.1</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="solutions-to-exercises-1.html"><a href="solutions-to-exercises-1.html"><i class="fa fa-check"></i><b>2.4</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="solutions-to-exercises-1.html"><a href="solutions-to-exercises-1.html#exercise-1-ubs-stock-returns-1"><i class="fa fa-check"></i><b>2.4.1</b> Exercise 1: UBS stock returns</a></li>
+<li class="chapter" data-level="2.4.2" data-path="solutions-to-exercises-1.html"><a href="solutions-to-exercises-1.html#exercise-2-simulated-series-1"><i class="fa fa-check"></i><b>2.4.2</b> Exercise 2: Simulated series</a></li>
+<li class="chapter" data-level="2.4.3" data-path="solutions-to-exercises-1.html"><a href="solutions-to-exercises-1.html#exercise-3-lake-erie-height-1"><i class="fa fa-check"></i><b>2.4.3</b> Exercise 3: Lake Erie height</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="seasonal-arima-and-garch-models.html"><a href="seasonal-arima-and-garch-models.html"><i class="fa fa-check"></i><b>3</b> Seasonal ARIMA and GARCH models</a><ul>
+<li class="chapter" data-level="3.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>3.1</b> SARIMA models: estimation and forecasting</a></li>
+<li class="chapter" data-level="3.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html"><i class="fa fa-check"></i><b>3.2</b> An aside on models with regressors (optional)</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>3.2.1</b> Mauna Loa CO<sub>2</sub> dataset</a></li>
+<li class="chapter" data-level="3.2.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>3.2.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>3.3</b> Boostrap methods for time series</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>3.3.1</b> Bootstrapping a linear model</a></li>
+<li class="chapter" data-level="3.3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>3.3.2</b> Testing for heteroscedasticity</a></li>
+<li class="chapter" data-level="3.3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>3.3.3</b> AR-sieve bootstrap</a></li>
+<li class="chapter" data-level="3.3.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>3.3.4</b> Boostrap models for uncertainty assesment</a></li>
+<li class="chapter" data-level="3.3.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>3.3.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>3.4</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#predictions"><i class="fa fa-check"></i><b>3.4.1</b> Predictions</a></li>
+<li class="chapter" data-level="3.4.2" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>3.4.2</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html"><i class="fa fa-check"></i><b>3.5</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>3.5.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="3.5.2" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>3.5.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="3.5.3" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>3.5.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>4</b> Spectral analysis and filtering</a><ul>
+<li class="chapter" data-level="4.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.1</b> Nonparametric spectral estimation</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#tapering"><i class="fa fa-check"></i><b>4.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.2</b> A data example</a></li>
+<li class="chapter" data-level="4.1.3" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.3</b> Smoothing</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.2</b> Summary of nonparametric spectral estimation</a></li>
+<li class="chapter" data-level="4.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>4.3</b> Spectral estimation in R</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#smoothing-and-seasonally-adjusted-values"><i class="fa fa-check"></i><b>4.3.1</b> Smoothing and seasonally adjusted values</a></li>
+<li class="chapter" data-level="4.3.2" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html#exercise-1-southern-oscillation-index-soi-and-fish-recruitement"><i class="fa fa-check"></i><b>4.3.2</b> Exercise 1: Southern oscillation index (SOI) and fish recruitement</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="covariates-and-dynamic-linear-models.html"><a href="covariates-and-dynamic-linear-models.html"><i class="fa fa-check"></i><b>5</b> Covariates and dynamic linear models</a><ul>
+<li class="chapter" data-level="5.1" data-path="simulation-based-prediction-intervals-for-arima-garch-models.html"><a href="simulation-based-prediction-intervals-for-arima-garch-models.html"><i class="fa fa-check"></i><b>5.1</b> Simulation-based prediction intervals for ARIMA-GARCH models</a></li>
+<li class="chapter" data-level="5.2" data-path="state-space-models-and-the-kalman-filter.html"><a href="state-space-models-and-the-kalman-filter.html"><i class="fa fa-check"></i><b>5.2</b> State-space models and the Kalman filter</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="state-space-models-and-the-kalman-filter.html"><a href="state-space-models-and-the-kalman-filter.html#exercise-1-dynamic-linear-model-for-the-nile-river-dataset"><i class="fa fa-check"></i><b>5.2.1</b> Exercise 1: Dynamic linear model for the Nile river dataset</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="notes-on-irregular-time-series-and-missing-values.html"><a href="notes-on-irregular-time-series-and-missing-values.html"><i class="fa fa-check"></i><b>6</b> Notes on irregular time series and missing values&quot;</a><ul>
+<li class="chapter" data-level="6.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html"><i class="fa fa-check"></i><b>6.1</b> Irregular time series</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html#exercise-1-jussy-air-temperature"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1: Jussy air temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>6.2</b> Imputation of missing values</a></li>
+<li class="chapter" data-level="6.3" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html"><i class="fa fa-check"></i><b>6.3</b> Diagnostics for missing values and smoothing</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html#exercise-2-tyne-river-flow"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 2: Tyne river flow</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html"><i class="fa fa-check"></i><b>6.4</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-1-jussy-air-temperature-1"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1: Jussy air temperature</a></li>
+<li class="chapter" data-level="6.4.2" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-2-tyne-river-flow-1"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2: Tyne river flow</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">timeseRies</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="solutions-to-exercises-2" class="section level2">
+<h2><span class="header-section-number">3.5</span> Solutions to Exercises</h2>
+<div id="exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1" class="section level3">
+<h3><span class="header-section-number">3.5.1</span> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</h3>
+<ol style="list-style-type: decimal">
+<li>Fit a SARIMA model on the Nottingham average monthly temperature dataset <code>nottem</code> and obtain predictions for the three subsequent years.</li>
+<li>Fit a SARIMA model to the latter, this time including seasonal dummies as regressors</li>
+<li>Compare the forecasts from both models</li>
+<li>Import the dataset <code>hk_trade_m.csv</code> and try fitting a suitable SARIMA model to the exports (on the log scale). Contrast the forecasts for different models with their complexity as described by the number of components. What do you notice? Plot the forecasted values on the original scale of the data after back-transforming.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Nottingham monthly air temperature</span>
+<span class="kw">library</span>(forecast)
+<span class="kw">plot</span>(nottem)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">not_sar &lt;-<span class="st"> </span><span class="kw">Arima</span>(nottem, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">seasonal =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>))
+not_month &lt;-<span class="st"> </span><span class="kw">c</span>((<span class="kw">time</span>(nottem) <span class="op">*</span><span class="st"> </span><span class="dv">12</span>)<span class="op">%%</span><span class="dv">12</span>)
+xreg &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">11</span>, <span class="cf">function</span>(i) {
+    not_month <span class="op">==</span><span class="st"> </span>i
+})
+not_reg &lt;-<span class="st"> </span><span class="kw">Arima</span>(nottem, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">seasonal =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">xreg =</span> xreg, 
+    <span class="dt">include.mean =</span> <span class="ot">FALSE</span>)  <span class="co">#remove mean, otherwise collinear</span>
+
+<span class="kw">plot</span>(<span class="kw">forecast</span>(not_sar, <span class="dt">h =</span> <span class="dv">36</span>), <span class="dt">ylab =</span> <span class="st">&quot;Average monthly temperatures at Nottingham (F)&quot;</span>, 
+    <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">forecast</span>(not_reg, <span class="dt">h =</span> <span class="dv">36</span>, <span class="dt">xreg =</span> xreg[<span class="dv">1</span><span class="op">:</span><span class="dv">36</span>, ]), <span class="dt">ylab =</span> <span class="st">&quot;Average monthly temperatures at Nottingham (F)&quot;</span>, 
+    <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Hong Kong trade - code and analysis from Prof. David A. Stephens</span>
+HKTrade &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://sma.epfl.ch/~lbelzile/math342/hk_trade_m.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
+<span class="kw">library</span>(forecast)
+HK.Exports &lt;-<span class="st"> </span><span class="kw">ts</span>(HKTrade[, <span class="dv">2</span>], <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="dt">freq =</span> <span class="dv">12</span>)
+HK.Imports &lt;-<span class="st"> </span><span class="kw">ts</span>(HKTrade[, <span class="dv">3</span>], <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="dt">freq =</span> <span class="dv">12</span>)
+
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">oma =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>))
+<span class="kw">plot</span>(<span class="kw">log</span>(HK.Exports), <span class="dt">main =</span> <span class="st">&quot;Hong Kong Exports (log scale)&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">diff</span>(<span class="kw">log</span>(HK.Exports), <span class="dv">12</span>), <span class="dt">main =</span> <span class="st">&quot;Hong Kong Exports (log scale) </span><span class="ch">\n</span><span class="st"> d = 1&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">diff</span>(<span class="kw">diff</span>(<span class="kw">log</span>(HK.Exports), <span class="dv">12</span>), <span class="dv">1</span>), <span class="dt">main =</span> <span class="st">&quot;Hong Kong Exports (log scale)</span><span class="ch">\n</span><span class="st"> d = 1 &amp; D = 1, S = 12&quot;</span>)
+<span class="kw">acf</span>(<span class="kw">diff</span>(<span class="kw">diff</span>(<span class="kw">log</span>(HK.Exports), <span class="dv">12</span>), <span class="dv">1</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>, <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">main =</span> <span class="st">&quot;1st and seasonal differenced&quot;</span>)
+<span class="kw">title</span>(<span class="st">&quot;Hong Kong Exports: Raw and differenced data&quot;</span>, <span class="dt">outer =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Differencing for the log-series</span>
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">log</span>(HK.Exports), <span class="dt">lag.max =</span> <span class="dv">36</span>)
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">diff</span>(<span class="kw">log</span>(HK.Exports), <span class="dv">1</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>)
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">diff</span>(<span class="kw">log</span>(HK.Exports), <span class="dv">12</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>)
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">diff</span>(<span class="kw">diff</span>(<span class="kw">log</span>(HK.Exports), <span class="dv">12</span>), <span class="dv">1</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">oma =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>))
+Yt &lt;-<span class="st"> </span><span class="kw">log</span>(HK.Exports)
+<span class="co"># Bottom-up modelling with SARIMA models</span>
+fit.HK.<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(Yt, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="dt">seasonal =</span> <span class="kw">list</span>(<span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="dt">period =</span> <span class="dv">12</span>), 
+    <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)
+<span class="kw">summary</span>(fit.HK.<span class="dv">1</span>)</code></pre></div>
+<pre><code>Series: Yt 
+ARIMA(0,1,0)(0,1,0)[12] 
+
+sigma^2 estimated as 0.0081:  log likelihood=263.12
+AIC=-524.24   AICc=-524.23   BIC=-520.66
+
+Training set error measures:
+                        ME       RMSE        MAE          MPE      MAPE
+Training set -0.0004542289 0.08787689 0.06156272 -0.008057074 0.7100876
+                 MASE       ACF1
+Training set 0.458178 -0.5335023</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">residuals</span>(fit.HK.<span class="dv">1</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>, <span class="dt">main =</span> <span class="st">&quot;SARIMA(0, 1, 0)x(0, 1, 0)[12]&quot;</span>)
+<span class="kw">pacf</span>(<span class="kw">residuals</span>(fit.HK.<span class="dv">1</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>, <span class="dt">main =</span> <span class="st">&quot;SARIMA(0, 1, 0)x(0, 1, 0)[12]&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-6.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Remove the remaining seasonality</span>
+fit.HK.<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(Yt, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="dt">seasonal =</span> <span class="kw">list</span>(<span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="dt">period =</span> <span class="dv">12</span>), 
+    <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)
+<span class="kw">summary</span>(fit.HK.<span class="dv">2</span>)</code></pre></div>
+<pre><code>Series: Yt 
+ARIMA(0,1,0)(1,1,0)[12] 
+
+Coefficients:
+         sar1
+      -0.3300
+s.e.   0.0595
+
+sigma^2 estimated as 0.007259:  log likelihood=277.5
+AIC=-551   AICc=-550.96   BIC=-543.84
+
+Training set error measures:
+                        ME       RMSE        MAE         MPE      MAPE
+Training set -0.0006534918 0.08303735 0.05940653 -0.01068992 0.6839377
+                  MASE       ACF1
+Training set 0.4421306 -0.5417701</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">residuals</span>(fit.HK.<span class="dv">2</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>, <span class="dt">main =</span> <span class="st">&quot;SARIMA(0, 1, 0)x(1, 1, 0)[12]&quot;</span>)
+<span class="kw">pacf</span>(<span class="kw">residuals</span>(fit.HK.<span class="dv">2</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>, <span class="dt">main =</span> <span class="st">&quot;SARIMA(0, 1, 0)x(1, 1, 0)[12]&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-7.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Remove moving average component at lag 1</span>
+fit.HK.<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(Yt, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">seasonal =</span> <span class="kw">list</span>(<span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="dt">period =</span> <span class="dv">12</span>), 
+    <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)
+<span class="kw">summary</span>(fit.HK.<span class="dv">3</span>)</code></pre></div>
+<pre><code>Series: Yt 
+ARIMA(0,1,1)(1,1,0)[12] 
+
+Coefficients:
+          ma1     sar1
+      -0.5726  -0.3698
+s.e.   0.0385   0.0585
+
+sigma^2 estimated as 0.004857:  log likelihood=331.1
+AIC=-656.2   AICc=-656.11   BIC=-645.45
+
+Training set error measures:
+                       ME       RMSE       MAE         MPE      MAPE
+Training set -0.001208245 0.06778969 0.0518109 -0.01640749 0.5963856
+                  MASE       ACF1
+Training set 0.3856004 -0.1394624</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">residuals</span>(fit.HK.<span class="dv">3</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>, <span class="dt">main =</span> <span class="st">&quot;SARIMA(0, 1, 1)x(1, 1, 0)[12]&quot;</span>)
+<span class="kw">pacf</span>(<span class="kw">residuals</span>(fit.HK.<span class="dv">3</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>, <span class="dt">main =</span> <span class="st">&quot;SARIMA(0, 1, 1)x(1, 1, 0)[12]&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-8.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Remove seasonal component at lag 24</span>
+fit.HK.<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">Arima</span>(Yt, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">seasonal =</span> <span class="kw">list</span>(<span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">period =</span> <span class="dv">12</span>), 
+    <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)
+<span class="kw">summary</span>(fit.HK.<span class="dv">4</span>)</code></pre></div>
+<pre><code>Series: Yt 
+ARIMA(0,1,1)(1,1,1)[12] 
+
+Coefficients:
+          ma1    sar1     sma1
+      -0.5697  0.2034  -0.8641
+s.e.   0.0392  0.0845   0.0621
+
+sigma^2 estimated as 0.003824:  log likelihood=358.14
+AIC=-708.28   AICc=-708.13   BIC=-693.95
+
+Training set error measures:
+                       ME       RMSE        MAE         MPE      MAPE
+Training set -0.002437551 0.06003768 0.04482937 -0.02675703 0.5149574
+                  MASE       ACF1
+Training set 0.3336407 -0.1150611</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">residuals</span>(fit.HK.<span class="dv">4</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>, <span class="dt">main =</span> <span class="st">&quot;SARIMA(0, 1, 1)x(1, 1, 1)[12]&quot;</span>)
+<span class="kw">pacf</span>(<span class="kw">residuals</span>(fit.HK.<span class="dv">4</span>), <span class="dt">lag.max =</span> <span class="dv">36</span>, <span class="dt">main =</span> <span class="st">&quot;SARIMA(0, 1, 1)x(1, 1, 1)[12]&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-9.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Limits of the SARIMA model - the trend was not linear there are residual</span>
+<span class="co"># features despite differencing little can be done at this stage</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))
+<span class="kw">plot</span>(<span class="kw">forecast</span>(fit.HK.<span class="dv">1</span>, <span class="dt">h =</span> <span class="dv">36</span>), <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="dv">8</span>, <span class="dv">13</span>), <span class="dt">xlim =</span> <span class="kw">range</span>(<span class="dv">1995</span><span class="op">:</span><span class="dv">2006</span>))
+<span class="kw">plot</span>(<span class="kw">forecast</span>(fit.HK.<span class="dv">2</span>, <span class="dt">h =</span> <span class="dv">36</span>), <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="dv">8</span>, <span class="dv">13</span>), <span class="dt">xlim =</span> <span class="kw">range</span>(<span class="dv">1995</span><span class="op">:</span><span class="dv">2006</span>))
+<span class="kw">plot</span>(<span class="kw">forecast</span>(fit.HK.<span class="dv">3</span>, <span class="dt">h =</span> <span class="dv">36</span>), <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="dv">8</span>, <span class="dv">13</span>), <span class="dt">xlim =</span> <span class="kw">range</span>(<span class="dv">1995</span><span class="op">:</span><span class="dv">2006</span>))
+<span class="kw">plot</span>(<span class="kw">forecast</span>(fit.HK.<span class="dv">4</span>, <span class="dt">h =</span> <span class="dv">36</span>), <span class="dt">ylim =</span> <span class="kw">range</span>(<span class="dv">8</span>, <span class="dv">13</span>), <span class="dt">xlim =</span> <span class="kw">range</span>(<span class="dv">1995</span><span class="op">:</span><span class="dv">2006</span>))
+<span class="kw">title</span>(<span class="st">&quot;Hong Kong Exports: Forecasts (log scale)&quot;</span>, <span class="dt">outer =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-10.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Forecasts on the original scale</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))
+<span class="co"># lambda &lt;- BoxCox.lambda(HK.Exports, method = &#39;loglik&#39;)</span>
+fit.HK.4b &lt;-<span class="st"> </span><span class="kw">Arima</span>(HK.Exports, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">lambda =</span> <span class="dv">0</span>, <span class="dt">seasonal =</span> <span class="kw">list</span>(<span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, 
+    <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">period =</span> <span class="dv">12</span>), <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">forecast</span>(fit.HK.4b, <span class="dt">h =</span> <span class="dv">36</span>), <span class="dt">include =</span> <span class="dv">120</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/nottingham-11.png" width="672" /></p>
+</div>
+<div id="exercice-2-lake-erie-and-lake-huron-levels-1" class="section level3">
+<h3><span class="header-section-number">3.5.2</span> Exercice 2: Lake Erie and Lake Huron levels</h3>
+<ol style="list-style-type: decimal">
+<li>Fit a linear model to the January observations of the Lake Erie data of the form <span class="math inline">\(y_t=\beta_0+\beta_1t+\varepsilon_t\)</span>, ignoring the temporal dependence. Test the null hypothesis that the trend is not significant.</li>
+<li>Use a parametric sieve bootstrap with normal errors to assess the presence of a trend in the Lake Huron dataset. Report your conclusion as a P-value.</li>
+<li>Recall the estimation of the Lake Huron level in Practical 2. There, we saw that fitting an ARMA(2,1) led to a parameter value of <span class="math inline">\(\theta_1 \approx 1\)</span>. Using a parametric bootstrap, test the hypothesis that the parameter <span class="math inline">\(\theta_1=0\)</span>.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># From practical series 2</span>
+<span class="kw">library</span>(forecast)
+lake &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://sma.epfl.ch/~lbelzile/math342/LakeErie.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, 
+    <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>)
+lake.ts &lt;-<span class="st"> </span><span class="kw">subset</span>(<span class="kw">ts</span>(lake[, <span class="dv">2</span>], <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1920</span>, <span class="dv">1</span>), <span class="dt">frequency =</span> <span class="dv">12</span>), <span class="dt">month =</span> <span class="dv">1</span>)
+lmfit &lt;-<span class="st"> </span><span class="kw">lm</span>(lake.ts <span class="op">~</span><span class="st"> </span><span class="kw">scale</span>(<span class="kw">time</span>(lake.ts)))
+<span class="kw">summary</span>(lmfit)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>]</code></pre></div>
+<pre><code>[1] 2.150708</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Test statistic, with one sided p-value</span>
+<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">pt</span>(<span class="kw">summary</span>(lmfit)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">1</span>]<span class="op">/</span><span class="kw">summary</span>(lmfit)<span class="op">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>], 
+    <span class="dt">df =</span> lmfit<span class="op">$</span>df.residual, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>[1] 0.03656358</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="dv">5</span>
+fit_lake &lt;-<span class="st"> </span><span class="kw">Arima</span>(lake.ts, <span class="dt">order =</span> <span class="kw">c</span>(p, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">TRUE</span>, <span class="dt">include.drift =</span> <span class="ot">TRUE</span>)
+
+boot_stat &lt;-<span class="st"> </span><span class="cf">function</span>(bts) {
+    ts_ar &lt;-<span class="st"> </span><span class="kw">Arima</span>(bts, <span class="dt">order =</span> <span class="kw">c</span>(p, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">TRUE</span>, <span class="dt">include.drift =</span> <span class="ot">TRUE</span>)
+    ts_ar<span class="op">$</span>coef[<span class="st">&quot;drift&quot;</span>]
+}
+
+<span class="co"># Check normality assumption and residual dependence</span>
+<span class="kw">qqnorm</span>(<span class="kw">scale</span>(<span class="kw">resid</span>(fit_lake)))
+<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/lake_huron-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">resid</span>(fit_lake), <span class="dt">main =</span> <span class="st">&quot;Residuals of AR(p)&quot;</span>)
+<span class="kw">pacf</span>(<span class="kw">resid</span>(fit_lake), <span class="dt">main =</span> <span class="st">&quot;Residuals of AR(p)&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/lake_huron-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))
+
+<span class="co"># Coefficient estimated using an AR model</span>
+
+<span class="co"># Under H0, the drift is zero</span>
+ts_null &lt;-<span class="st"> </span><span class="kw">Arima</span>(lake.ts, <span class="dt">order =</span> <span class="kw">c</span>(p, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">TRUE</span>, <span class="dt">include.drift =</span> <span class="ot">FALSE</span>)
+B &lt;-<span class="st"> </span><span class="dv">999</span>
+boot_res &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">boot_stat</span>(lake.ts), <span class="kw">replicate</span>(<span class="dt">n =</span> B, <span class="dt">expr =</span> <span class="kw">Arima</span>(<span class="kw">arima.sim</span>(<span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar =</span> ts_null<span class="op">$</span>model<span class="op">$</span>phi, 
+    <span class="dt">order =</span> <span class="kw">c</span>(p, <span class="dv">0</span>, <span class="dv">0</span>)), <span class="dt">n =</span> <span class="kw">length</span>(lake.ts), <span class="dt">sd =</span> <span class="kw">sqrt</span>(fit_lake<span class="op">$</span>sigma2)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>ts_null<span class="op">$</span>coef[<span class="st">&quot;intercept&quot;</span>], <span class="dt">order =</span> <span class="kw">c</span>(p, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">TRUE</span>, <span class="dt">include.drift =</span> <span class="ot">TRUE</span>)<span class="op">$</span>coef[<span class="st">&quot;drift&quot;</span>]))
+<span class="co"># P-value</span>
+<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">rank</span>(boot_res)[<span class="dv">1</span>]<span class="op">/</span>(B <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<pre><code>drift 
+0.156 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Not statistically significant at level 5%, barely at 10%</span>
+<span class="kw">hist</span>(boot_res, <span class="dt">breaks =</span> <span class="dv">50</span>, <span class="dt">main =</span> <span class="st">&quot;Histogram of drift coefficient&quot;</span>, <span class="dt">xlab =</span> <span class="kw">expression</span>(beta[<span class="dv">1</span>]))
+<span class="kw">abline</span>(<span class="dt">v =</span> boot_res[<span class="dv">1</span>], <span class="dt">col =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/lake_huron-3.png" width="672" /></p>
+<p>The test statistic for the Wald test is <span class="math inline">\((\hat{\beta}-\hat{\beta}_0)/\widehat{\mathrm{se}}(\hat{\beta})\)</span>, which is 2.150708. The latter follows a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-k\)</span> degrees of freedom under the null. If there is temporal dependence, we have less new units of information, since the data is autocorrelated.</p>
+<p>The choice of the order for the AR(<span class="math inline">\(p\)</span>) approximation in the AR-sieve bootstrap can be delicate, but AIC typically leads to adequate choices. Here, taking <span class="math inline">\(p=2\)</span> seems sufficient.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Licensed under the Creative Commons attribution-noncommercial license</span>
+<span class="co"># Adapted from work of Prof. Edward Ionides,</span>
+<span class="co"># https://ionides.github.io/531w16/notes05/notes5.html</span>
+
+<span class="kw">library</span>(lubridate)
+<span class="kw">library</span>(forecast)
+<span class="co"># Data from</span>
+<span class="co"># http://www.glerl.noaa.gov/data/dashboard/data/levels/mGauge/miHuronMog.csv</span>
+dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://sma.epfl.ch/~lbelzile/math342/huron_depth.csv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, 
+    <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">skip =</span> <span class="dv">2</span>)
+dat<span class="op">$</span>Date &lt;-<span class="st"> </span><span class="kw">strptime</span>(dat<span class="op">$</span>Date, <span class="st">&quot;%m/%d/%Y&quot;</span>)
+dat<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">with</span>(dat, <span class="kw">year</span>(Date))
+dat<span class="op">$</span>month &lt;-<span class="st"> </span><span class="kw">with</span>(dat, <span class="kw">month</span>(Date))  <span class="co">#as.numeric(format(dat$Date, format = &#39;%m&#39;))</span>
+
+## Subsample values to take only January data
+dat &lt;-<span class="st"> </span><span class="kw">subset</span>(dat, month <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)
+huron_depth &lt;-<span class="st"> </span>dat<span class="op">$</span>Average
+year &lt;-<span class="st"> </span>dat<span class="op">$</span>year
+huron_arma21 &lt;-<span class="st"> </span><span class="kw">Arima</span>(huron_depth, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>))
+huron_arma20 &lt;-<span class="st"> </span><span class="kw">Arima</span>(huron_depth, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>))
+<span class="kw">qqnorm</span>(<span class="kw">scale</span>(<span class="kw">resid</span>(huron_arma20)))
+<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ionides_bootstrap-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">resid</span>(huron_arma20), <span class="dt">main =</span> <span class="st">&quot;Residuals&quot;</span>)
+<span class="kw">pacf</span>(<span class="kw">resid</span>(huron_arma20), <span class="dt">main =</span> <span class="st">&quot;Residuals&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ionides_bootstrap-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))
+<span class="kw">set.seed</span>(<span class="dv">57892330</span>)
+B &lt;-<span class="st"> </span><span class="dv">1000</span>
+params &lt;-<span class="st"> </span><span class="kw">coef</span>(huron_arma20)
+ar &lt;-<span class="st"> </span>params[<span class="kw">grep</span>(<span class="st">&quot;^ar&quot;</span>, <span class="kw">names</span>(params))]
+ma &lt;-<span class="st"> </span>params[<span class="kw">grep</span>(<span class="st">&quot;^ma&quot;</span>, <span class="kw">names</span>(params))]
+intercept &lt;-<span class="st"> </span>params[<span class="st">&quot;intercept&quot;</span>]
+sigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(huron_arma21<span class="op">$</span>sigma2)
+theta &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> B, <span class="dt">ncol =</span> <span class="kw">length</span>(<span class="kw">coef</span>(huron_arma21)), <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, 
+    <span class="kw">names</span>(<span class="kw">coef</span>(huron_arma21))))
+theta[<span class="dv">1</span>, ] &lt;-<span class="st"> </span>huron_arma21<span class="op">$</span>coef
+<span class="cf">for</span> (b <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>B) {
+    Y_b &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="kw">list</span>(<span class="dt">ar =</span> ar, <span class="dt">ma =</span> ma), <span class="dt">n =</span> <span class="kw">length</span>(huron_depth), <span class="dt">sd =</span> sigma) <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span>intercept
+    theta[b, ] &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">Arima</span>(Y_b, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>, <span class="dt">include.mean =</span> <span class="ot">TRUE</span>, 
+        <span class="dt">include.drift =</span> <span class="ot">FALSE</span>))
+}
+<span class="kw">hist</span>(theta[, <span class="st">&quot;ma1&quot;</span>], <span class="dt">freq =</span> <span class="ot">FALSE</span>, <span class="dt">breaks =</span> <span class="dv">30</span>, <span class="dt">main =</span> <span class="kw">expression</span>(Histogram <span class="op">~</span><span class="st"> </span>
+<span class="st">    </span>of <span class="op">~</span><span class="st"> </span>bootstrap <span class="op">~</span><span class="st"> </span>estimates <span class="op">~</span><span class="st"> </span>of <span class="op">~</span><span class="st"> </span><span class="kw">hat</span>(theta)[<span class="dv">1</span>] <span class="op">~</span><span class="st"> </span>under <span class="op">~</span><span class="st"> </span>an <span class="op">~</span><span class="st"> </span><span class="kw">AR</span>(<span class="dv">2</span>) <span class="op">~</span><span class="st"> </span>model), 
+    <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(theta)[<span class="dv">1</span>]))</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ionides_bootstrap-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># P-value - here the result is a bit spurious because of potential ties</span>
+<span class="co"># since the distribution is discrete and there are ties</span>
+<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">rank</span>(<span class="kw">abs</span>(theta[, <span class="dv">3</span>]))[<span class="dv">1</span>]<span class="op">/</span>B</code></pre></div>
+<pre><code>[1] 0.025</code></pre>
+</div>
+<div id="exercice-3-international-business-machines-ibm-stock-1" class="section level3">
+<h3><span class="header-section-number">3.5.3</span> Exercice 3: International Business Machines (IBM) stock</h3>
+<ol style="list-style-type: decimal">
+<li>Download the daily IBM stocks price from 2003 to 2010 (inclusively). Fit a GARCH(1,1) model with normal errors. Is the model satisfactory? Make sure to check that the GARCH process is not integrated. Does the process display excess kurtosis, relative to that of the normal distribution (for which <span class="math inline">\(\kappa=3\)</span>).</li>
+<li>If the errors are not normally distributed, experiment with a heavy-tailed distribution. Assess the adequacy of the latter using a QQ-plot.</li>
+<li>If your returns are asymmetric, try a GARCH-type model that includes a leverage term. Is the fit better?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rugarch)
+<span class="kw">library</span>(tseries)
+ibm =<span class="st"> </span><span class="kw">get.hist.quote</span>(<span class="dt">instrument =</span> <span class="st">&quot;IBM&quot;</span>, <span class="dt">quote =</span> <span class="st">&quot;Adj&quot;</span>, <span class="dt">provider =</span> <span class="kw">c</span>(<span class="st">&quot;yahoo&quot;</span>), 
+    <span class="dt">method =</span> <span class="ot">NULL</span>, <span class="dt">start =</span> <span class="st">&quot;2003-01-01&quot;</span>, <span class="dt">end =</span> <span class="st">&quot;2010-12-31&quot;</span>, <span class="dt">compression =</span> <span class="st">&quot;d&quot;</span>, 
+    <span class="dt">retclass =</span> <span class="kw">c</span>(<span class="st">&quot;zoo&quot;</span>), <span class="dt">quiet =</span> <span class="ot">FALSE</span>, <span class="dt">drop =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>time series starts 2003-01-02
+time series ends   2010-12-30</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ibm_lret &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">log</span>(<span class="kw">as.vector</span>(ibm[<span class="op">-</span><span class="dv">1</span>, ])) <span class="op">-</span><span class="st"> </span><span class="kw">log</span>(<span class="kw">as.vector</span>(ibm[<span class="op">-</span><span class="kw">length</span>(ibm)])))
+
+TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">I</span>(<span class="kw">residuals</span>(<span class="kw">lm</span>(ibm_lret <span class="op">~</span><span class="st"> </span><span class="dv">1</span>))<span class="op">^</span><span class="dv">2</span>), <span class="dt">main =</span> <span class="st">&quot;Squared residuals&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ibmgarchetcie-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pacf</span>(<span class="kw">I</span>(<span class="kw">residuals</span>(<span class="kw">lm</span>(ibm_lret <span class="op">~</span><span class="st"> </span><span class="dv">1</span>))<span class="op">^</span><span class="dv">2</span>), <span class="dt">main =</span> <span class="st">&quot;Squared residuals&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ibmgarchetcie-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">garch11_model &lt;-<span class="st"> </span><span class="kw">ugarchspec</span>(<span class="dt">variance.model =</span> <span class="kw">list</span>(<span class="dt">model =</span> <span class="st">&quot;sGARCH&quot;</span>, <span class="dt">garchOrder =</span> <span class="kw">c</span>(<span class="dv">1</span>, 
+    <span class="dv">1</span>)), <span class="dt">mean.model =</span> <span class="kw">list</span>(<span class="dt">include.mean =</span> <span class="ot">TRUE</span>), <span class="dt">distribution.model =</span> <span class="st">&quot;norm&quot;</span>)
+<span class="co"># Model fitting</span>
+garch11_fit &lt;-<span class="st"> </span><span class="kw">ugarchfit</span>(<span class="dt">spec =</span> garch11_model, <span class="dt">data =</span> ibm_lret, <span class="dt">solver =</span> <span class="st">&quot;nloptr&quot;</span>, 
+    <span class="dt">solver.control =</span> <span class="kw">list</span>(<span class="dt">solver =</span> <span class="dv">9</span>))
+<span class="kw">qqnorm</span>(<span class="kw">scale</span>(<span class="kw">residuals</span>(garch11_fit)), <span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ibmgarchetcie-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sres &lt;-<span class="st"> </span><span class="kw">residuals</span>(garch11_fit)<span class="op">/</span><span class="kw">sigma</span>(garch11_fit)
+<span class="co"># residuals(garch11_fit, standardize = TRUE) sres^2 is equivalent to</span>
+<span class="co"># residuals(garch11_fit)^2/garch11_fit@fit$var</span>
+TSA<span class="op">::</span><span class="kw">acf</span>(sres<span class="op">^</span><span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Squared residuals of GARCH(1,1) model&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ibmgarchetcie-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pacf</span>(sres<span class="op">^</span><span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Squared residuals of GARCH(1,1) model&quot;</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/ibmgarchetcie-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Parameters of the GARCH(1,1)</span>
+alpha1 &lt;-<span class="st"> </span>garch11_fit<span class="op">@</span>model<span class="op">$</span>pars[<span class="st">&quot;alpha1&quot;</span>, <span class="dv">1</span>]
+beta1 &lt;-<span class="st"> </span>garch11_fit<span class="op">@</span>model<span class="op">$</span>pars[<span class="st">&quot;beta1&quot;</span>, <span class="dv">1</span>]</code></pre></div>
+<p>If one calls <code>print(garch11_fit)</code>, we immediatly see that we have an IGARCH as <span class="math inline">\(\alpha_1+\beta_1=1\)</span>. The fact that <span class="math inline">\(\beta_1\)</span> is close to one is typical of heavy-tailed financial returns. The kurtosis is <span class="math inline">\(\kappa = 3(1+\alpha_1+\beta_1)(1-\alpha_1-\beta_1)/(1-\beta_1^2-2\alpha_1\beta_1-3\alpha_1^2)\)</span> if <span class="math inline">\(3\alpha_1^2+2\alpha_1\beta_1+\beta_1^2&lt;1\)</span>, provided the fourth moment exist (when <span class="math inline">\(0 \leq \alpha_1+\beta_1 &lt;1\)</span>). A shock at one time becomes permanent, the conditional variance is not stationary. We attempt to fit a different model, a GARCH(<span class="math inline">\(a, b\)</span>). We need <span class="math inline">\(\alpha_1+ \cdots + \alpha_a+\beta_1+ \cdots + \beta_b&lt;1\)</span> for stationarity.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rugarch)
+<span class="co"># Higher order needed (?), also more heavy-tailed innovations</span>
+garch21_model &lt;-<span class="st"> </span><span class="kw">ugarchspec</span>(<span class="dt">variance.model =</span> <span class="kw">list</span>(<span class="dt">model =</span> <span class="st">&quot;sGARCH&quot;</span>, <span class="dt">garchOrder =</span> <span class="kw">c</span>(<span class="dv">2</span>, 
+    <span class="dv">1</span>)), <span class="dt">mean.model =</span> <span class="kw">list</span>(<span class="dt">include.mean =</span> <span class="ot">TRUE</span>), <span class="dt">distribution.model =</span> <span class="st">&quot;std&quot;</span>)
+garch21_fit &lt;-<span class="st"> </span><span class="kw">ugarchfit</span>(<span class="dt">spec =</span> garch21_model, <span class="dt">data =</span> ibm_lret, <span class="dt">solver =</span> <span class="st">&quot;nloptr&quot;</span>, 
+    <span class="dt">solver.control =</span> <span class="kw">list</span>(<span class="dt">solver =</span> <span class="dv">9</span>))
+<span class="co"># Is the conditional variance model stationary?</span>
+garch21_fit<span class="op">@</span>model<span class="op">$</span>pars[<span class="st">&quot;alpha1&quot;</span>, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>garch21_fit<span class="op">@</span>model<span class="op">$</span>pars[<span class="st">&quot;alpha2&quot;</span>, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>garch21_fit<span class="op">@</span>model<span class="op">$</span>pars[<span class="st">&quot;beta1&quot;</span>, <span class="dv">1</span>]</code></pre></div>
+<pre><code>[1] 0.9932767</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Yes</span>
+<span class="kw">plot</span>(garch21_fit, <span class="dt">which =</span> <span class="dv">9</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/garch_student-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(garch21_fit, <span class="dt">which =</span> <span class="dv">11</span>)</code></pre></div>
+<p><img src="timeseRies_files/figure-html/garch_student-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># TSA::acf(c((residuals(garch21_fit)/sigma(garch21_fit))^2), main = &#39;Scaled</span>
+<span class="co"># residuals&#39;) pacf(c((residuals(garch21_fit)/sigma(garch21_fit))^2), main =</span>
+<span class="co"># &#39;Scaled residuals&#39;)</span>
+
+gjrgarch_model &lt;-<span class="st"> </span><span class="kw">ugarchspec</span>(<span class="dt">variance.model =</span> <span class="kw">list</span>(<span class="dt">model =</span> <span class="st">&quot;gjrGARCH&quot;</span>, <span class="dt">garchOrder =</span> <span class="kw">c</span>(<span class="dv">1</span>, 
+    <span class="dv">1</span>)), <span class="dt">mean.model =</span> <span class="kw">list</span>(<span class="dt">include.mean =</span> <span class="ot">TRUE</span>), <span class="dt">distribution.model =</span> <span class="st">&quot;std&quot;</span>)
+gjrgarch_fit &lt;-<span class="st"> </span><span class="kw">ugarchfit</span>(<span class="dt">spec =</span> gjrgarch_model, <span class="dt">data =</span> ibm_lret, <span class="dt">solver =</span> <span class="st">&quot;nloptr&quot;</span>, 
+    <span class="dt">solver.control =</span> <span class="kw">list</span>(<span class="dt">solver =</span> <span class="dv">9</span>))
+
+<span class="co"># Not much improvement (if any) - may be visible however in the VaR</span>
+<span class="co"># forecasts left as an exercice!</span></code></pre></div>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="spectral-analysis-and-filtering.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["timeseRies.pdf", "timeseRies.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
