@@ -2917,6 +2917,7 @@ plot(ts.union("Raw" = u1, "Low" = u_low, "High" = u_hi, "Business cycles" = u_cy
 
 
 ### Exercise 1: Southern oscillation index (SOI) and fish recruitement
+
 The data `soi` from the package `astsa` contains 453 monthly measures of the SOI. The dataset `rec` contains fish recruitement statistics for the same period.
 
 1. Perform a spectral analysis using a parametric estimator based on an AR model.

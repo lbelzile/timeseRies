@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2018.3.2)  28 SEP 2018 15:11
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2018.3.2)  1 OCT 2018 09:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -857,458 +857,55 @@ Package: amsthm 2017/10/31 v2.20.4
 \thm@postskip=\skip64
 \thm@headsep=\skip65
 \dth@everypar=\toks30
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2015/03/17 v1.2c Input encoding file
+\inpenc@prehook=\toks31
+\inpenc@posthook=\toks32
+
+Package inputenc Warning: inputenc package ignored with utf8 based engines.
+
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
+(/usr/local/texlive/2017/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 )
-No file timeseRies.aux.
-\openout1 = `timeseRies.aux'.
-
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 139.
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 139.
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 139.
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 139.
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 139.
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 139.
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 139.
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 139.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 139.
-
-(/usr/local/texlive/2017/texmf-dist/tex/latex/base/ts1cmr.fd
-File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 105.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)) (/usr/local/texlive/2017/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2018/01/08 v1.21 mathematical typesetting tools
+(/usr/local/texlive/2017/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count293
+\calc@Bcount=\count294
+\calc@Adimen=\dimen179
+\calc@Bdimen=\dimen180
+\calc@Askip=\skip66
+\calc@Bskip=\skip67
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count295
+\calc@Cskip=\skip68
+) (/usr/local/texlive/2017/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2017/03/31 v1.3 programming setup (MH)
 )
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 139.
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 139.
-LaTeX Font Info:    ... okay on input line 139.
-LaTeX Info: Redefining \microtypecontext on input line 139.
-Package microtype Info: Character protrusion enabled (level 2).
-Package microtype Info: Using protrusion set `basicmath'.
-Package microtype Info: No adjustment of tracking.
-Package microtype Info: No adjustment of spacing.
-Package microtype Info: No adjustment of kerning.
 
-(/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/mt-LatinModernRoman.cfg
-File: mt-LatinModernRoman.cfg 2013/03/13 v1.0 microtype config. file: Latin Mod
-ern Roman (RS)
-)
-*geometry* driver: auto-detecting
-*geometry* detected driver: xetex
-*geometry* verbose mode - [ preamble ] result:
-* driver: xetex
-* paper: <default>
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: twoside 
-* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
-* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
-* \paperwidth=614.295pt
-* \paperheight=794.96999pt
-* \textwidth=469.75502pt
-* \textheight=650.43001pt
-* \oddsidemargin=0.0pt
-* \evensidemargin=0.0pt
-* \topmargin=-30.06749pt
-* \headheight=12.0pt
-* \headsep=18.06749pt
-* \topskip=10.0pt
-* \footskip=25.29494pt
-* \marginparwidth=125.0pt
-* \marginparsep=7.0pt
-* \columnsep=10.0pt
-* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidetrue
-* \@mparswitchtrue
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+! Package mathspec Error: `amsmath' must be loaded earlier than `mathspec'.
 
-\AtBeginShipoutBox=\box50
-Package hyperref Info: Link coloring OFF on input line 139.
-(/usr/local/texlive/2017/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
-(/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
-Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
-)
-\c@section@level=\count293
-)
-LaTeX Info: Redefining \ref on input line 139.
-LaTeX Info: Redefining \pageref on input line 139.
-LaTeX Info: Redefining \nameref on input line 139.
-\@outlinefile=\write4
-\openout4 = `timeseRies.out'.
-
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
-
-[1
-
-
-] [2
-
-]
-\tf@toc=\write5
-\openout5 = `timeseRies.toc'.
-
-[3] [4
-
-] [5] [6
-
-]
-Chapter 1.
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 174.
-
-(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmr' (encoding: OT1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 174.
-
-(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/omllmm.fd
-File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 174
-.
-(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/omslmsy.fd
-File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 174
-.
-(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/omxlmex.fd
-File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 174.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 174.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 174.
-LaTeX Font Info:    Try loading font information for U+msa on input line 174.
-(/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-) (/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/mt-msa.cfg
-File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 174.
-(/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/mt-msb.cfg
-File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)
-LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 226.
-[7]
-File: timeseRies_files/figure-latex/AirPassenger-1.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/AirPassenger-1.pdf>
-[8]
-File: timeseRies_files/figure-latex/AirPassenger-2.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/AirPassenger-2.pdf>
-
-Overfull \vbox (0.37218pt too high) detected at line 343
- []
-
-[9]
-File: timeseRies_files/figure-latex/AirPassenger-3.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/AirPassenger-3.pdf>
-[10]
-File: timeseRies_files/figure-latex/basic_plots-1.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/basic_plots-1.pdf>
-[11]
-File: timeseRies_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (type pd
-f)
-<use timeseRies_files/figure-latex/unnamed-chunk-3-1.pdf>
-[12]
-File: timeseRies_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pd
-f)
-<use timeseRies_files/figure-latex/unnamed-chunk-5-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[13]
-Overfull \hbox (20.35698pt too wide) in paragraph at lines 562--568
-[]\TU/lmr/m/n/10 Fit a linear model using \TU/lmtt/m/n/10 lm \TU/lmr/m/n/10 and
- the variable \TU/lmtt/m/n/10 activ \TU/lmr/m/n/10 as factor, viz. \TU/lmtt/m/n
-/10 lin_mod <- lm(temp~as.factor(activ),
- []
-
-File: timeseRies_files/figure-latex/2nd_order_statio-1.pdf Graphic file (type p
-df)
-<use timeseRies_files/figure-latex/2nd_order_statio-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[14] [15]
-File: timeseRies_files/figure-latex/acf_plots1-1.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/acf_plots1-1.pdf>
-File: timeseRies_files/figure-latex/acf_plots1-2.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/acf_plots1-2.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[16] [17]
-Underfull \hbox (badness 1496) in paragraph at lines 747--752
-[]\TU/lmr/m/n/10 Plot the (partial) correlogram of both the raw and the return 
-series. Try the acf with
- []
-
-[18]
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 834
-.
-(/usr/local/texlive/2017/texmf-dist/tex/latex/lm/ot1lmss.fd
-File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmss' (encoding: OT1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-[19]
-File: timeseRies_files/figure-latex/spectrum_manually-1.pdf Graphic file (type 
-pdf)
-<use timeseRies_files/figure-latex/spectrum_manually-1.pdf>
-[20]
-File: timeseRies_files/figure-latex/reg_fourier-1.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/reg_fourier-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[21]
-File: timeseRies_files/figure-latex/reg_fourier-2.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/reg_fourier-2.pdf>
-[22]
-File: timeseRies_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pd
-f)
-<use timeseRies_files/figure-latex/unnamed-chunk-8-1.pdf>
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 1010.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 1010.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 1010.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[23]
-Overfull \hbox (20.35698pt too wide) in paragraph at lines 1072--1078
-[]\TU/lmr/m/n/10 Fit a linear model using \TU/lmtt/m/n/10 lm \TU/lmr/m/n/10 and
- the variable \TU/lmtt/m/n/10 activ \TU/lmr/m/n/10 as factor, viz. \TU/lmtt/m/n
-/10 lin_mod <- lm(temp~as.factor(activ),
- []
-
-[24]
-File: timeseRies_files/figure-latex/Question_1-1.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_1-1.pdf>
-File: timeseRies_files/figure-latex/Question_1-2.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_1-2.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[25]
-File: timeseRies_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (type pd
-f)
-<use timeseRies_files/figure-latex/unnamed-chunk-9-1.pdf>
-
-Underfull \vbox (badness 1895) has occurred while \output is active []
-
-[26]
-File: timeseRies_files/figure-latex/unnamed-chunk-9-2.pdf Graphic file (type pd
-f)
-<use timeseRies_files/figure-latex/unnamed-chunk-9-2.pdf>
-File: timeseRies_files/figure-latex/unnamed-chunk-9-3.pdf Graphic file (type pd
-f)
-<use timeseRies_files/figure-latex/unnamed-chunk-9-3.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[27]
-File: timeseRies_files/figure-latex/unnamed-chunk-9-4.pdf Graphic file (type pd
-f)
-<use timeseRies_files/figure-latex/unnamed-chunk-9-4.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[28]
-File: timeseRies_files/figure-latex/unnamed-chunk-9-5.pdf Graphic file (type pd
-f)
-<use timeseRies_files/figure-latex/unnamed-chunk-9-5.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[29]
-Underfull \hbox (badness 1496) in paragraph at lines 1243--1248
-[]\TU/lmr/m/n/10 Plot the (partial) correlogram of both the raw and the return 
-series. Try the acf with
- []
-
-File: timeseRies_files/figure-latex/Question_2-1.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_2-1.pdf>
-File: timeseRies_files/figure-latex/Question_2-2.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_2-2.pdf>
-
-Underfull \vbox (badness 1533) has occurred while \output is active []
-
-[30]
-File: timeseRies_files/figure-latex/Question_2-3.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_2-3.pdf>
-File: timeseRies_files/figure-latex/Question_2-4.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_2-4.pdf>
-
-Underfull \vbox (badness 1454) has occurred while \output is active []
-
-[31] [32]
-File: timeseRies_files/figure-latex/Question_3-1.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_3-1.pdf>
-File: timeseRies_files/figure-latex/Question_3-2.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_3-2.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[33]
-File: timeseRies_files/figure-latex/Question_3-3.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_3-3.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[34]
-File: timeseRies_files/figure-latex/Question_3-4.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_3-4.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[35]
-File: timeseRies_files/figure-latex/Question_3-5.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_3-5.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[36] [37]
-File: timeseRies_files/figure-latex/Question_4-1.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-1.pdf>
-File: timeseRies_files/figure-latex/Question_4-2.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-2.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[38]
-File: timeseRies_files/figure-latex/Question_4-3.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-3.pdf>
-[39]
-File: timeseRies_files/figure-latex/Question_4-4.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-4.pdf>
-File: timeseRies_files/figure-latex/Question_4-5.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-5.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[40]
-File: timeseRies_files/figure-latex/Question_4-6.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-6.pdf>
-[41]
-File: timeseRies_files/figure-latex/Question_4-7.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-7.pdf>
-File: timeseRies_files/figure-latex/Question_4-8.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-8.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[42]
-File: timeseRies_files/figure-latex/Question_4-9.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-9.pdf>
-
-Underfull \vbox (badness 1681) has occurred while \output is active []
-
-[43]
-File: timeseRies_files/figure-latex/Question_4-10.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-10.pdf>
-File: timeseRies_files/figure-latex/Question_4-11.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-11.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[44]
-File: timeseRies_files/figure-latex/Question_4-12.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-12.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[45]
-File: timeseRies_files/figure-latex/Question_4-13.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-13.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[46] [47]
-File: timeseRies_files/figure-latex/Question_4-14.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-14.pdf>
-File: timeseRies_files/figure-latex/Question_4-15.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-15.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[48]
-File: timeseRies_files/figure-latex/Question_4-16.pdf Graphic file (type pdf)
-<use timeseRies_files/figure-latex/Question_4-16.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[49] [50]
-Chapter 2.
-[51
-
-]
-File: timeseRies_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (type p
-df)
-<use timeseRies_files/figure-latex/unnamed-chunk-10-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[52]
-File: timeseRies_files/figure-latex/unnamed-chunk-10-2.pdf Graphic file (type p
-df)
-<use timeseRies_files/figure-latex/unnamed-chunk-10-2.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[53]
-File: timeseRies_files/figure-latex/unnamed-chunk-10-3.pdf Graphic file (type p
-df)
-<use timeseRies_files/figure-latex/unnamed-chunk-10-3.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[54] [55]
-Overfull \hbox (49.99498pt too wide) in paragraph at lines 1969--1969
-[]\TU/lmtt/m/n/10 #dynlm is a wrapper around lm for []ts[] and []zoo[] objects,
- L means lag and you can add e.g. trend(y)[] 
- []
-
-
-! Package amsmath Error: Erroneous nesting of equation structures;
-(amsmath)                trying to recover with `aligned'.
-
-See the amsmath package documentation for explanation.
+See the mathspec package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1977 \end{align*}
-                    
+l.116 \RequirePackage{amsmath}
+                              [2016/11/05] 
 Here is how much of TeX's memory you used:
- 23175 strings out of 493007
- 436576 string characters out of 6134606
- 560896 words of memory out of 5000000
- 26849 multiletter control sequences out of 15000+600000
- 571399 words of font info for 78 fonts, out of 8000000 for 9000
+ 22621 strings out of 493007
+ 418303 string characters out of 6134606
+ 542651 words of memory out of 5000000
+ 26440 multiletter control sequences out of 15000+600000
+ 533646 words of font info for 27 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 45i,6n,68p,10451b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 45i,0n,68p,10451b,269s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on timeseRies.pdf (55 pages).
+No pages of output.
