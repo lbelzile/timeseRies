@@ -49,41 +49,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: #f8f8f8; }
-code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code > span.dt { color: #204a87; } /* DataType */
-code > span.dv { color: #0000cf; } /* DecVal */
-code > span.bn { color: #0000cf; } /* BaseN */
-code > span.fl { color: #0000cf; } /* Float */
-code > span.ch { color: #4e9a06; } /* Char */
-code > span.st { color: #4e9a06; } /* String */
-code > span.co { color: #8f5902; font-style: italic; } /* Comment */
-code > span.ot { color: #8f5902; } /* Other */
-code > span.al { color: #ef2929; } /* Alert */
-code > span.fu { color: #000000; } /* Function */
-code > span.er { color: #a40000; font-weight: bold; } /* Error */
-code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #000000; } /* Constant */
-code > span.sc { color: #000000; } /* SpecialChar */
-code > span.vs { color: #4e9a06; } /* VerbatimString */
-code > span.ss { color: #4e9a06; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #000000; } /* Variable */
-code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code > span.ex { } /* Extension */
-code > span.at { color: #c4a000; } /* Attribute */
-code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -146,33 +171,31 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="seasonal-arima-and-garch-models.html"><a href="seasonal-arima-and-garch-models.html"><i class="fa fa-check"></i><b>3</b> Seasonal ARIMA and GARCH models</a><ul>
-<li class="chapter" data-level="3.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>3.1</b> SARIMA models: estimation and forecasting</a></li>
-<li class="chapter" data-level="3.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html"><i class="fa fa-check"></i><b>3.2</b> An aside on models with regressors (optional)</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>3.2.1</b> Mauna Loa CO<sub>2</sub> dataset</a></li>
-<li class="chapter" data-level="3.2.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>3.2.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="3.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>3.1</b> SARIMA models: estimation and forecasting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>3.1.1</b> Mauna Loa CO<sub>2</sub> dataset</a></li>
+<li class="chapter" data-level="3.1.2" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>3.1.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>3.3</b> Boostrap methods for time series</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>3.3.1</b> Bootstrapping a linear model</a></li>
-<li class="chapter" data-level="3.3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>3.3.2</b> Testing for heteroscedasticity</a></li>
-<li class="chapter" data-level="3.3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>3.3.3</b> AR-sieve bootstrap</a></li>
-<li class="chapter" data-level="3.3.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>3.3.4</b> Boostrap models for uncertainty assesment</a></li>
-<li class="chapter" data-level="3.3.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>3.3.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>3.2</b> Boostrap methods for time series</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>3.2.1</b> Bootstrapping a linear model</a></li>
+<li class="chapter" data-level="3.2.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>3.2.2</b> Testing for heteroscedasticity</a></li>
+<li class="chapter" data-level="3.2.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>3.2.3</b> AR-sieve bootstrap</a></li>
+<li class="chapter" data-level="3.2.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>3.2.4</b> Boostrap models for uncertainty assesment</a></li>
+<li class="chapter" data-level="3.2.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>3.2.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>3.4</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#predictions"><i class="fa fa-check"></i><b>3.4.1</b> Predictions</a></li>
-<li class="chapter" data-level="3.4.2" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>3.4.2</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+<li class="chapter" data-level="3.3" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>3.3</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#predictions"><i class="fa fa-check"></i><b>3.3.1</b> Predictions</a></li>
+<li class="chapter" data-level="3.3.2" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>3.3.2</b> Exercice 3: International Business Machines (IBM) stock</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html"><i class="fa fa-check"></i><b>3.5</b> Solutions to Exercises</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>3.5.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
-<li class="chapter" data-level="3.5.2" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>3.5.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
-<li class="chapter" data-level="3.5.3" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>3.5.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+<li class="chapter" data-level="3.4" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html"><i class="fa fa-check"></i><b>3.4</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>3.4.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="3.4.2" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>3.4.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="3.4.3" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>3.4.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>4</b> Spectral analysis and filtering</a><ul>
 <li class="chapter" data-level="4.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.1</b> Nonparametric spectral estimation</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#tapering"><i class="fa fa-check"></i><b>4.1.1</b> Tapering</a></li>
-<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.2</b> A data example</a></li>
-<li class="chapter" data-level="4.1.3" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.3</b> Smoothing</a></li>
+<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.1</b> A data example</a></li>
+<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.2</b> Smoothing</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.2</b> Summary of nonparametric spectral estimation</a></li>
 <li class="chapter" data-level="4.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>4.3</b> Spectral estimation in R</a><ul>
@@ -190,13 +213,12 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="6.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html"><i class="fa fa-check"></i><b>6.1</b> Irregular time series</a><ul>
 <li class="chapter" data-level="6.1.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html#exercise-1-jussy-air-temperature"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1: Jussy air temperature</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>6.2</b> Imputation of missing values</a></li>
-<li class="chapter" data-level="6.3" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html"><i class="fa fa-check"></i><b>6.3</b> Diagnostics for missing values and smoothing</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html#exercise-2-tyne-river-flow"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 2: Tyne river flow</a></li>
+<li class="chapter" data-level="6.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>6.2</b> Imputation of missing values</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html#exercise-2-tyne-river-flow"><i class="fa fa-check"></i><b>6.2.1</b> Exercise 2: Tyne river flow</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html"><i class="fa fa-check"></i><b>6.4</b> Solutions to Exercises</a><ul>
-<li class="chapter" data-level="6.4.1" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-1-jussy-air-temperature-1"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1: Jussy air temperature</a></li>
-<li class="chapter" data-level="6.4.2" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-2-tyne-river-flow-1"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2: Tyne river flow</a></li>
+<li class="chapter" data-level="6.3" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html"><i class="fa fa-check"></i><b>6.3</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-1-jussy-air-temperature-1"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 1: Jussy air temperature</a></li>
+<li class="chapter" data-level="6.3.2" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-2-tyne-river-flow-1"><i class="fa fa-check"></i><b>6.3.2</b> Exercise 2: Tyne river flow</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -224,18 +246,18 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <p>As was done in class for the <code>beaver</code> dataset, we will look at manual specification of the likelihood. While it is straightforward in principle to maximize the latter for ARMA models, the numerous restrictions that are imposed on the parameters make it hard, if not impossible, to manually code one’s own function. Maximum likelihood estimation is implemented typically via the state-space representation, which we will cover later in the semester.</p>
 <p>For simple models, it is easily done however, and should shed some light on the various functions that are part of <strong>R</strong> for optimization, the definition of a function, the use of <code>nlm</code> and <code>optim</code> for optimization purposes, etc.</p>
 <p>We first load a dataset of UBS and Credit Suisse stock prices from 2000 until 2008. The data is splitted in three parts for the analysis, since the data is heteroscedastic, and there appears (visually) to be two changepoints. We look at the adequacy of fitted AR(1) model for the mean and an ARCH(1) for the variance.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github(&#39;nickpoison/astsa&#39;)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github(&#39;nickpoison/astsa&#39;)</span>
 <span class="co"># devtools::install_github(&#39;joshuaulrich/xts&#39;)</span>
 <span class="kw">library</span>(xts)
 <span class="kw">library</span>(lubridate)
 <span class="co"># read data and examine it</span>
 UBSCreditSuisse &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://sma.epfl.ch/~lbelzile/math342/UBSCSG.csv&quot;</span>, 
     <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
-<span class="kw">names</span>(UBSCreditSuisse)</code></pre></div>
+<span class="kw">names</span>(UBSCreditSuisse)</code></pre>
 <pre><code> [1] &quot;Date&quot;       &quot;UBS_OPEN&quot;   &quot;UBS_HIGH&quot;   &quot;UBS_LOW&quot;    &quot;UBS_LAST&quot;  
  [6] &quot;UBS_VOLUME&quot; &quot;CSG_OPEN&quot;   &quot;CSG_HIGH&quot;   &quot;CSG_LOW&quot;    &quot;CSG_LAST&quot;  
 [11] &quot;CSG_VOLUME&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(UBSCreditSuisse)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(UBSCreditSuisse)</code></pre>
 <pre><code>    Date UBS_OPEN UBS_HIGH UBS_LOW UBS_LAST UBS_VOLUME CSG_OPEN CSG_HIGH
 1 1/1/00       NA       NA      NA       NA         NA       NA       NA
 2 1/2/00       NA       NA      NA       NA         NA       NA       NA
@@ -250,20 +272,20 @@ UBSCreditSuisse &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<
 4   69.13    69.24    5336924
 5   67.40    68.44    4419160
 6   67.74    68.55    2585800</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create time series, accounting for missing values at weekends and 251.25</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create time series, accounting for missing values at weekends and 251.25</span>
 <span class="co"># values/year this is correct for analysis, but only provides approximate</span>
 <span class="co"># locations for plotting</span>
 UBS &lt;-<span class="st"> </span><span class="kw">ts</span>(UBSCreditSuisse<span class="op">$</span>UBS_LAST, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="dt">frequency =</span> <span class="fl">365.25</span>)
 UBS &lt;-<span class="st"> </span><span class="kw">ts</span>(UBS[<span class="op">!</span><span class="kw">is.na</span>(UBS)], <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="dt">frequency =</span> <span class="fl">251.625</span>)
 
 <span class="co"># Irregular time series</span>
-UBS_xts &lt;-<span class="st"> </span><span class="kw">with</span>(UBSCreditSuisse, <span class="kw">xts</span>(UBS_LAST, <span class="kw">mdy</span>(Date)))</code></pre></div>
+UBS_xts &lt;-<span class="st"> </span><span class="kw">with</span>(UBSCreditSuisse, <span class="kw">xts</span>(UBS_LAST, <span class="kw">mdy</span>(Date)))</code></pre>
 <p>Objects of class <code>ts</code> store the dates from the vector start with observations as <span class="math inline">\((i-1)/\omega\)</span>. Thus, we specified in the above a vector encoded as 2000, 2000+1/365.25, This means that missing values are not handled. In contrast, <code>xts</code> objects keep the time stamps from a <code>Date</code> object. The function <code>with</code> is equivalent to <code>attach</code>, but has a limited scope and is used to avoid writing <code>UBSCreditSuisse$Date</code>, etc. The function <code>mdy</code> transforms the string <code>Date</code> as month, day and year. The string is coerced into an object of class <code>Date</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Analysis for UBS returns, 2000-2008</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Analysis for UBS returns, 2000-2008</span>
 UBS_ret &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(<span class="kw">log</span>(UBS_xts))
-<span class="kw">plot.zoo</span>(UBS_ret, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> (ylab &lt;-<span class="st"> &quot;Daily returns (in %)&quot;</span>), <span class="dt">main =</span> <span class="st">&quot;Percentage daily growth rate of UBS stock&quot;</span>)</code></pre></div>
+<span class="kw">plot.zoo</span>(UBS_ret, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> (ylab &lt;-<span class="st"> &quot;Daily returns (in %)&quot;</span>), <span class="dt">main =</span> <span class="st">&quot;Percentage daily growth rate of UBS stock&quot;</span>)</code></pre>
 <p><img src="timeseRies_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compute log returns</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># compute log returns</span>
 UBS.ret &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(<span class="kw">log</span>(UBS))
 
 <span class="co"># split into 3 homogeneous(?) parts, and plot using the same vertical axis</span>
@@ -283,9 +305,9 @@ y2 &lt;-<span class="st"> </span><span class="kw">window</span>(UBS.ret, <span c
 <span class="kw">plot</span>(y2, <span class="dt">ylim =</span> lims, <span class="dt">ylab =</span> ylab, <span class="dt">main =</span> <span class="st">&quot;UBS daily growth rate (in %)&quot;</span>)
 
 y3 &lt;-<span class="st"> </span><span class="kw">window</span>(UBS.ret, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2007</span>, <span class="dv">201</span>))
-<span class="kw">plot</span>(y3, <span class="dt">ylim =</span> lims, <span class="dt">ylab =</span> ylab)</code></pre></div>
+<span class="kw">plot</span>(y3, <span class="dt">ylim =</span> lims, <span class="dt">ylab =</span> ylab)</code></pre>
 <p><img src="timeseRies_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># analysis of first part, first just plotting ACF and PACF for data and for</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># analysis of first part, first just plotting ACF and PACF for data and for</span>
 <span class="co"># abs(data)</span>
 y &lt;-<span class="st"> </span>y1
 
@@ -294,10 +316,11 @@ y &lt;-<span class="st"> </span>y1
 TSA<span class="op">::</span><span class="kw">acf</span>(y, <span class="dt">lag.max =</span> <span class="dv">100</span>, <span class="dt">main =</span> <span class="st">&quot;Daily log returns (%)&quot;</span>)
 <span class="kw">pacf</span>(y, <span class="dt">lag.max =</span> <span class="dv">100</span>, , <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)
 TSA<span class="op">::</span><span class="kw">acf</span>(<span class="kw">abs</span>(y), <span class="dt">lag.max =</span> <span class="dv">100</span>, <span class="dt">main =</span> <span class="st">&quot;Absolute daily log returns (%)&quot;</span>)
-<span class="kw">pacf</span>(<span class="kw">abs</span>(y), <span class="dt">lag.max =</span> <span class="dv">100</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<span class="kw">pacf</span>(<span class="kw">abs</span>(y), <span class="dt">lag.max =</span> <span class="dv">100</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>)</code></pre>
 <p><img src="timeseRies_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
-<p>The residuals look pretty much white noise, but the variance has residual structure. Recall the implicit definition of the AR(1) process <span class="math inline">\(Y_t\)</span>, <span class="math display">\[Y_t=\mu+\phi(Y_{t-1}-\mu)+\varepsilon_t,\]</span> where <span class="math inline">\(\varepsilon_t \stackrel{\mathrm{iid}}{\sim} \mathcal{N}(0,\sigma^2)\)</span>. The joint distribution of the observations conditional on the first is multivariate normal. Here is a simple function for the likelihood, which only requires specifying the conditional mean.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># analysis using AR(1) model for means conditional likelihood</span>
+<p>The residuals look pretty much white noise, but the variance has residual structure. Recall the implicit definition of the AR(1) process <span class="math inline">\(Y_t\)</span>, <span class="math display">\[Y_t=\mu+\phi(Y_{t-1}-\mu)+\varepsilon_t,\]</span>
+where <span class="math inline">\(\varepsilon_t \stackrel{\mathrm{iid}}{\sim} \mathcal{N}(0,\sigma^2)\)</span>. The joint distribution of the observations conditional on the first is multivariate normal. Here is a simple function for the likelihood, which only requires specifying the conditional mean.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># analysis using AR(1) model for means conditional likelihood</span>
 nll_AR1 &lt;-<span class="st"> </span><span class="cf">function</span>(th, y) {
     n &lt;-<span class="st"> </span><span class="kw">length</span>(y)
     condit.mean &lt;-<span class="st"> </span>th[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>th[<span class="dv">3</span>] <span class="op">*</span><span class="st"> </span>(y[<span class="op">-</span>n] <span class="op">-</span><span class="st"> </span>th[<span class="dv">1</span>])
@@ -305,7 +328,7 @@ nll_AR1 &lt;-<span class="st"> </span><span class="cf">function</span>(th, y) {
 }
 init1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)
 <span class="co"># fit1 &lt;- nlm(f = nll_AR1, p = init1, iterlim = 500, hessian = TRUE, y = y)</span>
-fit1 &lt;-<span class="st"> </span><span class="kw">optim</span>(init1, nll_AR1, <span class="dt">y =</span> y, <span class="dt">hessian =</span> <span class="ot">TRUE</span>, <span class="dt">method =</span> <span class="st">&quot;Nelder-Mead&quot;</span>)</code></pre></div>
+fit1 &lt;-<span class="st"> </span><span class="kw">optim</span>(init1, nll_AR1, <span class="dt">y =</span> y, <span class="dt">hessian =</span> <span class="ot">TRUE</span>, <span class="dt">method =</span> <span class="st">&quot;Nelder-Mead&quot;</span>)</code></pre>
 <p>We obtain the parameter estimates and the standard errors from the observed information matrix, estimated numerically. Incidently, one can easily that the problem is equivalent to a linear Gaussian model where the regressor is a lagged vector of observations. The parameter estimates differ slightly, but this is due to the optimization routine.</p>
 <pre class="ar1_param"><code>#Parameter values (MLEs)
 fit1$par
@@ -321,14 +344,16 @@ sqrt(diag(solve(fit1$hessian)))
 fit1_ols &lt;- dynlm::dynlm(y ~ L(y, 1))
 coefficients(fit1_ols)
 sd(residuals(fit1_ols))</code></pre>
-<p>Incidently, the situation is analogous for the ARCH(1) process, which has a conditional variance that changes over time. The latter is defined implicitly as <span class="math display">\[
+<p>Incidently, the situation is analogous for the ARCH(1) process, which has a conditional variance that changes over time. The latter is defined implicitly as
+<span class="math display">\[
 \begin{align*}
 Z_t &amp;= \mu + \sigma_t\epsilon_t\\
 \sigma_t^2 &amp;=\alpha_0+\alpha_1(Z_{t-1}-\mu)^2 
 \end{align*}
-\]</span> with <span class="math inline">\(\epsilon_t \stackrel{\mathrm{iid}}{\sim} \mathcal{N}(0, 1)\)</span>.</p>
+\]</span>
+with <span class="math inline">\(\epsilon_t \stackrel{\mathrm{iid}}{\sim} \mathcal{N}(0, 1)\)</span>.</p>
 <p>The variance <span class="math inline">\(\sigma^2\)</span> here is included as <span class="math inline">\(\sigma^2=\alpha_0\)</span> and the parameter appearing in the likelihood is <span class="math inline">\(\alpha_1/\sigma^2\)</span> corresponds to <span class="math inline">\(\theta_3\)</span>, or <code>th[3]</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># analysis using ARCH(1) model for variances</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># analysis using ARCH(1) model for variances</span>
 nll_ARCH1 &lt;-<span class="st"> </span><span class="cf">function</span>(th, y) {
     n &lt;-<span class="st"> </span><span class="kw">length</span>(y)
     condit.mean &lt;-<span class="st"> </span>th[<span class="dv">1</span>]
@@ -337,15 +362,15 @@ nll_ARCH1 &lt;-<span class="st"> </span><span class="cf">function</span>(th, y) 
 }
 init2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)
 fit2 &lt;-<span class="st"> </span><span class="kw">nlm</span>(<span class="dt">f =</span> nll_ARCH1, <span class="dt">p =</span> init2, <span class="dt">iterlim =</span> <span class="dv">500</span>, <span class="dt">hessian =</span> <span class="ot">TRUE</span>, <span class="dt">y =</span> y)
-## fit2 &lt;- optim(init2, nll_ARCH1, y = y, hessian = TRUE)</code></pre></div>
+<span class="co">## fit2 &lt;- optim(init2, nll_ARCH1, y = y, hessian = TRUE)</span></code></pre>
 <p>The function <code>nlm</code> performs minimization, but may return warnings because some of its steps because the conditional variance can be negative for some combinations of the variable, so the corresponding moves of the Newton algorithm are rejected. These are typically steps that are not in the neighborhood of the final solution, so can be ignored if the output is valid. The <code>minimum</code> corresponds to the negative log-likelihood at the maximum likelihood estimates. The MLE is given by <code>estimate</code> and the standard errors by the square root of the diagonal entries of the inverse Hessian (here already negated because we work with the negative of the log-likelihood). Since the residuals have a varying variance, we need to adjust them by dividing each by their respective variance. Same would have occured for the AR(1) process, but it is easier for the mean.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit2<span class="op">$</span>minimum</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">fit2<span class="op">$</span>minimum</code></pre>
 <pre><code>[1] 1860.386</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit2<span class="op">$</span>estimate</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">fit2<span class="op">$</span>estimate</code></pre>
 <pre><code>[1] 0.02691498 3.31180313 0.11770094</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">solve</span>(fit2<span class="op">$</span>hessian)))</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">solve</span>(fit2<span class="op">$</span>hessian)))</code></pre>
 <pre><code>[1] 0.06843004 0.24664944 0.02908274</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">make_resid_ARCH1 &lt;-<span class="st"> </span><span class="cf">function</span>(y, fit) {
+<pre class="sourceCode r"><code class="sourceCode r">make_resid_ARCH1 &lt;-<span class="st"> </span><span class="cf">function</span>(y, fit) {
     th &lt;-<span class="st"> </span>fit<span class="op">$</span>estimate
     n &lt;-<span class="st"> </span><span class="kw">length</span>(y)
     condit.mean &lt;-<span class="st"> </span>th[<span class="dv">1</span>]
@@ -354,21 +379,23 @@ fit2 &lt;-<span class="st"> </span><span class="kw">nlm</span>(<span class="dt">
     <span class="kw">ts</span>(res)
 }
 
-res2 &lt;-<span class="st"> </span><span class="kw">make_resid_ARCH1</span>(y, fit2)</code></pre></div>
-<p>We now proceed with diagnostic plots to check the model adequacy. Recall that the Kolmogorov–Smirnov test statistic associated with the cumulative periodogram tests the hypothesis of white noise (and ARCH(1) is white noise).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))
+res2 &lt;-<span class="st"> </span><span class="kw">make_resid_ARCH1</span>(y, fit2)</code></pre>
+<p>We now proceed with diagnostic plots to check the model adequacy. Recall that the Kolmogorov–Smirnov test statistic associated with
+the cumulative periodogram tests the hypothesis of white noise (and ARCH(1) is white noise).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))
 <span class="kw">plot</span>(y, <span class="dt">main =</span> <span class="st">&quot;Raw returns&quot;</span>)
 <span class="kw">plot</span>(res2, <span class="dt">main =</span> <span class="st">&quot;ARCH(1) residuals&quot;</span>)
 <span class="kw">cpgram</span>(res2, <span class="dt">main =</span> <span class="st">&quot;Cumulative periodogram&quot;</span>)
 <span class="kw">par</span>(<span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)
 <span class="kw">qqnorm</span>(res2, <span class="dt">panel.first =</span> {
     <span class="kw">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
-})</code></pre></div>
+})</code></pre>
 <p><img src="timeseRies_files/figure-html/diagnostics_ARCH-1.png" width="672" /></p>
 <div id="exercise-1-ubs-stock-returns" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Exercise 1: UBS stock returns</h3>
 <ol style="list-style-type: decimal">
-<li>Create a function that fits an AR(1)-ARCH(1) model by modifying the code provided above and apply it to <code>y</code>. The latter is defined as <span class="math display">\[Y_t-\mu = \phi(Y_{t-1}-\mu)+\sigma_t\varepsilon_t, \quad \sigma^2_t = \alpha_0+\alpha_1(Y_{t-1}-\mu)^2, \quad \varepsilon_t \stackrel{\mathrm{iid}}{\sim} \mathcal{N}(0,\sigma^2)\]</span></li>
+<li>Create a function that fits an AR(1)-ARCH(1) model by modifying the code provided above and apply it to <code>y</code>. The latter is defined as
+<span class="math display">\[Y_t-\mu = \phi(Y_{t-1}-\mu)+\sigma_t\varepsilon_t, \quad \sigma^2_t = \alpha_0+\alpha_1(Y_{t-1}-\mu)^2, \quad \varepsilon_t \stackrel{\mathrm{iid}}{\sim} \mathcal{N}(0,\sigma^2)\]</span></li>
 <li>Obtain the maximum likelihood estimates using <code>nlm</code> or <code>optim</code> as well as the standard errors</li>
 <li>Plot the residuals. Comment on the fit using standard diagnostic plots (Q-Q plot, ((P)ACF, cumulative periodogram).</li>
 <li>Fit an AR(2) model using a conditional likelihood for the mean and obtain the standard errors of your estimated coefficients.</li>
@@ -428,7 +455,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

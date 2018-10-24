@@ -31,7 +31,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="an-aside-on-models-with-regressors-optional.html">
+<link rel="prev" href="sarima-models-estimation-and-forecasting.html">
 <link rel="next" href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,41 +49,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: #f8f8f8; }
-code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code > span.dt { color: #204a87; } /* DataType */
-code > span.dv { color: #0000cf; } /* DecVal */
-code > span.bn { color: #0000cf; } /* BaseN */
-code > span.fl { color: #0000cf; } /* Float */
-code > span.ch { color: #4e9a06; } /* Char */
-code > span.st { color: #4e9a06; } /* String */
-code > span.co { color: #8f5902; font-style: italic; } /* Comment */
-code > span.ot { color: #8f5902; } /* Other */
-code > span.al { color: #ef2929; } /* Alert */
-code > span.fu { color: #000000; } /* Function */
-code > span.er { color: #a40000; font-weight: bold; } /* Error */
-code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #000000; } /* Constant */
-code > span.sc { color: #000000; } /* SpecialChar */
-code > span.vs { color: #4e9a06; } /* VerbatimString */
-code > span.ss { color: #4e9a06; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #000000; } /* Variable */
-code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code > span.ex { } /* Extension */
-code > span.at { color: #c4a000; } /* Attribute */
-code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -146,33 +171,31 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="seasonal-arima-and-garch-models.html"><a href="seasonal-arima-and-garch-models.html"><i class="fa fa-check"></i><b>3</b> Seasonal ARIMA and GARCH models</a><ul>
-<li class="chapter" data-level="3.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>3.1</b> SARIMA models: estimation and forecasting</a></li>
-<li class="chapter" data-level="3.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html"><i class="fa fa-check"></i><b>3.2</b> An aside on models with regressors (optional)</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>3.2.1</b> Mauna Loa CO<sub>2</sub> dataset</a></li>
-<li class="chapter" data-level="3.2.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>3.2.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="3.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>3.1</b> SARIMA models: estimation and forecasting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>3.1.1</b> Mauna Loa CO<sub>2</sub> dataset</a></li>
+<li class="chapter" data-level="3.1.2" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>3.1.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>3.3</b> Boostrap methods for time series</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>3.3.1</b> Bootstrapping a linear model</a></li>
-<li class="chapter" data-level="3.3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>3.3.2</b> Testing for heteroscedasticity</a></li>
-<li class="chapter" data-level="3.3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>3.3.3</b> AR-sieve bootstrap</a></li>
-<li class="chapter" data-level="3.3.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>3.3.4</b> Boostrap models for uncertainty assesment</a></li>
-<li class="chapter" data-level="3.3.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>3.3.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>3.2</b> Boostrap methods for time series</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>3.2.1</b> Bootstrapping a linear model</a></li>
+<li class="chapter" data-level="3.2.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>3.2.2</b> Testing for heteroscedasticity</a></li>
+<li class="chapter" data-level="3.2.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>3.2.3</b> AR-sieve bootstrap</a></li>
+<li class="chapter" data-level="3.2.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>3.2.4</b> Boostrap models for uncertainty assesment</a></li>
+<li class="chapter" data-level="3.2.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>3.2.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>3.4</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#predictions"><i class="fa fa-check"></i><b>3.4.1</b> Predictions</a></li>
-<li class="chapter" data-level="3.4.2" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>3.4.2</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+<li class="chapter" data-level="3.3" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>3.3</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#predictions"><i class="fa fa-check"></i><b>3.3.1</b> Predictions</a></li>
+<li class="chapter" data-level="3.3.2" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>3.3.2</b> Exercice 3: International Business Machines (IBM) stock</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html"><i class="fa fa-check"></i><b>3.5</b> Solutions to Exercises</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>3.5.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
-<li class="chapter" data-level="3.5.2" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>3.5.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
-<li class="chapter" data-level="3.5.3" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>3.5.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+<li class="chapter" data-level="3.4" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html"><i class="fa fa-check"></i><b>3.4</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>3.4.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="3.4.2" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>3.4.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="3.4.3" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>3.4.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>4</b> Spectral analysis and filtering</a><ul>
 <li class="chapter" data-level="4.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.1</b> Nonparametric spectral estimation</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#tapering"><i class="fa fa-check"></i><b>4.1.1</b> Tapering</a></li>
-<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.2</b> A data example</a></li>
-<li class="chapter" data-level="4.1.3" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.3</b> Smoothing</a></li>
+<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.1</b> A data example</a></li>
+<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.2</b> Smoothing</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.2</b> Summary of nonparametric spectral estimation</a></li>
 <li class="chapter" data-level="4.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>4.3</b> Spectral estimation in R</a><ul>
@@ -190,13 +213,12 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="6.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html"><i class="fa fa-check"></i><b>6.1</b> Irregular time series</a><ul>
 <li class="chapter" data-level="6.1.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html#exercise-1-jussy-air-temperature"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1: Jussy air temperature</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>6.2</b> Imputation of missing values</a></li>
-<li class="chapter" data-level="6.3" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html"><i class="fa fa-check"></i><b>6.3</b> Diagnostics for missing values and smoothing</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html#exercise-2-tyne-river-flow"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 2: Tyne river flow</a></li>
+<li class="chapter" data-level="6.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>6.2</b> Imputation of missing values</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html#exercise-2-tyne-river-flow"><i class="fa fa-check"></i><b>6.2.1</b> Exercise 2: Tyne river flow</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html"><i class="fa fa-check"></i><b>6.4</b> Solutions to Exercises</a><ul>
-<li class="chapter" data-level="6.4.1" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-1-jussy-air-temperature-1"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1: Jussy air temperature</a></li>
-<li class="chapter" data-level="6.4.2" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-2-tyne-river-flow-1"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2: Tyne river flow</a></li>
+<li class="chapter" data-level="6.3" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html"><i class="fa fa-check"></i><b>6.3</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-1-jussy-air-temperature-1"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 1: Jussy air temperature</a></li>
+<li class="chapter" data-level="6.3.2" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-2-tyne-river-flow-1"><i class="fa fa-check"></i><b>6.3.2</b> Exercise 2: Tyne river flow</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -220,13 +242,13 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="boostrap-methods-for-time-series" class="section level2">
-<h2><span class="header-section-number">3.3</span> Boostrap methods for time series</h2>
+<h2><span class="header-section-number">3.2</span> Boostrap methods for time series</h2>
 <p>The boostrap is a computer-intensive resampling-based methodology that arises as alternative to asymptotic theory.</p>
 <p>The idea of the bootstrap is to approximate the data generating process. Suppose our time series <span class="math inline">\(\boldsymbol{Y}=\{Y_1, \ldots, Y_T\}\)</span> is generated by some model <span class="math inline">\(\mathrm{DGP}\)</span>. We approximate the latter by an estimate <span class="math inline">\(\widehat{\mathrm{DGP}}\)</span> and use this model to simulate new replicate series <span class="math inline">\(\boldsymbol{Y}^*=\{Y_1^* , \ldots , Y_n^*\}\)</span> . We can then reproduce the estimation of the quantity of interest, say <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span>, by repeating the estimation procedure over the (new) simulated datasets. The relationship between the test statistic and the population value <span class="math inline">\(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}\)</span> should be also closely approximated by the bootstrap replicates <span class="math inline">\(\widehat{\boldsymbol{\theta}}{}^*-\boldsymbol{\theta}^*\)</span>, so it is paramount that the latter reproduce the features under study.</p>
 <p>To recap: rather than relying on the asymptotic distribution of the test statistics, one simulates artificial datasets under the postulated model and calculate the test statistic on each replicate dataset. For testing, this model should correspond to sampling under the <em>null hypothesis</em>. We use the empirical distribution of the so-called <span class="math inline">\(B\)</span> bootstrap replicates as distribution for the test statistic to calculate standard errors, confidence intervals, critical values or <span class="math inline">\(P\)</span>-values.</p>
 <p>We illustrate the use of the boostrap on a simple example from linear models, than detail its use in time series.</p>
 <div id="bootstrapping-a-linear-model" class="section level3">
-<h3><span class="header-section-number">3.3.1</span> Bootstrapping a linear model</h3>
+<h3><span class="header-section-number">3.2.1</span> Bootstrapping a linear model</h3>
 <p>Consider a simple linear model with independent and identically distributed errors, <span class="math display">\[\boldsymbol{Y} = \mathbf{X}\boldsymbol{\beta}+\boldsymbol{\varepsilon}\]</span> where <span class="math inline">\(\boldsymbol{\varepsilon} \stackrel{\mathrm{iid}}{\sim} F(\boldsymbol{0}, \sigma^2\mathbf{I}_n)\)</span> and the first column of the <span class="math inline">\(n \times k\)</span> matrix of regressors <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\(\boldsymbol{1}_n\)</span>. The parameter estimated obtained by ordinary least squares are such that the fitted values are orthogonal to the estimated errors, meaning <span class="math inline">\(\mathbf{X}\hat{\boldsymbol{\beta}} \perp \hat{\boldsymbol{\varepsilon}}\)</span> by construction, and that <span class="math inline">\(\overline{\hat{\boldsymbol{\varepsilon}}} = 0\)</span> provided we include <span class="math inline">\(\boldsymbol{1}_n\)</span> as a regressor.</p>
 <p>Suppose for simplicity that the linear model takes the form <span class="math inline">\(y_i=\alpha+\beta x_i + \varepsilon_i\)</span>, where <span class="math inline">\(\varepsilon_i \stackrel{\mathrm{iid}}{\sim}F(0,\sigma^2)\)</span> and that we want to test the null hypothesis <span class="math inline">\(\mathsf{H}_0: \beta=0\)</span>.</p>
 <p>The simplest bootstrap scheme is the nonparametric bootstrap, due to Efron (1976). It goes as follows: the bootstrap data generating process consists in resampling residuals (with replacement) from <span class="math inline">\(\tilde{F}\)</span>, the empirical distribution of the errors.</p>
@@ -235,20 +257,30 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li>Estimate the model postulated under <span class="math inline">\(\mathsf{H}_0\)</span> and obtain residuals <span class="math inline">\(\widetilde{\boldsymbol{\varepsilon}}=\boldsymbol{y}-\widetilde{\alpha}\)</span>.</li>
 <li>Create bootstrap series <span class="math inline">\(\boldsymbol{y}_b^* = \widetilde{\alpha}\boldsymbol{1}_n + \boldsymbol{\varepsilon}_b^*\)</span> for <span class="math inline">\(b=1, \ldots, B\)</span>, where <span class="math inline">\(\varepsilon_{i_b}^*\)</span> are resampled with replacement from the empirical distribution <span class="math inline">\(\{\widetilde{\varepsilon}\}_{i=1}^n\)</span> with probability <span class="math inline">\(1/n\)</span>.</li>
 <li>Obtain bootstrap test statistics by fitting <span class="math inline">\(\boldsymbol{y}_b^*=\widehat{\alpha}_{b}^* + \widehat{\beta}_{b}\boldsymbol{x} + \widehat{\boldsymbol{\varepsilon}}_b^*\)</span> and obtain <span class="math inline">\(T_b=\hat{\beta}_b/\mathrm{se}(\hat{\beta}_b)\)</span></li>
-<li>The <span class="math inline">\(P\)</span>-value for <span class="math inline">\(T\)</span> will be the rescaled rank <span class="math display">\[\frac{1}{B}\sum_{b=1}^B \mathrm{I}(T_b&gt;T)\]</span> for a one sided test, otherwise we use the rank of the absolute values, <span class="math inline">\(\sum_{b=1}^B \mathrm{I}(|T_b|&gt;|T|)\)</span> for a two-sided test.</li>
+<li>The <span class="math inline">\(P\)</span>-value for <span class="math inline">\(T\)</span> will be the rescaled rank
+<span class="math display">\[\frac{1}{B}\sum_{b=1}^B \mathrm{I}(T_b&gt;T)\]</span>
+for a one sided test, otherwise we use the rank of the absolute values, <span class="math inline">\(\sum_{b=1}^B \mathrm{I}(|T_b|&gt;|T|)\)</span> for a two-sided test.</li>
 </ol>
 <p>Nothing prevents one to take <span class="math inline">\(T=\hat{\beta}\)</span> as test statistic in the above. It is however best to bootstrap a pivotal quantity should the latter be available. Indeed, if the test statistic of interest is pivotal under the null hypothesis, then the bootstrap is a Monte-Carlo test and the latter is exact at level <span class="math inline">\(\alpha\)</span> if <span class="math inline">\(\alpha(B+1)\)</span> is integer.</p>
 <p>The parametric bootstrap for the linear regression would specify a model for the generic distribution <span class="math inline">\(F\)</span>, for example Normal. One construct bootstrap series as before, this time replacing the sampling in Step 3. with <span class="math inline">\(\boldsymbol{\varepsilon}^*_b \sim \mathcal{N}_n(\boldsymbol{0}_n, \widehat{\sigma}^2\mathbf{I}_n)\)</span>, where the estimator <span class="math inline">\(\widehat{\sigma}^2\)</span> of the model fitted under <span class="math inline">\(\mathsf{H}_0\)</span> should be the unbiased estimator of the variance, whose denominator is <span class="math inline">\(n-k-1\)</span> rather than <span class="math inline">\(n\)</span>.</p>
 <p>Many test statistics can be cast as regression problems. We have seen that conditional maximum likelihood estimates for AR(<span class="math inline">\(p\)</span>) models coincide with least square estimates from the regression <span class="math inline">\(y_t=\mu+\boldsymbol{\phi}^\top(y_{t-1}, \ldots, y_{t-p})^\top\)</span> for <span class="math inline">\(t=p, \ldots, n\)</span> because of the Markov structure.</p>
 </div>
 <div id="testing-for-heteroscedasticity" class="section level3">
-<h3><span class="header-section-number">3.3.2</span> Testing for heteroscedasticity</h3>
-<p>Consider a GARCH(1,1) model <span class="math inline">\(y_t=\mu + v_t, v_t = \sigma_t\varepsilon_t, \varepsilon_t \stackrel{\mathrm{iid}}{\sim}F(0,\sigma^2)\)</span> and <span class="math display">\[\sigma^2_t = \alpha_0 + \alpha_1 v_{t-1}^2 + \beta \sigma^2_{t-1}\]</span> and suppose that we wish to test the null hypothesis that the <span class="math inline">\(v_t \stackrel{\mathrm{iid}}{\sim}F(0,\sigma^2)\)</span>. The easiest way to test this would be to run the regression <span class="math inline">\(\widehat{v}_t^2 = b_0 + b_1 \widehat{v}_{t-1}^2 + \eta_t\)</span>, where <span class="math inline">\(\widehat{v}_t\)</span> are residuals from a linear model <span class="math inline">\(y_t=\mu +v_t\)</span>. The null hypothesis that <span class="math inline">\(\alpha_1=\beta=0=0\)</span> is equivalent to testing <span class="math inline">\(b_1=0\)</span>, and the ordinary <span class="math inline">\(t\)</span> statistic could be used and we are back in the framework just presented.</p>
+<h3><span class="header-section-number">3.2.2</span> Testing for heteroscedasticity</h3>
+<p>Consider a GARCH(1,1) model
+<span class="math inline">\(y_t=\mu + v_t, v_t = \sigma_t\varepsilon_t, \varepsilon_t \stackrel{\mathrm{iid}}{\sim}F(0,\sigma^2)\)</span> and
+<span class="math display">\[\sigma^2_t = \alpha_0 + \alpha_1 v_{t-1}^2 + \beta \sigma^2_{t-1}\]</span>
+and suppose that we wish to test the null hypothesis that the <span class="math inline">\(v_t \stackrel{\mathrm{iid}}{\sim}F(0,\sigma^2)\)</span>. The easiest way to test this would be
+to run the regression <span class="math inline">\(\widehat{v}_t^2 = b_0 + b_1 \widehat{v}_{t-1}^2 + \eta_t\)</span>, where <span class="math inline">\(\widehat{v}_t\)</span> are residuals from a linear model <span class="math inline">\(y_t=\mu +v_t\)</span>. The null hypothesis that <span class="math inline">\(\alpha_1=\beta=0=0\)</span> is equivalent to testing <span class="math inline">\(b_1=0\)</span>, and the ordinary <span class="math inline">\(t\)</span> statistic could be used and we are back in the framework just presented.</p>
 <p>Bootstrap replicates must reproduce the postulated model. This is complicated for time series, because of the serial dependence and the potential heteroscedasticity. If we resample residuals without taking into account the time dependence, our replicates won’t be anymore time series!</p>
 </div>
 <div id="ar-sieve-bootstrap" class="section level3">
-<h3><span class="header-section-number">3.3.3</span> AR-sieve bootstrap</h3>
-<p>Approximating a stationary time series by an AR(<span class="math inline">\(p\)</span>) leads to a parametric bootstrap termed “sieve” bootstrap, after Grenander (1981). Under what kind of assumptions can AR models reproduce features of the underlying stochastic process? By the Wold-decomposition, any purely stochastic mean-zero stationary process with a positive and continuous spectral density can be written as <span class="math display">\[Y_t= \sum_{j=1}^\infty \phi_j Y_{t-j} + \varepsilon_t.\]</span> for uncorrelated white noise sequence <span class="math inline">\(\varepsilon_t\)</span>. Another possible (stronger) assumption is to assume that the process <span class="math inline">\(Y_t\)</span> admits an AR(<span class="math inline">\(\infty\)</span>) representation, <span class="math display">\[Y_t-\mu=\sum_{j=1}^\infty \varphi_j (Y_{t-j}-\mu) + e_t, \qquad e_t \stackrel{\mathrm{iid}}{\sim}F(0, \sigma^2), \quad \sum_{j=1}^\infty |\varphi_j| &lt; \infty.\]</span></p>
+<h3><span class="header-section-number">3.2.3</span> AR-sieve bootstrap</h3>
+<p>Approximating a stationary time series by an AR(<span class="math inline">\(p\)</span>) leads to a parametric bootstrap termed “sieve” bootstrap, after Grenander (1981). Under what kind of assumptions can AR models reproduce features of the underlying stochastic process?
+By the Wold-decomposition, any purely stochastic mean-zero stationary process with a positive and continuous spectral density can be written as
+<span class="math display">\[Y_t= \sum_{j=1}^\infty \phi_j Y_{t-j} + \varepsilon_t.\]</span>
+for uncorrelated white noise sequence <span class="math inline">\(\varepsilon_t\)</span>. Another possible (stronger) assumption is to assume that the process <span class="math inline">\(Y_t\)</span> admits an AR(<span class="math inline">\(\infty\)</span>) representation,
+<span class="math display">\[Y_t-\mu=\sum_{j=1}^\infty \varphi_j (Y_{t-j}-\mu) + e_t, \qquad e_t \stackrel{\mathrm{iid}}{\sim}F(0, \sigma^2), \quad \sum_{j=1}^\infty |\varphi_j| &lt; \infty.\]</span></p>
 <p>Under the bootstrap scheme, the replicated white noise series will have the same marginal properties as those of the original <span class="math inline">\(\varepsilon_t\)</span>. The model is Markov, so we can simulate the observations in a recursive fashion. We proceed as follows</p>
 <ol style="list-style-type: decimal">
 <li>Estimate residuals <span class="math inline">\(\widehat{\varepsilon}_t = \sum_{j=0}^p \widehat{\phi}_j (X_{t-j}-\widehat{\mu})\)</span> for <span class="math inline">\(t=p+1, \ldots, n\)</span>.</li>
@@ -263,16 +295,16 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <p>We now detail the bootstrap procedure employed by Prof. Davison in his slides. The sieve bootstrap is employed to account for the variation due to (a) future innovations (b) parameter estimation and (c) model selection. The test statistics are the pair (AIC, prediction errors). The counts are not normally distributed and are overdispersed, with a clear multiplicative structure for the variance and a 11 year cycle. The first simulation uses the AR model that minimizes AIC, while the second simulation ignores model selection uncertainty by fixing the order to 11.</p>
 </div>
 <div id="boostrap-models-for-uncertainty-assesment" class="section level3">
-<h3><span class="header-section-number">3.3.4</span> Boostrap models for uncertainty assesment</h3>
+<h3><span class="header-section-number">3.2.4</span> Boostrap models for uncertainty assesment</h3>
 <p>The following code is my own adaptation of Example 8.3 from Davison and Hinkley (1997).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Counts are overdispersed</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Counts are overdispersed</span>
 <span class="kw">library</span>(boot); <span class="kw">library</span>(forecast)
 <span class="co">#Variance stabilizing transform</span>
 sun &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>(<span class="kw">sqrt</span>(sunspot.year<span class="op">+</span><span class="dv">1</span>)<span class="op">-</span><span class="dv">1</span>)
 <span class="co">#QQ plot of the variance-transformed observations</span>
-<span class="kw">qqnorm</span>(<span class="kw">scale</span>(sun), <span class="dt">pty=</span><span class="st">&quot;s&quot;</span>); <span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre></div>
+<span class="kw">qqnorm</span>(<span class="kw">scale</span>(sun), <span class="dt">pty=</span><span class="st">&quot;s&quot;</span>); <span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre>
 <p><img src="timeseRies_files/figure-html/arfit_sunspot-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Alternative would be a Box-Cox transform</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Alternative would be a Box-Cox transform</span>
 <span class="co"># sun_bc &lt;- BoxCox(window(sunspot.year, 1818), </span>
 <span class="co">#                     forecast::BoxCox.lambda(window(sunspot.year, 1818), method = &quot;loglik&quot;))</span>
 <span class="co"># qqnorm(scale(sun_bc)); abline(a = 0, b = 1)</span>
@@ -301,9 +333,9 @@ sim_unc &lt;-<span class="st"> </span><span class="cf">function</span>(tseries, 
                    <span class="dt">init =</span> init)
 }
 
-<span class="kw">plot</span>(<span class="kw">sim_unc</span>(sun, <span class="dt">mod =</span> sun_ar_auto, <span class="dt">nobs =</span> <span class="dv">59</span>, <span class="dt">res =</span> res), <span class="dt">ylab =</span> <span class="st">&quot;Unconditional simulation&quot;</span>)</code></pre></div>
+<span class="kw">plot</span>(<span class="kw">sim_unc</span>(sun, <span class="dt">mod =</span> sun_ar_auto, <span class="dt">nobs =</span> <span class="dv">59</span>, <span class="dt">res =</span> res), <span class="dt">ylab =</span> <span class="st">&quot;Unconditional simulation&quot;</span>)</code></pre>
 <p><img src="timeseRies_files/figure-html/arfit_sunspot-2.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Boostrap statistics, returned as a list here</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Boostrap statistics, returned as a list here</span>
 boot_stat &lt;-<span class="st"> </span><span class="cf">function</span>(tseries, npredict, p, <span class="dt">fixorder =</span> <span class="ot">FALSE</span>){
   n &lt;-<span class="st"> </span><span class="kw">length</span>(tseries)
   <span class="co">#Fit the AR model</span>
@@ -351,17 +383,17 @@ for_err_fixed_boot &lt;-<span class="st"> </span><span class="kw">apply</span>(<
 <span class="co">#AR order </span>
 ar_order_boot &lt;-<span class="st"> </span><span class="kw">unlist</span>(boot_full[<span class="dv">2</span>,])
 <span class="kw">plot</span>(<span class="kw">table</span>(<span class="kw">c</span>(sun_ar_auto<span class="op">$</span>arma[<span class="dv">1</span>], ar_order_boot))<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">length</span>(ar_order_boot)), <span class="dt">ylab =</span> <span class="st">&quot;Proportion&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Order based on AIC&quot;</span>, 
-      <span class="dt">main =</span> <span class="st">&quot;Distribution of autoregressive model order </span><span class="ch">\n</span><span class="st">based on the AIC criterion (sieve)&quot;</span>)</code></pre></div>
+      <span class="dt">main =</span> <span class="st">&quot;Distribution of autoregressive model order </span><span class="ch">\n</span><span class="st">based on the AIC criterion (sieve)&quot;</span>)</code></pre>
 <p><img src="timeseRies_files/figure-html/arfit_sunspot-3.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">forec &lt;-<span class="st"> </span><span class="kw">forecast</span>(sun_ar_auto, <span class="dt">h =</span> <span class="dv">9</span>)
+<pre class="sourceCode r"><code class="sourceCode r">forec &lt;-<span class="st"> </span><span class="kw">forecast</span>(sun_ar_auto, <span class="dt">h =</span> <span class="dv">9</span>)
 <span class="co">#Forecasts from forecast::forecast does not return the se</span>
 <span class="co">#So reverse-engineer the calculation to retrieve those</span>
-forec<span class="op">$</span>se &lt;-<span class="st"> </span>(<span class="op">-</span>forec<span class="op">$</span>lower[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>forec<span class="op">$</span>mean)<span class="op">/</span><span class="kw">qnorm</span>(<span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>forec<span class="op">$</span>level[<span class="dv">1</span>]<span class="op">/</span><span class="dv">100</span>))</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
+forec<span class="op">$</span>se &lt;-<span class="st"> </span>(<span class="op">-</span>forec<span class="op">$</span>lower[, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>forec<span class="op">$</span>mean)<span class="op">/</span><span class="kw">qnorm</span>(<span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>forec<span class="op">$</span>level[<span class="dv">1</span>]<span class="op">/</span><span class="dv">100</span>))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
 tab &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(forec<span class="op">$</span>se), for_err_full_boot, for_err_fixed_boot)
 <span class="kw">row.names</span>(tab) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Nominal&quot;</span>, <span class="st">&quot;AR&quot;</span>, <span class="st">&quot;AR(11)&quot;</span>)
 <span class="kw">colnames</span>(tab) &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>)
-<span class="kw">kable</span>(tab, <span class="dt">caption =</span> <span class="st">&quot;h-step ahead prediction standard errors&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre></div>
+<span class="kw">kable</span>(tab, <span class="dt">caption =</span> <span class="st">&quot;h-step ahead prediction standard errors&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre>
 <table>
 <caption>(#tab:prediction_error_table)h-step ahead prediction standard errors</caption>
 <thead>
@@ -418,14 +450,14 @@ tab &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw"
 </tbody>
 </table>
 <p>While I have computed manually everything, the package <code>boot</code> provides options for bootstrap and wrappers for standard methods. The sieve bootstrap is implemented using <code>tsboot</code> with option <code>sim = model</code>, reflecting the fact that it is model-based. The example in the slides (and from the book <em>Bootstrap methods and their applications</em>, example 8.3, used the <code>ar</code> command to fit the autoregressive model via the Yule-Walker equations). The function <code>ar</code> subtract the sample mean to ensure the errors are residuals are centered and uses a conditional model. As mentioned before, don’t use the latter to estimate an information criterion (although it is okay for predictions).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(boot)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(boot)
 <span class="co"># Estimate the AR coefficients</span>
 sun_ar &lt;-<span class="st"> </span><span class="kw">ar</span>(<span class="kw">window</span>(sun, <span class="dv">1930</span>, <span class="dv">1979</span>), <span class="dt">aic =</span> <span class="ot">FALSE</span>, <span class="dt">order.max =</span> p)
 <span class="co"># ar automatically selects order by AIC unless `aic = FALSE` in which case</span>
 <span class="co"># it fits the model with order.max</span>
-sun_ar<span class="op">$</span>order</code></pre></div>
+sun_ar<span class="op">$</span>order</code></pre>
 <pre><code>[1] 11</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">ar =</span> sun_ar<span class="op">$</span>ar, <span class="dt">order =</span> <span class="kw">c</span>(p, <span class="dv">0</span>, <span class="dv">0</span>))
+<pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">ar =</span> sun_ar<span class="op">$</span>ar, <span class="dt">order =</span> <span class="kw">c</span>(p, <span class="dv">0</span>, <span class="dv">0</span>))
 <span class="co"># Statistic under study with the bootstrap Manual fitting and collection of</span>
 <span class="co"># the results</span>
 sun_fun &lt;-<span class="st"> </span><span class="cf">function</span>(tsb) {
@@ -462,14 +494,14 @@ sun_boot &lt;-<span class="st"> </span><span class="kw">tsboot</span>(<span clas
         <span class="dv">1930</span>), <span class="dt">model =</span> sun_model))
 
 <span class="co"># Standard deviations of prediction error</span>
-<span class="kw">apply</span>(sun_boot<span class="op">$</span>t[, <span class="op">-</span><span class="dv">1</span>], <span class="dv">2</span>, sd)</code></pre></div>
+<span class="kw">apply</span>(sun_boot<span class="op">$</span>t[, <span class="dv">-1</span>], <span class="dv">2</span>, sd)</code></pre>
 <pre><code>[1] 2.500653 3.559976 3.789827 3.687904 3.661806 3.609122 3.735139 3.867332
 [9] 3.838362</code></pre>
 <p>More details about bootstrap methods for time series can be found in <a href="https://projecteuclid.org/euclid.ss/1023798998">Bühlmann (2002)</a> or <a href="https://www.kevinsheppard.com/images/0/0a/Kreiss_and_lahiri.pdf">Kreiss and Lahiri (2012)</a>.</p>
 <p>More sophisticated methods will be needed depending on the model considered. If you have heteroscedasticity, then the residuals <span class="math inline">\(v_t\)</span> cannot be sampled independently from the fitted residuals. One can use then the so-called <strong>wild</strong> bootstrap and resample <span class="math inline">\(v_t^*=s_t^*v_t\)</span>, where <span class="math inline">\(s_t^* \stackrel{\mathrm{iid}}{\sim}F(0,1)\)</span>. The simplest such example is the Rademacher distribution, a two point distribution that puts mass <span class="math inline">\(1/2\)</span> on <span class="math inline">\(\{-1, 1\}\)</span>. One could also resample from <span class="math inline">\(\mathcal{N}(0,1)\)</span>.</p>
 </div>
 <div id="exercice-2-lake-erie-and-lake-huron-levels" class="section level3">
-<h3><span class="header-section-number">3.3.5</span> Exercice 2: Lake Erie and Lake Huron levels</h3>
+<h3><span class="header-section-number">3.2.5</span> Exercice 2: Lake Erie and Lake Huron levels</h3>
 <ol style="list-style-type: decimal">
 <li>Fit a linear model to the January observations of the Lake Erie data of the form <span class="math inline">\(y_t=\beta_0+\beta_1t+\varepsilon_t\)</span>, ignoring the temporal dependence. Test the null hypothesis that the trend is not significant.</li>
 <li>Use a parametric sieve bootstrap with normal errors to assess the presence of a trend in the Lake Huron dataset. Report your conclusion as a P-value.</li>
@@ -482,7 +514,7 @@ sun_boot &lt;-<span class="st"> </span><span class="kw">tsboot</span>(<span clas
           </div>
         </div>
       </div>
-<a href="an-aside-on-models-with-regressors-optional.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sarima-models-estimation-and-forecasting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -529,7 +561,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

@@ -16,7 +16,7 @@ description: "This is a web complement to MATH 342 (Time series) given at EPFL."
 
 # Preliminary remarks {-}
 
-This is a web complement to MATH 342 (Time Series), a first regression course for EPFL mathematicians.
+This is a web complement to MATH 342 (Time Series), a third year bachelor course offered at EPFL.
 
 
 We shall use the **R** programming language througout the course (as it is free and it is used in other statistics courses at EPFL). Visit [the R-project website](https://cran.r-project.org/) to download the program. The most popular graphical cross-platform front-end is [RStudio Desktop](https://www.rstudio.com/products/rstudio/download/).

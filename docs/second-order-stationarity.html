@@ -49,41 +49,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: #f8f8f8; }
-code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code > span.dt { color: #204a87; } /* DataType */
-code > span.dv { color: #0000cf; } /* DecVal */
-code > span.bn { color: #0000cf; } /* BaseN */
-code > span.fl { color: #0000cf; } /* Float */
-code > span.ch { color: #4e9a06; } /* Char */
-code > span.st { color: #4e9a06; } /* String */
-code > span.co { color: #8f5902; font-style: italic; } /* Comment */
-code > span.ot { color: #8f5902; } /* Other */
-code > span.al { color: #ef2929; } /* Alert */
-code > span.fu { color: #000000; } /* Function */
-code > span.er { color: #a40000; font-weight: bold; } /* Error */
-code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #000000; } /* Constant */
-code > span.sc { color: #000000; } /* SpecialChar */
-code > span.vs { color: #4e9a06; } /* VerbatimString */
-code > span.ss { color: #4e9a06; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #000000; } /* Variable */
-code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code > span.ex { } /* Extension */
-code > span.at { color: #c4a000; } /* Attribute */
-code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -146,33 +171,31 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="seasonal-arima-and-garch-models.html"><a href="seasonal-arima-and-garch-models.html"><i class="fa fa-check"></i><b>3</b> Seasonal ARIMA and GARCH models</a><ul>
-<li class="chapter" data-level="3.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>3.1</b> SARIMA models: estimation and forecasting</a></li>
-<li class="chapter" data-level="3.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html"><i class="fa fa-check"></i><b>3.2</b> An aside on models with regressors (optional)</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>3.2.1</b> Mauna Loa CO<sub>2</sub> dataset</a></li>
-<li class="chapter" data-level="3.2.2" data-path="an-aside-on-models-with-regressors-optional.html"><a href="an-aside-on-models-with-regressors-optional.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>3.2.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="3.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html"><i class="fa fa-check"></i><b>3.1</b> SARIMA models: estimation and forecasting</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html#mauna-loa-co2-dataset"><i class="fa fa-check"></i><b>3.1.1</b> Mauna Loa CO<sub>2</sub> dataset</a></li>
+<li class="chapter" data-level="3.1.2" data-path="sarima-models-estimation-and-forecasting.html"><a href="sarima-models-estimation-and-forecasting.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports"><i class="fa fa-check"></i><b>3.1.2</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>3.3</b> Boostrap methods for time series</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>3.3.1</b> Bootstrapping a linear model</a></li>
-<li class="chapter" data-level="3.3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>3.3.2</b> Testing for heteroscedasticity</a></li>
-<li class="chapter" data-level="3.3.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>3.3.3</b> AR-sieve bootstrap</a></li>
-<li class="chapter" data-level="3.3.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>3.3.4</b> Boostrap models for uncertainty assesment</a></li>
-<li class="chapter" data-level="3.3.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>3.3.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="3.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html"><i class="fa fa-check"></i><b>3.2</b> Boostrap methods for time series</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#bootstrapping-a-linear-model"><i class="fa fa-check"></i><b>3.2.1</b> Bootstrapping a linear model</a></li>
+<li class="chapter" data-level="3.2.2" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#testing-for-heteroscedasticity"><i class="fa fa-check"></i><b>3.2.2</b> Testing for heteroscedasticity</a></li>
+<li class="chapter" data-level="3.2.3" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#ar-sieve-bootstrap"><i class="fa fa-check"></i><b>3.2.3</b> AR-sieve bootstrap</a></li>
+<li class="chapter" data-level="3.2.4" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#boostrap-models-for-uncertainty-assesment"><i class="fa fa-check"></i><b>3.2.4</b> Boostrap models for uncertainty assesment</a></li>
+<li class="chapter" data-level="3.2.5" data-path="boostrap-methods-for-time-series.html"><a href="boostrap-methods-for-time-series.html#exercice-2-lake-erie-and-lake-huron-levels"><i class="fa fa-check"></i><b>3.2.5</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>3.4</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#predictions"><i class="fa fa-check"></i><b>3.4.1</b> Predictions</a></li>
-<li class="chapter" data-level="3.4.2" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>3.4.2</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+<li class="chapter" data-level="3.3" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><i class="fa fa-check"></i><b>3.3</b> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#predictions"><i class="fa fa-check"></i><b>3.3.1</b> Predictions</a></li>
+<li class="chapter" data-level="3.3.2" data-path="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html"><a href="generalized-autoregressive-conditional-heteroskedasticity-garch-models-and-extensions.html#exercice-3-international-business-machines-ibm-stock"><i class="fa fa-check"></i><b>3.3.2</b> Exercice 3: International Business Machines (IBM) stock</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html"><i class="fa fa-check"></i><b>3.5</b> Solutions to Exercises</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>3.5.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
-<li class="chapter" data-level="3.5.2" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>3.5.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
-<li class="chapter" data-level="3.5.3" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>3.5.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
+<li class="chapter" data-level="3.4" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html"><i class="fa fa-check"></i><b>3.4</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-1-nottingham-average-monthly-temperature-and-hong-kong-monthly-exports-1"><i class="fa fa-check"></i><b>3.4.1</b> Exercice 1: Nottingham average monthly temperature and Hong Kong monthly exports</a></li>
+<li class="chapter" data-level="3.4.2" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-2-lake-erie-and-lake-huron-levels-1"><i class="fa fa-check"></i><b>3.4.2</b> Exercice 2: Lake Erie and Lake Huron levels</a></li>
+<li class="chapter" data-level="3.4.3" data-path="solutions-to-exercises-2.html"><a href="solutions-to-exercises-2.html#exercice-3-international-business-machines-ibm-stock-1"><i class="fa fa-check"></i><b>3.4.3</b> Exercice 3: International Business Machines (IBM) stock</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>4</b> Spectral analysis and filtering</a><ul>
 <li class="chapter" data-level="4.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.1</b> Nonparametric spectral estimation</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#tapering"><i class="fa fa-check"></i><b>4.1.1</b> Tapering</a></li>
-<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.2</b> A data example</a></li>
-<li class="chapter" data-level="4.1.3" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.3</b> Smoothing</a></li>
+<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.1</b> A data example</a></li>
+<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.2</b> Smoothing</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.2</b> Summary of nonparametric spectral estimation</a></li>
 <li class="chapter" data-level="4.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>4.3</b> Spectral estimation in R</a><ul>
@@ -190,13 +213,12 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="6.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html"><i class="fa fa-check"></i><b>6.1</b> Irregular time series</a><ul>
 <li class="chapter" data-level="6.1.1" data-path="irregular-time-series.html"><a href="irregular-time-series.html#exercise-1-jussy-air-temperature"><i class="fa fa-check"></i><b>6.1.1</b> Exercise 1: Jussy air temperature</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>6.2</b> Imputation of missing values</a></li>
-<li class="chapter" data-level="6.3" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html"><i class="fa fa-check"></i><b>6.3</b> Diagnostics for missing values and smoothing</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="diagnostics-for-missing-values-and-smoothing.html"><a href="diagnostics-for-missing-values-and-smoothing.html#exercise-2-tyne-river-flow"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 2: Tyne river flow</a></li>
+<li class="chapter" data-level="6.2" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html"><i class="fa fa-check"></i><b>6.2</b> Imputation of missing values</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="imputation-of-missing-values.html"><a href="imputation-of-missing-values.html#exercise-2-tyne-river-flow"><i class="fa fa-check"></i><b>6.2.1</b> Exercise 2: Tyne river flow</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html"><i class="fa fa-check"></i><b>6.4</b> Solutions to Exercises</a><ul>
-<li class="chapter" data-level="6.4.1" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-1-jussy-air-temperature-1"><i class="fa fa-check"></i><b>6.4.1</b> Exercise 1: Jussy air temperature</a></li>
-<li class="chapter" data-level="6.4.2" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-2-tyne-river-flow-1"><i class="fa fa-check"></i><b>6.4.2</b> Exercise 2: Tyne river flow</a></li>
+<li class="chapter" data-level="6.3" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html"><i class="fa fa-check"></i><b>6.3</b> Solutions to Exercises</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-1-jussy-air-temperature-1"><i class="fa fa-check"></i><b>6.3.1</b> Exercise 1: Jussy air temperature</a></li>
+<li class="chapter" data-level="6.3.2" data-path="solutions-to-exercises-3.html"><a href="solutions-to-exercises-3.html#exercise-2-tyne-river-flow-1"><i class="fa fa-check"></i><b>6.3.2</b> Exercise 2: Tyne river flow</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -222,33 +244,42 @@ code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Inf
 <div id="second-order-stationarity" class="section level2">
 <h2><span class="header-section-number">1.3</span> Second order stationarity</h2>
 <p>The example below corresponds to examples 1.9 and 1.10 from Shumway and Stoffer. It shows how to create MA and AR series based on white noise using the <code>filter</code> function. It is best practice when simulating autoregressive models to burn-in (discard) the first few iterations to remove the dependencies on the starting values (here zeros). Note that the function <code>filter</code> returns a <code>ts</code> object.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
 x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">550</span>, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># Samples from N(0,1) variates</span>
-y &lt;-<span class="st"> </span><span class="kw">filter</span>(x, <span class="dt">method =</span> <span class="st">&quot;recursive&quot;</span>, <span class="dt">filter =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="op">-</span><span class="fl">0.9</span>))  <span class="co">#autoregression</span>
+y &lt;-<span class="st"> </span><span class="kw">filter</span>(x, <span class="dt">method =</span> <span class="st">&quot;recursive&quot;</span>, <span class="dt">filter =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">-0.9</span>))  <span class="co">#autoregression</span>
 z &lt;-<span class="st"> </span><span class="kw">filter</span>(x, <span class="dt">method =</span> <span class="st">&quot;convolution&quot;</span>, <span class="dt">filter =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="dt">sides =</span> <span class="dv">2</span>)  <span class="co"># moving average</span>
-<span class="kw">class</span>(z)</code></pre></div>
+<span class="kw">class</span>(z)</code></pre>
 <pre><code>[1] &quot;ts&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>x[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">49</span>, <span class="dv">550</span>)]
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>x[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">49</span>, <span class="dv">550</span>)]
 y &lt;-<span class="st"> </span>y[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">49</span>, <span class="dv">550</span>)]
 z &lt;-<span class="st"> </span>z[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">49</span>, <span class="dv">550</span>)]
 <span class="co"># ts.union if we did not remove values (and the class `ts`)</span>
-<span class="kw">plot.ts</span>(<span class="kw">cbind</span>(x, y, z), <span class="dt">main =</span> <span class="st">&quot;Simulated time series&quot;</span>)</code></pre></div>
+<span class="kw">plot.ts</span>(<span class="kw">cbind</span>(x, y, z), <span class="dt">main =</span> <span class="st">&quot;Simulated time series&quot;</span>)</code></pre>
 <p><img src="timeseRies_files/figure-html/2nd_order_statio-1.png" width="672" /></p>
-<p>We notice immediately that the MA process looks smoother than the white noise, and that the innovations (peaks) of the AR process are longer lasting. If we had not simulated more values and kept some, the first and last observations of <span class="math inline">\(z\)</span> would be <code>NA</code>s. The series created are of the form <span class="math display">\[ z_t=\frac{1}{3}(x_{t-1}+x_{t}+x_{t+1})\]</span> and <span class="math display">\[ y_t= y_{t-1}-0.9y_{t-2}+x_t.\]</span></p>
+<p>We notice immediately that the MA process looks smoother than the white noise, and that the innovations (peaks) of the AR process are longer lasting.
+If we had not simulated more values and kept some, the first and last observations of <span class="math inline">\(z\)</span> would be <code>NA</code>s.
+The series created are of the form
+<span class="math display">\[ z_t=\frac{1}{3}(x_{t-1}+x_{t}+x_{t+1})\]</span>
+and
+<span class="math display">\[ y_t= y_{t-1}-0.9y_{t-2}+x_t.\]</span></p>
 <p>The correlogram provides an easy to use summary for detecting <em>linear</em> dependencies based on correlations. The function <code>acf</code> will return a plot of the correlogram, by default using the correlation. Unfortunately, the basic graph starts at lag 1, which by default has correlation 1 and thus compress the whole plot unnecessarily. Blue dashed lines indicate 5% critical values at <span class="math inline">\(\pm 1.96/\sqrt{n}\)</span> under the null hypothesis of white noise (<em>not</em> stationarity).</p>
-<p>The function <code>acf</code> computes and plots <span class="math inline">\(c_t\)</span> and <span class="math inline">\(r_t\)</span>, the estimators for the autocovariance and autocorrelation functions <span class="math display">\[c_t= n^{-1}\sum_{s=\max(1,-t)}^{\min(n-t,n)}[X_{s+t}-\bar X][X_s-\bar X], \quad r_t={c_t}/{c_0}.\]</span> The argument <code>type</code> controls which is used and defaults to the correlation. This is easily extended to several time series observed over the same interval <span class="math display">\[c_{ij}(t) = n^{-1}\sum_{s=\max(1,-t)}^{\min(n-t,n)}[X_i(s+t)-\bar X_i][X_j(s)-\bar X_j].\]</span></p>
-<p>Unfortunately, the function <code>acf</code> always display the zero-lag autocorrelation, which is 1 by definition. This oftentimes squeezes the whole correlogram values and requires manual adjustment so one can properly view whether the sample autocorrelations are significant.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># acf(x, lag.max=20, demean = TRUE, main = &#39;White noise&#39;) #WRONG</span>
+<p>The function <code>acf</code> computes and plots <span class="math inline">\(c_t\)</span> and <span class="math inline">\(r_t\)</span>, the estimators for the autocovariance and autocorrelation functions
+<span class="math display">\[c_t= n^{-1}\sum_{s=\max(1,-t)}^{\min(n-t,n)}[X_{s+t}-\bar X][X_s-\bar X], \quad r_t={c_t}/{c_0}.\]</span>
+The argument <code>type</code> controls which is used and defaults to the correlation. This is easily extended to several time series observed over the same interval
+<span class="math display">\[c_{ij}(t) = n^{-1}\sum_{s=\max(1,-t)}^{\min(n-t,n)}[X_i(s+t)-\bar X_i][X_j(s)-\bar X_j].\]</span></p>
+<p>Unfortunately, the function <code>acf</code> always display the zero-lag autocorrelation, which is 1 by definition. This oftentimes squeezes
+the whole correlogram values and requires manual adjustment so one can properly view whether the sample autocorrelations are significant.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># acf(x, lag.max=20, demean = TRUE, main = &#39;White noise&#39;) #WRONG</span>
 <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
 TSA<span class="op">::</span><span class="kw">acf</span>(x, <span class="dt">demean =</span> <span class="ot">TRUE</span>, <span class="dt">main =</span> <span class="st">&quot;White noise&quot;</span>)
-<span class="kw">pacf</span>(x, <span class="dt">lag.max =</span> <span class="dv">20</span>, <span class="dt">main =</span> <span class="st">&quot;White noise&quot;</span>)</code></pre></div>
+<span class="kw">pacf</span>(x, <span class="dt">lag.max =</span> <span class="dv">20</span>, <span class="dt">main =</span> <span class="st">&quot;White noise&quot;</span>)</code></pre>
 <p><img src="timeseRies_files/figure-html/acf_plots1-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Equivalent functions from forecast</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Equivalent functions from forecast</span>
 forecast<span class="op">::</span><span class="kw">Acf</span>(y, <span class="dt">main =</span> <span class="st">&quot;Autoregressive process&quot;</span>)
-forecast<span class="op">::</span><span class="kw">Acf</span>(y, <span class="dt">type =</span> <span class="st">&quot;partial&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Autoregressive process&quot;</span>)  <span class="co">#or forecast::Pacf</span></code></pre></div>
+forecast<span class="op">::</span><span class="kw">Acf</span>(y, <span class="dt">type =</span> <span class="st">&quot;partial&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Autoregressive process&quot;</span>)  <span class="co">#or forecast::Pacf</span></code></pre>
 <p><img src="timeseRies_files/figure-html/acf_plots1-2.png" width="672" /></p>
 <p>You can thus use instead the function <code>forecast::Acf</code>, which removes the first lag of the autocorrelation function plot, or <code>TSA::acf</code>. The function <code>pacf</code> return the partial autocorrelations and the function <code>ccf</code> to compute the cross-correlation or cross-covariance of two univariate series</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load datasets</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load datasets</span>
 <span class="kw">data</span>(deaths, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>)
 <span class="kw">data</span>(lh, <span class="dt">package =</span> <span class="st">&quot;datasets&quot;</span>)
 <span class="co"># Second order summaries</span>
@@ -257,10 +288,10 @@ forecast<span class="op">::</span><span class="kw">Acf</span>(lh, <span class="d
 <span class="kw">acf</span>(deaths, <span class="dt">main =</span> <span class="st">&quot;Correlogram of</span><span class="ch">\n</span><span class="st">`deaths` dataset&quot;</span>)
 <span class="kw">ccf</span>(fdeaths, mdeaths, <span class="dt">ylab =</span> <span class="st">&quot;cross-correlation&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Cross correlation of `deaths` </span><span class="ch">\n</span><span class="st">female vs male&quot;</span>)
 <span class="co"># acf(ts.union(mdeaths,fdeaths)) # acf and ccf - multiple time series of</span>
-<span class="co"># male and female deaths</span></code></pre></div>
+<span class="co"># male and female deaths</span></code></pre>
 <p>The plots of the <code>deaths</code> series shows the pattern of seasonal series, and the autocorrelations do not damp down for large lags. Note how one of the cross series is only plotted for negative lags. Plot in row 2 column 1 shows <span class="math inline">\(c_{12}\)</span> for negative lags, a reflection of the plot of <span class="math inline">\(c_{21}\)</span> for positive lags. For the cross-correlation, use e.g. <code>ccf(mdeaths, fdeaths, ylab=&quot;cross-correlation&quot;)</code>.</p>
 <p>Plotting lagged residuals is a useful graphical diagnostic for detecting non-linear dependencies. The following function plots residuals at <span class="math inline">\(k\)</span> different lags and may be useful for diagnostic purposes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pairs.ts &lt;-<span class="st"> </span><span class="cf">function</span>(d, <span class="dt">lag.max =</span> <span class="dv">10</span>) {
+<pre class="sourceCode r"><code class="sourceCode r">pairs.ts &lt;-<span class="st"> </span><span class="cf">function</span>(d, <span class="dt">lag.max =</span> <span class="dv">10</span>) {
     old_par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> <span class="ot">TRUE</span>)
     n &lt;-<span class="st"> </span><span class="kw">length</span>(d)
     X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, n <span class="op">-</span><span class="st"> </span>lag.max, lag.max)
@@ -275,15 +306,15 @@ forecast<span class="op">::</span><span class="kw">Acf</span>(lh, <span class="d
     <span class="kw">par</span>(old_par)
 }
 <span class="co"># Look at lag k residuals</span>
-<span class="kw">pairs.ts</span>(sunspots)</code></pre></div>
+<span class="kw">pairs.ts</span>(sunspots)</code></pre>
 <div id="exercise-2-sp500-daily-returns" class="section level3">
 <h3><span class="header-section-number">1.3.1</span> Exercise 2: SP500 daily returns</h3>
 <ol style="list-style-type: decimal">
 <li>Download the dataset using the following command</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sp500 &lt;-<span class="st"> </span>tseries<span class="op">::</span><span class="kw">get.hist.quote</span>(<span class="dt">instrument =</span> <span class="st">&quot;^GSPC&quot;</span>, <span class="dt">start =</span> <span class="st">&quot;2000-01-01&quot;</span>, 
+<pre class="sourceCode r"><code class="sourceCode r">sp500 &lt;-<span class="st"> </span>tseries<span class="op">::</span><span class="kw">get.hist.quote</span>(<span class="dt">instrument =</span> <span class="st">&quot;^GSPC&quot;</span>, <span class="dt">start =</span> <span class="st">&quot;2000-01-01&quot;</span>, 
     <span class="dt">end =</span> <span class="st">&quot;2016-12-31&quot;</span>, <span class="dt">quote =</span> <span class="st">&quot;AdjClose&quot;</span>, <span class="dt">provider =</span> <span class="st">&quot;yahoo&quot;</span>, <span class="dt">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>, 
-    <span class="dt">compression =</span> <span class="st">&quot;d&quot;</span>, <span class="dt">retclass =</span> <span class="st">&quot;zoo&quot;</span>)</code></pre></div>
+    <span class="dt">compression =</span> <span class="st">&quot;d&quot;</span>, <span class="dt">retclass =</span> <span class="st">&quot;zoo&quot;</span>)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Obtain the daily percent return series and plot the latter against time.</li>
 <li>With the help of graphs, discuss evidences of seasonality and nonstationarity. Are there seasons of returns?</li>
@@ -344,7 +375,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
