@@ -831,7 +831,7 @@ PARKER AND HORTON (INT.J.CLIM., 2005)
 \NormalTok{cet <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(CET, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{, }\DataTypeTok{skip =} \DecValTok{6}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{fill =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{na.string =} \KeywordTok{c}\NormalTok{(}\OperatorTok{-}\FloatTok{99.99}\NormalTok{, }
     \FloatTok{-99.9}\NormalTok{))}
 \KeywordTok{names}\NormalTok{(cet) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(month.abb, }\StringTok{"Annual"}\NormalTok{)}
-\CommentTok{## remove last row of incomplete data}
+\CommentTok{# remove last row of incomplete data}
 \NormalTok{cet <-}\StringTok{ }\NormalTok{cet[}\OperatorTok{-}\KeywordTok{nrow}\NormalTok{(cet), }\OperatorTok{-}\KeywordTok{ncol}\NormalTok{(cet)]}
 \end{Highlighting}
 \end{Shaded}
@@ -1481,7 +1481,7 @@ X-squared = 91.204, df = 1, p-value < 2.2e-16
 \begin{Highlighting}[]
 \CommentTok{# No, as one would expect}
 
-\CommentTok{## Spectrum of raw series}
+\CommentTok{# Spectrum of raw series}
 \KeywordTok{spectrum}\NormalTok{(co2}\OperatorTok{$}\NormalTok{interpolated)}
 \end{Highlighting}
 \end{Shaded}
@@ -2186,8 +2186,8 @@ You can (and should) check the roots of the AR and MA polynomials to make sure t
   The \texttt{Simulated\_ARMA} dataset contains 8 time series (these examples are from Charlotte Wickham's website). Fit ARMA models to those and select a model, justifying your choice. Be skeptical of the optimization routine and analyze the models carefully.
 \end{enumerate}
 
-\hypertarget{information-criterion-model-selection-and-profile-likelihood}{%
-\section{Information criterion, model selection and profile likelihood}\label{information-criterion-model-selection-and-profile-likelihood}}
+\hypertarget{information-criteria-model-selection-and-profile-likelihood}{%
+\section{Information criteria, model selection and profile likelihood}\label{information-criteria-model-selection-and-profile-likelihood}}
 
 The following example is due to \href{http://ionides.github.io/531w16/notes05/notes5.html}{Edward Ionides} and is licensed under CC-BY-NC.
 
@@ -3038,9 +3038,16 @@ null of linear independence of the residuals. It is clear that the data is not v
 \chapter{Seasonal ARIMA and GARCH models}\label{seasonal-arima-and-garch-models}}
 
 This tutorial addresses the following:
-- estimation and forecasting for SARIMA models.
-- uncertainty quantification using the bootstrap for time series. This material is optional.
-- estimation of GARCH and forecast from the latter using rolling-windows.
+
+\begin{itemize}
+\tightlist
+\item
+  estimation and forecasting for SARIMA models.
+\item
+  uncertainty quantification using the bootstrap for time series. This material is optional.
+\item
+  estimation of GARCH and forecast from the latter using rolling-windows.
+\end{itemize}
 
 \hypertarget{sarima-models-estimation-and-forecasting}{%
 \section{SARIMA models: estimation and forecasting}\label{sarima-models-estimation-and-forecasting}}
@@ -3060,7 +3067,8 @@ The standard errors of prediction exclude the uncertainty in the estimation of t
 
 The \texttt{predict.Arima} method gives forecast for \(h\)-lags ahead for \texttt{arima} objects. For objects of class \texttt{Arima}, the \texttt{forecast} function from the eponym package handles the additional features from \texttt{forecast::Arima}, namely Box--Cox transformation viz \texttt{lambda} and bootstrap prediction intervals, as a logical supplied to the argument \texttt{bootstrap} (more later on this). If you use \texttt{astsa::sarima}, the forecast function \texttt{astsa::sarima.for} allows you to do estimation and prediction all in one go.
 
-\#\#An aside on models with regressors (optional)
+\hypertarget{an-aside-on-models-with-regressors-optional}{%
+\section{An aside on models with regressors (optional)}\label{an-aside-on-models-with-regressors-optional}}
 
 Rather than performing your inference in multiple steps (detrending, then modelling the residuals), it is sometimes better to do all at once to correctly characterize the uncertainty arising from estimation. You can do so in a regression context by using a generalized least squares specification.
 
@@ -3312,8 +3320,8 @@ In the slides, we are interested in confidence intervals for \(h\)-step ahead fo
 
 We now detail the bootstrap procedure employed by Prof.~Davison in his slides. The sieve bootstrap is employed to account for the variation due to (a) future innovations (b) parameter estimation and (c) model selection. The test statistics are the pair (AIC, prediction errors). The counts are not normally distributed and are overdispersed, with a clear multiplicative structure for the variance and a 11 year cycle. The first simulation uses the AR model that minimizes AIC, while the second simulation ignores model selection uncertainty by fixing the order to 11.
 
-\hypertarget{boostrap-models-for-uncertainty-assesment}{%
-\subsection{Boostrap models for uncertainty assesment}\label{boostrap-models-for-uncertainty-assesment}}
+\hypertarget{boostrap-models-for-uncertainty-assessment}{%
+\subsection{Boostrap models for uncertainty assessment}\label{boostrap-models-for-uncertainty-assessment}}
 
 The following code is my own adaptation of Example 8.3 from Davison and Hinkley (1997).
 
@@ -5347,7 +5355,8 @@ The output is slightly different, but moreover the time stamps are off! This los
 If your series has values that are missing at random and there is very few of them (1\%), you could as a preliminary step impute them.
 Including new datapoints will bias your standard errors (you are adding information that was not present in the original dataset) unless you adjust for this carefully.
 
-\#\#Diagnostics for missing values and smoothing
+\hypertarget{diagnostics-for-missing-values-and-smoothing}{%
+\section{Diagnostics for missing values and smoothing}\label{diagnostics-for-missing-values-and-smoothing}}
 
 The package \texttt{stlplus} handles missing values, contrary to \texttt{stl}. Likewise, there are utilities in \texttt{zoo} to perform linear interpolation or use smoothing estimates from a seasonal Kalman filter (which we will cover at the end of the course).
 These are available respectively under the name \texttt{zoo::na.approx} and \texttt{zoo::na.StrucTS} (see also the help file). More sophisticated methods can be found in the package \texttt{imputeTS}. The latter provides more tools for plotting data with missing values (\texttt{plotNA.distribution}) and obtaining summary statistics out of the box (\texttt{statsNA}).

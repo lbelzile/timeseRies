@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>4.2 Summary of nonparametric spectral estimation | timeseRies</title>
+  <title>2.3 Information criteria, model selection and profile likelihood | timeseRies</title>
   <meta name="description" content="Web complement of MATH 342 (Time series) at EPFL.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="4.2 Summary of nonparametric spectral estimation | timeseRies" />
+  <meta property="og:title" content="2.3 Information criteria, model selection and profile likelihood | timeseRies" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lbelzile/timeseRies" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.2 Summary of nonparametric spectral estimation | timeseRies" />
+  <meta name="twitter:title" content="2.3 Information criteria, model selection and profile likelihood | timeseRies" />
   
   <meta name="twitter:description" content="Web complement of MATH 342 (Time series) at EPFL." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="nonparametric-spectral-estimation.html">
-<link rel="next" href="spectral-estimation-in-r.html">
+<link rel="prev" href="boxjenkins-methodology-for-arma-models.html">
+<link rel="next" href="solutions-to-exercises-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -245,23 +245,244 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="summary-of-nonparametric-spectral-estimation" class="section level2">
-<h2><span class="header-section-number">4.2</span> Summary of nonparametric spectral estimation</h2>
-<p>In summary, the different steps to undertake are, in order,</p>
+<div id="information-criteria-model-selection-and-profile-likelihood" class="section level2">
+<h2><span class="header-section-number">2.3</span> Information criteria, model selection and profile likelihood</h2>
+<p>The following example is due to <a href="http://ionides.github.io/531w16/notes05/notes5.html">Edward Ionides</a> and is licensed under CC-BY-NC.</p>
+<p>We analyze data from NOAA, the depth of Lake Huron (in m). There is a decreasing trend. We first format the time variable and extract the height in January.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lubridate)
+<span class="co"># Data from</span>
+<span class="co"># http://www.glerl.noaa.gov/data/dashboard/data/levels/mGauge/miHuronMog.csv</span>
+dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://sma.epfl.ch/~lbelzile/math342/huron_depth.csv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, 
+    <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">skip =</span> <span class="dv">2</span>)
+dat<span class="op">$</span>Date &lt;-<span class="st"> </span><span class="kw">strptime</span>(dat<span class="op">$</span>Date, <span class="st">&quot;%m/%d/%Y&quot;</span>)
+dat<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">with</span>(dat, <span class="kw">year</span>(Date))
+dat<span class="op">$</span>month &lt;-<span class="st"> </span><span class="kw">with</span>(dat, <span class="kw">month</span>(Date))  <span class="co">#as.numeric(format(dat$Date, format = &#39;%m&#39;))</span>
+<span class="kw">head</span>(dat)</code></pre>
+<pre><code>        Date Average year month
+1 1860-01-01 177.285 1860     1
+2 1860-02-01 177.339 1860     2
+3 1860-03-01 177.349 1860     3
+4 1860-04-01 177.388 1860     4
+5 1860-05-01 177.425 1860     5
+6 1860-06-01 177.461 1860     6</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">## Subsample values to take only January data</span>
+dat &lt;-<span class="st"> </span><span class="kw">subset</span>(dat, month <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)
+huron_depth &lt;-<span class="st"> </span>dat<span class="op">$</span>Average
+year &lt;-<span class="st"> </span>dat<span class="op">$</span>year
+<span class="co"># Plot the series</span>
+<span class="kw">plot</span>(huron_depth <span class="op">~</span><span class="st"> </span>year, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Lake depth (m)&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Monthly Average Master Gauge</span><span class="ch">\n</span><span class="st">Water Levels (1860-Present)&quot;</span>)</code></pre>
+<p><img src="timeseRies_files/figure-html/lake_huronf-1.png" width="672" /></p>
+<p>Next, we create a table containing the AIC values, which are obtained from fitting successive ARMA models with varying orders <span class="math inline">\(p\)</span>, <span class="math inline">\(q\)</span>.
+Here, a simple AR(1) does an excellent job at capturing the structure and all other models are essentially more complicated versions.</p>
+<pre class="sourceCode r"><code class="sourceCode r">huron_ar1 &lt;-<span class="st"> </span><span class="kw">Arima</span>(huron_depth, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.drift =</span> <span class="ot">TRUE</span>, <span class="dt">include.mean =</span> <span class="ot">TRUE</span>)
+
+<span class="co">## Table of AIC values extracted from the output - notice the warnings on</span>
+<span class="co">## your computer when the fit fails!</span>
+aic_table &lt;-<span class="st"> </span><span class="cf">function</span>(data, P, Q) {
+    table &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, (P <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), (Q <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))
+    <span class="cf">for</span> (p <span class="cf">in</span> <span class="dv">0</span><span class="op">:</span>P) {
+        <span class="cf">for</span> (q <span class="cf">in</span> <span class="dv">0</span><span class="op">:</span>Q) {
+            table[p <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, q <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">arima</span>(data, <span class="dt">order =</span> <span class="kw">c</span>(p, <span class="dv">0</span>, q))<span class="op">$</span>aic
+        }
+    }
+    <span class="kw">dimnames</span>(table) &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">paste</span>(<span class="st">&quot;&lt;b&gt; AR&quot;</span>, <span class="dv">0</span><span class="op">:</span>P, <span class="st">&quot;&lt;/b&gt;&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>), <span class="kw">paste</span>(<span class="st">&quot;MA&quot;</span>, 
+        <span class="dv">0</span><span class="op">:</span>Q, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>))
+    table
+}
+huron_aic_table &lt;-<span class="st"> </span><span class="kw">aic_table</span>(huron_depth, <span class="dv">4</span>, <span class="dv">5</span>)
+<span class="kw">require</span>(knitr)
+<span class="kw">kable</span>(huron_aic_table, <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">MA0</th>
+<th align="right">MA1</th>
+<th align="right">MA2</th>
+<th align="right">MA3</th>
+<th align="right">MA4</th>
+<th align="right">MA5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><b> AR0</b></td>
+<td align="right">166.75</td>
+<td align="right">46.60</td>
+<td align="right">7.28</td>
+<td align="right">-14.97</td>
+<td align="right">-18.64</td>
+<td align="right">-26.09</td>
+</tr>
+<tr class="even">
+<td><b> AR1</b></td>
+<td align="right">-38.00</td>
+<td align="right">-37.41</td>
+<td align="right">-35.46</td>
+<td align="right">-33.82</td>
+<td align="right">-34.13</td>
+<td align="right">-32.20</td>
+</tr>
+<tr class="odd">
+<td><b> AR2</b></td>
+<td align="right">-37.33</td>
+<td align="right">-38.43</td>
+<td align="right">-36.90</td>
+<td align="right">-34.93</td>
+<td align="right">-34.35</td>
+<td align="right">-33.08</td>
+</tr>
+<tr class="even">
+<td><b> AR3</b></td>
+<td align="right">-35.52</td>
+<td align="right">-35.17</td>
+<td align="right">-32.71</td>
+<td align="right">-31.38</td>
+<td align="right">-31.13</td>
+<td align="right">-32.98</td>
+</tr>
+<tr class="odd">
+<td><b> AR4</b></td>
+<td align="right">-33.94</td>
+<td align="right">-34.91</td>
+<td align="right">-34.43</td>
+<td align="right">-36.27</td>
+<td align="right">-31.31</td>
+<td align="right">-30.90</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">## Kables are tables for HTML. For LaTeX, use something like library(xtable)</span>
+<span class="co">## dimnames(huron_aic_table) &lt;- list(paste0(&#39;AR&#39;, 0:4), paste0(&#39;MA&#39;, 0:5))</span>
+<span class="co">## latex_tab &lt;- xtable::xtable(huron_aic_table, booktabs = TRUE, caption =</span>
+<span class="co">## &#39;AIC values for ARMA models for the Lake Huron dataset&#39;) print(latex_tab,</span>
+<span class="co">## booktabs = TRUE, caption.placement = &#39;top&#39;)</span></code></pre>
+<p>I silenced the output, but some of the optimization routine <em>failed</em> (duh). You can see this by looking at the AIC values (recall the definition and look at nested models). These cannot increase by more than 2 from left to right or top to bottom.</p>
+<p>Subsequent quotes are from Prof. Ionides’ notes</p>
+<blockquote>
+<p>What do we learn by interpreting the results in the above table of AIC values? In what ways might we have to be careful not to over-interpret the results of this table?</p>
+</blockquote>
+<p>We can look at the roots to see if the process of our choice (the one with lowest AIC, say) is good. Overly complicated models can lead you to big troubles. We illustrate this by fitting a complex model, an ARMA(2,1), to the series:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">## Fit an ARMA(2, 1) model</span>
+huron_arma21 &lt;-<span class="st"> </span><span class="kw">Arima</span>(huron_depth, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">include.drift =</span> <span class="ot">TRUE</span>, 
+    <span class="dt">include.mean =</span> <span class="ot">TRUE</span>)
+huron_arma21</code></pre>
+<pre><code>Series: huron_depth 
+ARIMA(2,0,1) with drift 
+
+Coefficients:
+          ar1     ar2     ma1  intercept    drift
+      -0.0979  0.7464  1.0000   176.8391  -0.0049
+s.e.   0.0553  0.0554  0.0244     0.1734   0.0019
+
+sigma^2 estimated as 0.04188:  log likelihood=26.89
+AIC=-41.78   AICc=-41.22   BIC=-23.52</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">## Root of the Phi polynomial</span>
+AR_roots &lt;-<span class="st"> </span><span class="kw">polyroot</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="op">-</span><span class="kw">coef</span>(huron_arma21)[<span class="kw">grep</span>(<span class="st">&quot;^ar&quot;</span>, <span class="kw">names</span>(huron_arma21<span class="op">$</span>coef))]))
+<span class="kw">Mod</span>(AR_roots)</code></pre>
+<pre><code>[1] 1.224905 1.093792</code></pre>
+<p>The process is causal, but the estimate of the MA coefficient, <span class="math inline">\(\theta_1\)</span> is on the boundary of the parameter space and numerically indistinguishable from 1.</p>
+<blockquote>
+<p>Let’s investigate a little, using profile methods. The claimed standard error on the MA(1) coefficient, from the Fisher information approach used by <code>arima</code> is small. We can see if the approximate confidence interval constructed using profile likelihood is in agreement with the approximate confidence interval constructed using the observed Fisher information.</p>
+</blockquote>
+<blockquote>
+<p>Note that <code>arima</code> transforms the model to invertibility. Thus, the estimated value of <span class="math inline">\(\theta_1\)</span> can only fall in the interval <span class="math inline">\((−1, 1)\)</span> but can be arbitrarily close to <span class="math inline">\(−1\)</span> or <span class="math inline">\(1\)</span>.</p>
+</blockquote>
+<p>Recall the definition of profile likelihood: for a parameter of interest <span class="math inline">\(\boldsymbol{\psi}\)</span> and a partition <span class="math inline">\(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\lambda})\)</span>, the profile likelihood as a function of <span class="math inline">\(\boldsymbol{\psi}\)</span> is
+<span class="math display">\[\ell_p(\boldsymbol{\psi}) = \mathrm{argmax}_{\boldsymbol{\lambda} \in \Lambda} \ell(\boldsymbol{\lambda} \mid \boldsymbol{\psi}).\]</span></p>
+<p>The maximum profile likelihood coincides with the maximum likelihood estimate (why?), and we use it normally to obtain more accurate confidence intervals for (a) parameter(s) of interest. Here, we investigate the profile log-likelihood of the MA(1) coefficient. Unlike the nice examples you saw in class, the profile here is weird and the global maximum lies on the boundary.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">## Profile log-likelihood for the MA coefficient</span>
+K &lt;-<span class="st"> </span><span class="dv">1000</span>
+ma1 &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="fl">-0.99</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">length =</span> K)
+profile_loglik &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, K)
+<span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>K) {
+    profile_loglik[k] &lt;-<span class="st"> </span><span class="kw">logLik</span>(<span class="kw">arima</span>(huron_depth, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">xreg =</span> <span class="kw">scale</span>(<span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(huron_depth))), 
+        <span class="dt">include.mean =</span> <span class="ot">TRUE</span>, <span class="dt">fixed =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>, ma1[k], <span class="ot">NA</span>, <span class="ot">NA</span>)))
+}
+<span class="co"># Failed for some values of the MA</span>
+<span class="kw">plot</span>(profile_loglik <span class="op">-</span><span class="st"> </span><span class="kw">logLik</span>(huron_arma21) <span class="op">~</span><span class="st"> </span>ma1, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Profile log likelihood&quot;</span>, 
+    <span class="dt">xlab =</span> <span class="st">&quot;value&quot;</span>, <span class="dt">main =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;Profile log-likelihood of &quot;</span>, theta[<span class="dv">1</span>], 
+        <span class="st">&quot; for the ARMA(2, 1) model&quot;</span>)))
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="kw">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>)<span class="op">/</span><span class="dv">2</span>, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="dv">1</span>)</code></pre>
+<p><img src="timeseRies_files/figure-html/profile_confint-1.png" width="672" /></p>
+<p>The “usual” 95% profile confidence interval would thus include zero, so the coefficient is maybe not significant after all. I coded a little function that you can use to find the value at which a profile log-likelihood, here shifted so that the maximum is at zero, intersects with the value of half the <span class="math inline">\(\chi^2\)</span> quantile.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># mle &lt;- logLik(huron_arma21)[1]</span>
+profile_confint &lt;-<span class="st"> </span><span class="cf">function</span>(mle, xvals, profile, <span class="dt">lev =</span> <span class="fl">0.95</span>) {
+    K &lt;-<span class="st"> </span><span class="kw">length</span>(profile)
+    ind_max &lt;-<span class="st"> </span><span class="kw">which.max</span>(profile)  <span class="co">#value corresponding to MLE</span>
+    val_conf &lt;-<span class="st"> </span>mle <span class="op">-</span><span class="st"> </span><span class="kw">qchisq</span>(lev, <span class="dv">1</span>)<span class="op">/</span><span class="dv">2</span>  <span class="co">#Cutoff line</span>
+    
+    <span class="co"># Find the closest value by linear interpolation, swapping x and y</span>
+    upper &lt;-<span class="st"> </span>profile[(ind_max <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>K]
+    lower &lt;-<span class="st"> </span>profile[<span class="dv">1</span><span class="op">:</span>ind_max]
+    up &lt;-<span class="st"> </span><span class="kw">suppressWarnings</span>(<span class="kw">c</span>(<span class="kw">max</span>(<span class="kw">which</span>(upper <span class="op">&gt;=</span><span class="st"> </span>val_conf)), <span class="kw">min</span>(<span class="kw">which</span>(upper <span class="op">&lt;</span><span class="st"> </span>
+<span class="st">        </span>val_conf))) <span class="op">+</span><span class="st"> </span>ind_max)
+    low &lt;-<span class="st"> </span><span class="kw">suppressWarnings</span>(<span class="kw">c</span>(<span class="kw">min</span>(<span class="kw">which</span>(lower <span class="op">&gt;=</span><span class="st"> </span>val_conf)), <span class="kw">max</span>(<span class="kw">which</span>(lower <span class="op">&lt;</span><span class="st"> </span>
+<span class="st">        </span>val_conf))))
+    <span class="co"># Linear interpolation step with two closest values</span>
+    <span class="cf">if</span> (<span class="op">!</span><span class="kw">any</span>(<span class="kw">is.infinite</span>(low))) {
+        a &lt;-<span class="st"> </span><span class="kw">approx</span>(<span class="dt">y =</span> ma1[low], <span class="dt">x =</span> profile_loglik[low], <span class="dt">xout =</span> val_conf[<span class="dv">1</span>])<span class="op">$</span>y
+    } <span class="cf">else</span> {
+        <span class="kw">warning</span>(<span class="st">&quot;No value of the profile likelihood is below the threshold</span>
+<span class="st">           for the lower confidence interval&quot;</span>)
+        a &lt;-<span class="st"> </span><span class="ot">NA</span>
+    }
+    <span class="cf">if</span> (<span class="op">!</span><span class="kw">any</span>(<span class="kw">is.infinite</span>(up))) {
+        b &lt;-<span class="st"> </span><span class="kw">approx</span>(<span class="dt">y =</span> ma1[up], <span class="dt">x =</span> profile_loglik[up], <span class="dt">xout =</span> val_conf[<span class="dv">1</span>])<span class="op">$</span>y
+    } <span class="cf">else</span> {
+        <span class="kw">warning</span>(<span class="st">&quot;No value of the profile likelihood is below the threshold</span>
+<span class="st">           for the upper confidence interval&quot;</span>)
+        b &lt;-<span class="st"> </span><span class="ot">NA</span>
+    }
+    <span class="kw">return</span>(<span class="kw">c</span>(a, b))
+}
+<span class="co"># Profile confidence interval</span>
+<span class="kw">profile_confint</span>(<span class="kw">logLik</span>(huron_arma21)[<span class="dv">1</span>], <span class="dt">xvals =</span> ma1, <span class="dt">profile =</span> profile_loglik, 
+    <span class="dt">lev =</span> <span class="fl">0.95</span>)</code></pre>
+<pre><code>[1] -0.5260204         NA</code></pre>
+<p>Here, the “usual” 95% confidence interval includes (because of the constraint) all values in (-0.53, 1).</p>
+<blockquote>
+<ul>
+<li>What do you conclude about the Fisher information confidence interval proposed by <code>arima</code>?</li>
+<li>When do you think the Fisher information confidence interval may be reliable?</li>
+<li>Is this profile likelihood plot, and its statistical interpretation, reliable? How do you support your opinion on this?</li>
+</ul>
+</blockquote>
+<p>Be suspicious of the output and think before acting.</p>
+<p>There is in fact a non-zero probability of obtaining a coefficient of <span class="math inline">\(\pm 1\)</span> for an MA(1). This can be easily seen through a simulation. We see a picture that roughly matches that of the profile likelihood (noting what seems to be convergence to a local maximum at <span class="math inline">\(\theta=-1\)</span> in many cases).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">54321</span>)
+<span class="kw">hist</span>(MAcoefdist &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n=</span><span class="dv">1000</span>, <span class="co">#perform 1000 replicates</span>
+      <span class="kw">coef</span>(<span class="kw">Arima</span>(<span class="dt">order=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>),  <span class="co">#extract ma[1] coef from ARMA(2,1)</span>
+<span class="kw">arima.sim</span>(<span class="dt">n=</span><span class="dv">155</span>, <span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span><span class="kw">coef</span>(huron_ar1)[<span class="st">&quot;ar1&quot;</span>])),))[<span class="st">&quot;ma1&quot;</span>]), <span class="co">#data is 155 obs from AR(1) model</span>
+<span class="dt">breaks=</span><span class="dv">300</span>, <span class="dt">main=</span><span class="st">&quot;Estimate of the MA(1) coefficient</span><span class="ch">\n</span><span class="st"> in an ARMA(1,2) model&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;MA(1) coefficient value&quot;</span>)</code></pre>
+<p><img src="timeseRies_files/figure-html/madist_sim-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Proportion of values that lie on the boundary.</span>
+<span class="kw">mean</span>(<span class="kw">I</span>(<span class="kw">abs</span>(MAcoefdist)<span class="op">&gt;</span><span class="fl">0.999</span>))</code></pre>
+<pre><code>[1] 0.069</code></pre>
+<p>We wish to restrict to causal and invertible processes. The latter implies that the AR(<span class="math inline">\(\infty\)</span>) representation of the process exists; the latter is used for prediction. However, while unit roots happen rarely, you only get one sample and it may happen in yours. This makes life more complicated because the asymptotics are non-regular for the problem. It is thus best to rely on procedures that only require estimation of the model under the null hypothesis, such as a score test.</p>
+<div id="exercise-3-lake-erie-height" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Exercise 3: Lake Erie height</h3>
 <ol style="list-style-type: decimal">
-<li>Differencing (or detrending) should be performed prior to any analysis. The series should be centered around zero by subtracting the mean from the data to remove the frequencies near <span class="math inline">\(\omega=0\)</span>, which would otherwise dominate.</li>
-<li>For tapering, multiply centered observations by a data window. The cosine bell taper, also known as Hann taper, is the default choice in the R function <code>spectrum</code>.</li>
-<li>Zero-pad to increase the resolution and so that the length of your time series is a highly composite number, typically <span class="math inline">\(2^l&gt;n\)</span>. If you want to convert your spectrum to an autocovariance, zero-padding helps avoid “circular autocorrelation”. It also reduces the computation burden for the FFT calculation.</li>
-<li>Smooth the periodogram. It amounts to convoluting the periodogram with a kernel. The amount of averaging should increase as <span class="math inline">\(n \to \infty\)</span>. This reduces the variance, but introduces leakage. The amount of smoothing is controlled by the bandwidth parameter.</li>
+<li>Perform an additive decomposition of the form
+<span class="math display">\[Y_t = m_t + s_t + Z_t\]</span> where <span class="math inline">\(m_t\)</span> is the trend and <span class="math inline">\(s_t\)</span> is a seasonal component of the Lake Erie height series, found at <a href="%5Bhttp://sma.epfl.ch/~lbelzile/math342/LakeErie.csv%5D">http://sma.epfl.ch/~lbelzile/math342/LakeErie.csv</a>. Characterize the stochastic component <span class="math inline">\(Z_t\)</span> using an ARMA model.</li>
+<li>Obtain a table of AIC and BIC values for ARMA(<span class="math inline">\(p, q\)</span>) model for order 7 and less. Anything worth of notice?</li>
+<li>Justifying your answer, select an adequate ARMA model. Are the residuals from this model white noise?</li>
+<li>Look at the fitted model and check for invertibility and causality of your solution.</li>
+<li>Plot the (partial) correlogram of <span class="math inline">\(Z_t\)</span> and superpose the theoretical coefficients implied by your model.</li>
+<li>Plot the correlogram of the residuals of your ARMA model. Do they appear white noise?</li>
+<li>Perform a Ljung-Box test on the residuals. What can you conclude?</li>
 </ol>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="nonparametric-spectral-estimation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="spectral-estimation-in-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="boxjenkins-methodology-for-arma-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="solutions-to-exercises-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

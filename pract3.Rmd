@@ -2,6 +2,7 @@
 
 
 This tutorial addresses the following:
+
 - estimation and forecasting for SARIMA models.
 - uncertainty quantification using the bootstrap for time series. This material is optional.
 - estimation of GARCH and forecast from the latter using rolling-windows.
@@ -24,7 +25,7 @@ We have yet to address the matter of prediction. The latter proceeds by one-step
 
 The `predict.Arima` method gives forecast for $h$-lags ahead for `arima` objects. For objects of class `Arima`, the `forecast` function from the eponym package handles the additional features from `forecast::Arima`, namely  Box--Cox transformation viz `lambda` and bootstrap prediction intervals, as a logical supplied to the argument `bootstrap` (more later on this). If you use `astsa::sarima`, the forecast function `astsa::sarima.for` allows you to do estimation and prediction all in one go.
 
-##An aside on models with regressors (optional)
+## An aside on models with regressors (optional)
 
 Rather than performing your inference in multiple steps (detrending, then modelling the residuals), it is sometimes better to do all at once to correctly characterize the uncertainty arising from estimation. You can do so in a regression context by using a generalized least squares specification.
 
@@ -195,7 +196,7 @@ In the slides, we are interested in confidence intervals for $h$-step ahead fore
 We now detail the bootstrap procedure employed by Prof. Davison in his slides. The sieve bootstrap is employed to account for the variation due to (a) future innovations (b) parameter estimation and (c) model selection. The test statistics are the pair (AIC, prediction errors). The counts are not normally distributed and are overdispersed, with a clear multiplicative structure for the variance and a 11 year cycle.  The first simulation uses the AR model that minimizes AIC, while the second simulation ignores model selection uncertainty by fixing the order to 11.
 
 
-### Boostrap models for uncertainty assesment
+### Boostrap models for uncertainty assessment
 The following code is my own adaptation of Example 8.3 from Davison and Hinkley (1997).
 
 

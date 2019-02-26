@@ -367,7 +367,7 @@ writeLines(readLines(CET, n = 10))
 cet <- read.table(CET, sep = "", skip = 6, header = TRUE,
                  fill = TRUE, na.string = c(-99.99, -99.9))
 names(cet) <- c(month.abb, "Annual")
-## remove last row of incomplete data
+# remove last row of incomplete data
 cet <- cet[-nrow(cet), -ncol(cet)]
 ```
 

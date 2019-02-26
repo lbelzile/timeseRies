@@ -309,7 +309,7 @@ You can (and should) check the roots of the AR and MA polynomials to make sure t
 
 
 
-## Information criterion, model selection and profile likelihood
+## Information criteria, model selection and profile likelihood
 
 The following example is due to [Edward Ionides](http://ionides.github.io/531w16/notes05/notes5.html) and is licensed under CC-BY-NC.
 
