@@ -5,21 +5,21 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>timeseRies</title>
-  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <title>6.1 Irregular time series | timeseRies</title>
+  <meta name="description" content="Web complement of MATH 342 (Time series) at EPFL.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="timeseRies" />
+  <meta property="og:title" content="6.1 Irregular time series | timeseRies" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta property="og:description" content="Web complement of MATH 342 (Time series) at EPFL." />
   <meta name="github-repo" content="lbelzile/timeseRies" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="timeseRies" />
+  <meta name="twitter:title" content="6.1 Irregular time series | timeseRies" />
   
-  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="twitter:description" content="Web complement of MATH 342 (Time series) at EPFL." />
   
 
 <meta name="author" content="Léo Belzile">
@@ -35,6 +35,7 @@
 <link rel="next" href="imputation-of-missing-values.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
@@ -194,8 +195,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>4</b> Spectral analysis and filtering</a><ul>
 <li class="chapter" data-level="4.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.1</b> Nonparametric spectral estimation</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.1</b> A data example</a></li>
-<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.2</b> Smoothing</a></li>
+<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#tapering"><i class="fa fa-check"></i><b>4.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.2</b> A data example</a></li>
+<li class="chapter" data-level="4.1.3" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.3</b> Smoothing</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.2</b> Summary of nonparametric spectral estimation</a></li>
 <li class="chapter" data-level="4.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>4.3</b> Spectral estimation in R</a><ul>
@@ -243,35 +245,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="irregular-time-series" class="section level2">
 <h2><span class="header-section-number">6.1</span> Irregular time series</h2>
-<p>We consider an ozone dataset from Richard L. Smith. He writes</p>
-<p>‘’Daily maximum 8-hour ozone in Raleigh, NC; units are parts per billion (ppb). The data are only available from the months April through October.’’</p>
-<p>The file contains the actual data from EPA, and we see many <code>NA</code>s (missing values) and a time stamp in the first column of the data frame. We will create a time series object from the latter. The most common classes are <code>ts</code>, but I prefer to work with <code>xts</code> since the latter handles irregular time series and has subsetting options not available for <code>ts</code> objects. You can convert strings (or numerical) to <code>Date</code> using <code>as.Date</code>. See <code>?DateTimeClasses</code> for more information about the classes used to represent date and time objects.</p>
+<p>The most common class for time series is <code>ts</code>, but I prefer to work with <code>xts</code> since the latter handles irregular time series and has subsetting options not available for <code>ts</code> objects. You can convert strings (or numerical) to <code>Date</code> using <code>as.Date</code>. See <code>?DateTimeClasses</code> for more information about the classes used to represent date and time objects.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(xts)
 <span class="kw">library</span>(lubridate)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load a text file from the internet xts library obtained from Github</span>
-<span class="co"># devtools::install_github(&#39;joshuaulrich/xts&#39;) #CRAN version is obsolete</span>
-<span class="co"># library(xts); library(lubridate)</span>
-ozone_dat &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;http://www.unc.edu/~rls/s754/raleighozone.txt&quot;</span>, 
-    <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
-<span class="kw">head</span>(ozone_dat)</code></pre>
-<pre><code>        V1 V2
-1 19870101 NA
-2 19870102 NA
-3 19870103 NA
-4 19870104 NA
-5 19870105 NA
-6 19870106 NA</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The first column contains the time stamp It is a numerical value, so we</span>
-<span class="co"># convert it to a string, then a date object Create a time series object</span>
-ozone &lt;-<span class="st"> </span><span class="kw">as.xts</span>(<span class="dt">x =</span> ozone_dat[, <span class="dv">2</span>], <span class="dt">order.by =</span> lubridate<span class="op">::</span><span class="kw">ymd</span>(<span class="kw">as.character</span>(ozone_dat[, 
-    <span class="dv">1</span>])))
-<span class="co"># Could also use as.Date(as.character(ozone_dat[,1]), &#39;%Y%m%d&#39;)) We can</span>
-<span class="co"># remove the trailing NAs from either sides</span>
-ozone &lt;-<span class="st"> </span>zoo<span class="op">::</span><span class="kw">na.trim</span>(<span class="dt">object =</span> ozone, <span class="dt">sides =</span> <span class="st">&quot;both&quot;</span>)
-<span class="co"># Create a plot (somewhat customized to look pretty)</span>
-<span class="kw">plot</span>(ozone, <span class="dt">grid.ticks.on =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Ozone concentration in Raleigh, NC</span><span class="ch">\n</span><span class="st">Daily maximum 8-hour ozone (parts per billion)&quot;</span>, 
-    <span class="dt">yaxis.right =</span> <span class="ot">FALSE</span>)</code></pre>
-<p><img src="timeseRies_files/figure-html/ozone-1.png" width="672" /></p>
 <div id="exercise-1-jussy-air-temperature" class="section level3">
 <h3><span class="header-section-number">6.1.1</span> Exercise 1: Jussy air temperature</h3>
 <ol style="list-style-type: decimal">
@@ -313,7 +289,7 @@ gitbook.start({
 "google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
 "all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
@@ -323,6 +299,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
+"link": null,
+"text": null
+},
+"history": {
 "link": null,
 "text": null
 },
@@ -340,7 +320,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
     script.src = src;

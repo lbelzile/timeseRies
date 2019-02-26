@@ -5,21 +5,21 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>timeseRies</title>
-  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <title>3.3 Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions | timeseRies</title>
+  <meta name="description" content="Web complement of MATH 342 (Time series) at EPFL.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="timeseRies" />
+  <meta property="og:title" content="3.3 Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions | timeseRies" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta property="og:description" content="Web complement of MATH 342 (Time series) at EPFL." />
   <meta name="github-repo" content="lbelzile/timeseRies" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="timeseRies" />
+  <meta name="twitter:title" content="3.3 Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions | timeseRies" />
   
-  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="twitter:description" content="Web complement of MATH 342 (Time series) at EPFL." />
   
 
 <meta name="author" content="Léo Belzile">
@@ -35,6 +35,7 @@
 <link rel="next" href="solutions-to-exercises-2.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
@@ -194,8 +195,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>4</b> Spectral analysis and filtering</a><ul>
 <li class="chapter" data-level="4.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.1</b> Nonparametric spectral estimation</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.1</b> A data example</a></li>
-<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.2</b> Smoothing</a></li>
+<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#tapering"><i class="fa fa-check"></i><b>4.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.2</b> A data example</a></li>
+<li class="chapter" data-level="4.1.3" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.3</b> Smoothing</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.2</b> Summary of nonparametric spectral estimation</a></li>
 <li class="chapter" data-level="4.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>4.3</b> Spectral estimation in R</a><ul>
@@ -245,24 +247,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">3.3</span> Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models and extensions</h2>
 <p>We look at estimation of (G)ARCH models.
 The simple ARMA(<span class="math inline">\(p, q\)</span>)-GARCH(<span class="math inline">\(m, r\)</span>) model is
-<span class="math display">\[
-\begin{align*}
+<span class="math display">\[\begin{align*}
 Y_t -\mu &amp;=   \sum_{h = 1}^p \phi_h (Y_{t-h}-\mu)+ \sum_{l = 1}^q \vartheta_lV_{t-l}+ V_t, \qquad V_t = \sigma_t\varepsilon_t, \quad\varepsilon_t\stackrel{\mathrm{iid}}{\sim} F(0, 1) \\ \sigma^2_t &amp;= \alpha_0+\sum_{i = 1}^m \alpha_iV_{t-i}^2 + \sum_{j = 1}^r \beta_j\sigma^2_{t-j}. 
-\end{align*}
-\]</span>
-The residuals from the ARMA models, <span class="math inline">\(V_t\)</span> thus follow a GARCH model. The parameters of the GARCH <span class="math inline">\(\alpha_0, \alpha_1, \ldots, \alpha_m, \beta_1, \ldots, \beta_r\)</span> must be positive. Furthermore, for the variance <span class="math inline">\(\sigma^2_t\)</span> to be stationary, we require <span class="math inline">\(\sum_{i=1}^m \alpha_i + \sum_{j=1}^r \beta_j &lt;1\)</span>, akin to the ARMA setting. The <span class="math inline">\(V_t\)</span> are typically leptokurtic (and thus heavy-tailed) as a result of the conditional heteroscedastic structure.</p>
+\end{align*}\]</span></p>
+<p>The residuals from the ARMA models, <span class="math inline">\(V_t\)</span> thus follow a GARCH model. The parameters of the GARCH <span class="math inline">\(\alpha_0, \alpha_1, \ldots, \alpha_m, \beta_1, \ldots, \beta_r\)</span> must be positive. Furthermore, for the variance <span class="math inline">\(\sigma^2_t\)</span> to be stationary, we require <span class="math inline">\(\sum_{i=1}^m \alpha_i + \sum_{j=1}^r \beta_j &lt;1\)</span>, akin to the ARMA setting. The <span class="math inline">\(V_t\)</span> are typically leptokurtic (and thus heavy-tailed) as a result of the conditional heteroscedastic structure.</p>
 <p>If we have <span class="math inline">\(V_t=\sigma_t^2\varepsilon_t\)</span>, where <span class="math inline">\(\varepsilon_t \stackrel{\mathrm{iid}}{\sim}F(0, 1)\)</span> is iid white noise, then
 <span class="math display">\[\mathrm{E}(V_t^2 \mid \mathcal{H}_{t-1}) = \sigma^2_t.\]</span>
 Here, <span class="math inline">\(\mathcal{H}_{t-1}\)</span> denotes the information set at time <span class="math inline">\(t-1\)</span>. One can see that <span class="math inline">\(V_t^2\)</span> has the form of an ARMA(<span class="math inline">\(m, r\)</span>) process, but the iid white noise is replaced with a martingale difference sequence <span class="math inline">\(\eta_t\)</span>. We can rewrite
 <span class="math display">\[V_t^2 -\nu = \sum_{i=1}^{\max\{m, r\}} (\alpha_i+\beta_i)(V_{t-i}^2-\nu) - \sum_{j=1}^r \beta_j \eta_{t-j} + \eta_t,\]</span>
 where <span class="math inline">\(\nu = \alpha_0/ \sum_{i=1}^{\max\{m, r\}}(\alpha_i+\beta_i)\)</span>, and we define for simplicity <span class="math inline">\(\alpha_i=0\)</span> for <span class="math inline">\(i&gt;m\)</span> and <span class="math inline">\(\beta_j\)</span> for <span class="math inline">\(j&gt;r\)</span>. We can identify from there the AR coefficients <span class="math inline">\(\tilde{\phi}_i=\alpha_i+\beta_i\)</span> and the MA coefficients <span class="math inline">\(\tilde{\theta}_j=-\beta_j\)</span>. A necessary condition for covariance stationarity is that <span class="math inline">\(\sum_{i=1}^m \alpha_i + \sum_{j=1}^r \beta_j &lt;1\)</span>,
 The strategy for modelling is thus to fit an ARIMA-type model to the original series, then examine squared residuals. One suitable orders <span class="math inline">\(p, q, m, r\)</span> have been determined, we can estimate the models jointly. The autocorrelation function of the GARCH(1,1),</p>
-<p><span class="math display">\[
-\begin{align}
+<p><span class="math display">\[\begin{align*}
   \rho(1) &amp;= \frac{\alpha_1(1-\beta_1^2-\alpha_1\beta_1)}{(1-\beta_1^2-2\alpha_1\beta_1)} \\
   \rho(h) &amp;= (\alpha_1+\beta_1)\rho(h-1), \quad h \geq 2,
-\end{align}
-\]</span>
+\end{align*}\]</span>
 decays geometrically at rate <span class="math inline">\(\alpha_1+\beta_1\)</span>.</p>
 <p>Joint estimation of ARMA-GARCH type models can be handled with functions from the <code>rugarch</code> package. Apart from the documentation of the package, there is a <a href="http://unstarched.net/wp-content/uploads/2013/06/an-example-in-rugarch.pdf">worked out example here</a> and more <a href="http://unstarched.net/r-examples/rugarch/a-short-introduction-to-the-rugarch-package/">examples on the package author’s blog</a>.
 You can specify different types of GARCH model other than the standard GARCH, or <code>sGARCH</code>, add external regressors and choose the distribution function of the errors. This provides a neat way to include an ARMA-GARCH type model for your analysis.</p>
@@ -443,7 +441,7 @@ gitbook.start({
 "google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
 "all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
@@ -453,6 +451,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
+"link": null,
+"text": null
+},
+"history": {
 "link": null,
 "text": null
 },
@@ -470,7 +472,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
     script.src = src;

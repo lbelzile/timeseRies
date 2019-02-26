@@ -5,21 +5,21 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>timeseRies</title>
-  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <title>2.2 Box–Jenkins methodology for ARMA models | timeseRies</title>
+  <meta name="description" content="Web complement of MATH 342 (Time series) at EPFL.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="timeseRies" />
+  <meta property="og:title" content="2.2 Box–Jenkins methodology for ARMA models | timeseRies" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta property="og:description" content="Web complement of MATH 342 (Time series) at EPFL." />
   <meta name="github-repo" content="lbelzile/timeseRies" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="timeseRies" />
+  <meta name="twitter:title" content="2.2 Box–Jenkins methodology for ARMA models | timeseRies" />
   
-  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="twitter:description" content="Web complement of MATH 342 (Time series) at EPFL." />
   
 
 <meta name="author" content="Léo Belzile">
@@ -35,6 +35,7 @@
 <link rel="next" href="information-criterion-model-selection-and-profile-likelihood.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
@@ -194,8 +195,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>4</b> Spectral analysis and filtering</a><ul>
 <li class="chapter" data-level="4.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.1</b> Nonparametric spectral estimation</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.1</b> A data example</a></li>
-<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.2</b> Smoothing</a></li>
+<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#tapering"><i class="fa fa-check"></i><b>4.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.2</b> A data example</a></li>
+<li class="chapter" data-level="4.1.3" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.3</b> Smoothing</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.2</b> Summary of nonparametric spectral estimation</a></li>
 <li class="chapter" data-level="4.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>4.3</b> Spectral estimation in R</a><ul>
@@ -331,13 +333,11 @@ TSA<span class="op">::</span><span class="kw">acf</span>(gnpgr, <span class="dv"
 <span class="kw">Mod</span>(<span class="kw">polyroot</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="op">-</span>mod1<span class="op">$</span>fit<span class="op">$</span>coef[<span class="dv">1</span>])))  <span class="co">#AR roots</span></code></pre>
 <pre><code>[1] 2.884717</code></pre>
 <p>Sometimes models give similar output. The model choice should then be made on the grounds of <strong>parsimony</strong>: a simpler model that explains the data should be prefered. If the models are nested, for example an AR(1) and an AR(2), then a likelihood ratio test can be performed (watch out to make sure the same number of observations appear in the models if using a conditional likelihood). A quick way to do this is by looking at the Akaike’s information criterion. There are other information criterion, notably the BIC and bias-corrected version of AIC termed <span class="math inline">\(\mathrm{AIC}_{\mathrm{c}}\)</span>. They are defined respectively as</p>
-<p><span class="math display">\[
-\begin{align*}
+<p><span class="math display">\[\begin{align*}
 \mathrm{AIC}&amp; = -2\ell(\boldsymbol{\theta})+2k,\\
 \mathrm{BIC}&amp; = -2\ell(\boldsymbol{\theta})+k\log(n),\\
 \mathrm{AIC}_{\mathrm{c}}&amp; = -2\ell(\boldsymbol{\theta})+2 \frac{kn}{n-k-1}.
-\end{align*}
-\]</span></p>
+\end{align*}\]</span></p>
 <p>In the formulas above, <span class="math inline">\(n\)</span> is the sample size, <span class="math inline">\(k\)</span> is the number of parameters in the model and <span class="math inline">\(\ell\)</span> is log-likelihood. Since likelihood values increase with the number of parameters provided the models are nested (why?), the additional term penalizes complex models. The Schwartz’s information criterion (or Bayesian information criterion, BIC in short) includes the sample size in the penalty. The penalty could be viewed as a testing procedure similar to likelihood ratio test for nested models, where in place of the quantiles of the <span class="math inline">\(\chi^2\)</span> distribution, one uses e.g. for AIC a threshold of <span class="math inline">\(2(k_1-k_2)\)</span>.</p>
 <p>The BIC is consistent, meaning that it chooses the correct model with probability 1 as <span class="math inline">\(n \to \infty\)</span>. AIC is <em>not</em> consistent for model selection and this results typically in overfitting. For ARMA models models with zero mean, Brockwell and Davis advocate the use of a small-sample correction of AIC, AIC<span class="math inline">\(_\mathrm{c}\)</span>, with <span class="math inline">\(k = p+q+1\)</span>. The latter is equivalent to AIC when <span class="math inline">\(n \to \infty\)</span>.</p>
 <p><strong>Warning</strong>: The information criterion returned by <code>astsa::sarima</code> does not correspond to the definition above; the one implemented can be found in Shumway and Stoffer’s book. The principle remains the same: the lower, the better.</p>
@@ -444,7 +444,7 @@ gitbook.start({
 "google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
 "all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
@@ -454,6 +454,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
+"link": null,
+"text": null
+},
+"history": {
 "link": null,
 "text": null
 },
@@ -471,7 +475,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
     script.src = src;

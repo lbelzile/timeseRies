@@ -2,32 +2,12 @@
 
 ## Irregular time series
 
-We consider an ozone dataset from Richard L. Smith. He writes
 
-''Daily maximum 8-hour ozone in Raleigh, NC; units are parts per billion (ppb). The data are only available from the months April through October.''
+The most common class for time series is `ts`, but I prefer to work with `xts` since the latter handles irregular time series and has subsetting options not available for `ts` objects. You can convert strings (or numerical) to  `Date` using `as.Date`. See `?DateTimeClasses` for more information about the classes used to represent date and time objects.
 
-The file contains the actual data from EPA, and we see many `NA`s (missing values) and a time stamp in the first column of the data frame. We will create a time series object from the latter. The most common classes are `ts`, but I prefer to work with `xts` since the latter handles irregular time series and has subsetting options not available for `ts` objects. You can convert strings (or numerical) to  `Date` using `as.Date`. See `?DateTimeClasses` for more information about the classes used to represent date and time objects.
 ```{r package, echo=TRUE, message=FALSE}
 library(xts)
 library(lubridate)
-```
-
-```{r ozone, cache=TRUE}
-#Load a text file from the internet
-#xts library obtained from Github
-#devtools::install_github("joshuaulrich/xts") #CRAN version is obsolete
-#library(xts); library(lubridate)
-ozone_dat <- read.table(file="http://www.unc.edu/~rls/s754/raleighozone.txt", header=FALSE, stringsAsFactors = FALSE)
-head(ozone_dat)
-#The first column contains the time stamp
-#It is a numerical value, so we convert it to a string, then a date object
-#Create a time series object
-ozone <- as.xts(x=ozone_dat[,2], order.by = lubridate::ymd(as.character(ozone_dat[,1])))
-#Could also use as.Date(as.character(ozone_dat[,1]), "%Y%m%d"))
-#We can remove the trailing NAs from either sides
-ozone <- zoo::na.trim(object=ozone, sides="both")
-#Create a plot (somewhat customized to look pretty)
-plot(ozone, grid.ticks.on = "year", main="Ozone concentration in Raleigh, NC\nDaily maximum 8-hour ozone (parts per billion)", yaxis.right=FALSE)
 ```
 
 

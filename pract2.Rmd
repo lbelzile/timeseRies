@@ -113,12 +113,10 @@ sd(residuals(fit1_ols))
 ```
 
 Incidently, the situation is analogous for the ARCH(1) process, which has a conditional variance that changes over time. The latter is defined implicitly as
-$$
 \begin{align*}
 Z_t &= \mu + \sigma_t\epsilon_t\\
 \sigma_t^2 &=\alpha_0+\alpha_1(Z_{t-1}-\mu)^2 
 \end{align*}
-$$
 with $\epsilon_t \stackrel{\mathrm{iid}}{\sim} \mathcal{N}(0, 1)$.
 
 The variance $\sigma^2$ here is included as $\sigma^2=\alpha_0$ and the parameter appearing in the likelihood is $\alpha_1/\sigma^2$ corresponds to $\theta_3$, or `th[3]`.
@@ -266,13 +264,11 @@ Mod(polyroot(c(1, -mod1$fit$coef[1]))) #AR roots
 
 Sometimes models give similar output. The model choice should then be made on the grounds of **parsimony**: a simpler model that explains the data should be prefered. If the models are nested, for example an AR(1) and an AR(2), then a likelihood ratio test can be performed (watch out to make sure the same number of observations appear in the models if using a conditional likelihood). A quick way to do this is by looking at the Akaike's information criterion. There are other information criterion, notably the BIC and bias-corrected version of AIC termed $\mathrm{AIC}_{\mathrm{c}}$. They are defined respectively as
 
-$$
 \begin{align*}
 \mathrm{AIC}& = -2\ell(\boldsymbol{\theta})+2k,\\
 \mathrm{BIC}& = -2\ell(\boldsymbol{\theta})+k\log(n),\\
 \mathrm{AIC}_{\mathrm{c}}& = -2\ell(\boldsymbol{\theta})+2 \frac{kn}{n-k-1}.
 \end{align*}
-$$
 
 In the formulas above, $n$ is the sample size, $k$ is the number of parameters in the model and $\ell$ is log-likelihood. Since likelihood values increase with the number of parameters provided the models are nested (why?), the additional term penalizes complex models. The Schwartz's information criterion (or Bayesian information criterion, BIC in short) includes the sample size in the penalty. The penalty could be viewed as a testing procedure similar to likelihood ratio test for nested models, where in place of the quantiles of the $\chi^2$ distribution, one uses e.g. for AIC a threshold of $2(k_1-k_2)$.
 

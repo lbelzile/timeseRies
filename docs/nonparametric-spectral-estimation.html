@@ -5,21 +5,21 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>timeseRies</title>
-  <meta name="description" content="This is a web complement to MATH 342 (Time series) given at EPFL.">
+  <title>4.1 Nonparametric spectral estimation | timeseRies</title>
+  <meta name="description" content="Web complement of MATH 342 (Time series) at EPFL.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="timeseRies" />
+  <meta property="og:title" content="4.1 Nonparametric spectral estimation | timeseRies" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta property="og:description" content="Web complement of MATH 342 (Time series) at EPFL." />
   <meta name="github-repo" content="lbelzile/timeseRies" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="timeseRies" />
+  <meta name="twitter:title" content="4.1 Nonparametric spectral estimation | timeseRies" />
   
-  <meta name="twitter:description" content="This is a web complement to MATH 342 (Time series) given at EPFL." />
+  <meta name="twitter:description" content="Web complement of MATH 342 (Time series) at EPFL." />
   
 
 <meta name="author" content="Léo Belzile">
@@ -35,6 +35,7 @@
 <link rel="next" href="summary-of-nonparametric-spectral-estimation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
@@ -194,8 +195,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="spectral-analysis-and-filtering.html"><a href="spectral-analysis-and-filtering.html"><i class="fa fa-check"></i><b>4</b> Spectral analysis and filtering</a><ul>
 <li class="chapter" data-level="4.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.1</b> Nonparametric spectral estimation</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.1</b> A data example</a></li>
-<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.2</b> Smoothing</a></li>
+<li class="chapter" data-level="4.1.1" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#tapering"><i class="fa fa-check"></i><b>4.1.1</b> Tapering</a></li>
+<li class="chapter" data-level="4.1.2" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#a-data-example"><i class="fa fa-check"></i><b>4.1.2</b> A data example</a></li>
+<li class="chapter" data-level="4.1.3" data-path="nonparametric-spectral-estimation.html"><a href="nonparametric-spectral-estimation.html#smoothing"><i class="fa fa-check"></i><b>4.1.3</b> Smoothing</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="summary-of-nonparametric-spectral-estimation.html"><a href="summary-of-nonparametric-spectral-estimation.html"><i class="fa fa-check"></i><b>4.2</b> Summary of nonparametric spectral estimation</a></li>
 <li class="chapter" data-level="4.3" data-path="spectral-estimation-in-r.html"><a href="spectral-estimation-in-r.html"><i class="fa fa-check"></i><b>4.3</b> Spectral estimation in R</a><ul>
@@ -269,13 +271,11 @@ The estimates
 <span class="math inline">\(\{\widehat{\gamma}_k: k = -n+1, \ldots, n-1\}\)</span> and <span class="math inline">\(\{\widehat{f}(\omega_k): \omega_k = k/(2n-1), k=-n+1, \ldots, n-1\}\)</span> thus form a Fourier transform pair.</p>
 <p>Let us look at the periodogram estimate <span class="math inline">\(I(\omega)\)</span> of a simulated stationary autoregressive process with <span class="math inline">\(n=1000\)</span>. We can compare it to the true spectrum of the AR(2) process with <span class="math inline">\(\phi_1=0.75\)</span>, <span class="math inline">\(\phi_2=-0.5\)</span> and <span class="math inline">\(\sigma^2=1\)</span>.</p>
 <p><img src="timeseRies_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
-<p>What we notice right away is how noisy the periodogram estimate is. The truth is that the periodogram is biased, inconsistent (we estimate a frequency based on 2 observations, so even as <span class="math inline">\(n \rightarrow \infty\)</span>, the estimates remain extremely variable). The estimates for distinct frequencies are however almost uncorrelated provided the Fourier frequencies are far and that the bias is not too large.</p>
+<p>What we notice right away is how noisy the periodogram estimate is. The truth is that the periodogram is a biased and inconsistent estimator: we estimate a frequency based on 2 observations, so even as <span class="math inline">\(n \rightarrow \infty\)</span>, the estimates remain extremely variable. The estimates for distinct frequencies are however almost uncorrelated provided the Fourier frequencies are far and that the bias is not too large.</p>
 <p>The expectation of the periodogram is
-<span class="math display">\[
-\begin{align*}\mathrm{E}\left(I(\omega_j)\right) &amp;= \sum_{h = -n+1}^{n-1} \left(1-\frac{|h|}{n}\right)\gamma_h\exp(-2\pi i \omega h)
+<span class="math display">\[\begin{align*}\mathrm{E}\left(I(\omega_j)\right) &amp;= \sum_{h = -n+1}^{n-1} \left(1-\frac{|h|}{n}\right)\gamma_h\exp(-2\pi i \omega h)
 \\&amp;= \int_{-1/2}^{1/2}n\mathcal{D}_n^2(\omega_j-\omega)f(\omega)\mathrm{d} \omega
-\end{align*}
-\]</span>
+\end{align*}\]</span>
 and <span class="math inline">\(n\mathcal{D}^2(\omega)\equiv W_n(\omega)\)</span> (in the course notation) is the rescaled squared Dirichlet kernel, also known as Fejér’s kernel,
 <span class="math display">\[\mathcal{F}(\omega)=n\mathcal{D}^2(\omega) = \frac{\sin^2(n \pi \omega)}{n\sin^2(\pi\omega)}.\]</span></p>
 <p>The Fejér kernel concentrates as <span class="math inline">\(n \rightarrow \infty\)</span> and behaves asymptotically like a <span class="math inline">\(\delta\)</span> function. However, for finite <span class="math inline">\(n\)</span>, it has marked side lobes — these are more visible on the log scale or the decibel scale (<span class="math inline">\(10\log_{10}(\cdot)\)</span>). One can view the effect of increased sample size by plotting the Fejér kernel for <span class="math inline">\(n=4, 16, 64\)</span>.</p>
@@ -293,7 +293,8 @@ The discrete Fourier transform can be regarded as implicitly extending $f(\omega
 <p>Same thing, but this time for the frequency <span class="math inline">\(\omega = 1/4\)</span>.</p>
 <p><img src="timeseRies_files/figure-html/unnamed-chunk-27-1.png" width="672" />
 For our AR(4) process with <span class="math inline">\(n=64\)</span> observations, leakage will happen mostly at high frequencies, <span class="math inline">\(\omega &gt; 0.3\)</span>, where the true spectrum is nearly flat.</p>
-<p>###Tapering</p>
+<div id="tapering" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Tapering</h3>
 <p>The goal of tapering is to reduce the bias by reducing the magnitude of sidelobs in the Fejér kernel. In order to do so, we multiply the data by a taper <span class="math inline">\(h_t\)</span>, to form a new series <span class="math inline">\(X_th_t\)</span> on which we compute the usual periodogram. The resulting estimator is a direct estimate, denoted <span class="math inline">\(I^d(\omega)\)</span>.</p>
 <p><img src="timeseRies_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <p>One can show that
@@ -303,8 +304,8 @@ where the spectral window <span class="math inline">\(W_n(\omega)\)</span>, in t
 A rectangular data taper in which <span class="math inline">\(h_t = 1\)</span> gives back Fejer’s kernel <span class="math inline">\(\mathcal{F}\)</span> and the periodogram. We will thus consider other tapers, <span class="math inline">\(\mathcal{H}\)</span> say, which are such that <span class="math inline">\(h_t\)</span> progressively goes to zero.</p>
 <p>To reduce bias due to leakage, we want <span class="math inline">\(\mathcal{H}\)</span> to have smaller sidelobes than <span class="math inline">\(\mathcal{F}\)</span>. There is no free lunch: such kernels <span class="math inline">\(\mathcal{H}\)</span> typically have bigger main lobes and thus smears out the peaks, introducing a new source of bias. As such, tapering is most useful for processes with large dynamic ranges. Because tapering discards information, the variance of the estimates also increases.</p>
 <p>The next plots show the data taper sequences <span class="math inline">\(h_t\)</span> for <span class="math inline">\(t=1, \ldots, n\)</span> and the corresponding spectral window <span class="math inline">\(\mathcal{H}\)</span> function on the decibel scale. It corresponds to an mix between the Hanning taper, which ressembles a bell curve, and the rectangular weights.
-The default taper in R smooths the first and last <span class="math inline">\(p\)</span> percentage of the time points.
-<span class="math display">\[
+The default taper in R smooths the first and last <span class="math inline">\(p\)</span> percentage of the time points.</p>
+<p><span class="math display">\[\begin{align*}
 h_t = 
 \begin{cases}
 \frac{1}{2}\left(1-\cos\left(\frac{\pi t}{np}\right)\right), &amp; \text{ if } 1\le t&lt; np
@@ -313,7 +314,7 @@ h_t =
 \\
 \frac{1}{2}\left(1-\cos\left(\frac{\pi (n+1-t)}{np}\right)\right), &amp;\text{ if }  n(1-p)&lt;t\le n.
 \end{cases}
-\]</span></p>
+\end{align*}\]</span></p>
 <p>The proportion <span class="math inline">\(p=0\)</span> gives back the raw periodogram, while <span class="math inline">\(p=1\)</span> gives the Hanning taper. The tapers and spectral windows (for the portion <span class="math inline">\((0,1/2)\)</span> are shown here for <span class="math inline">\(p=0, 0.2, 0.5, 1\)</span>.</p>
 <p><img src="timeseRies_files/figure-html/unnamed-chunk-29-1.png" width="672" /><img src="timeseRies_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
 <p>As we increase the tapering, the sidelobes of become progressively smaller, but the width of the main lobe increases. This we will illustrate with a special taper, for which the phenomenon is most visible.</p>
@@ -327,7 +328,7 @@ Specifically, they maximize the measure of concentration
 -->
 They are oftentime parametrized in terms of <span class="math inline">\(nW\)</span>, and <span class="math inline">\(nW=1\)</span> gives back (roughly speaking) the Fejér kernel, while <span class="math inline">\(nW=2\)</span> is closer to the Hanning taper.</p>
 <p><img src="timeseRies_files/figure-html/unnamed-chunk-30-1.png" width="672" /><img src="timeseRies_files/figure-html/unnamed-chunk-30-2.png" width="672" /></p>
-<p>What happens when we overtaper a series? The following plot shows the expected value of the direct estimate of the spectrum based on 64 observations (!) compared to the true estimate. The underlying spectra is that of a AR(4) series.</p>
+<p>What happens when we overtaper a series? The following plot shows the expected value of the direct estimate of the spectrum based on 64 observations (!) compared to the true estimate. The underlying spectrum is that of an AR(4) series.</p>
 <p><img src="timeseRies_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 <!---
 
@@ -337,8 +338,9 @@ The next example, from Percival and Walden, is that of an AR(4) series for which
 
 An advanced technique (not covered in the course) is multitapering. It consists of a combination of tapered estimates whose taper functions are orthogonal. The tapered estimates are averaged, hereby increasing the number of degrees of freedom and reducing the variance of the estimated spectra. This state of the art method is useful for peaks detection (via an harmonic F-test) and it allows one to build confidence intervals via the jackknife.  The package `multitaper` implements multitapering via `spec.mtm`; see `plot.mtm` for an example.
 -->
+</div>
 <div id="a-data-example" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> A data example</h3>
+<h3><span class="header-section-number">4.1.2</span> A data example</h3>
 <p>We now illustrate the calculation of the raw periodogram on the <code>sunspot</code> dataset.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;http://faculty.washington.edu/dbp/s520/R-code/tapers.R&quot;</span>)
 sunspot =<span class="st"> </span><span class="kw">c</span>(<span class="kw">scale</span>(<span class="kw">sqrt</span>(sunspot.year), <span class="dt">scale =</span> <span class="ot">FALSE</span>))  <span class="co">#Square root transformed sunspot, centered </span>
@@ -363,7 +365,7 @@ a &lt;-<span class="st"> </span>b &lt;-<span class="st"> </span><span class="kw"
 <span class="kw">lines</span>(om, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="kw">log10</span>(Per &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">Mod</span>(<span class="kw">fft</span>(sunspot))[<span class="dv">2</span><span class="op">:</span>(nj <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)]<span class="op">/</span>n)<span class="op">^</span><span class="dv">2</span>))  <span class="co">#lines overlayed</span></code></pre>
 <p><img src="timeseRies_files/figure-html/stoffer_nlts-1.png" width="672" /></p>
 <p>The two definitions are thus identical, but one must be careful with the different scalings employed in different references.</p>
-<p>It is customary to include trailing zeros in the series to make the latter divisible by a low prime, potentially doubling its length. Padding with zero does not affect the properties of the estimates, but rather the frequency at which they are computed. Padding is used to make the computations faster.</p>
+<p>It is customary to include trailing zeros in the series to make the latter divisible by a low prime, potentially doubling its length. Padding with zero does not affect the properties of the estimator, but rather the frequency at which the estimates are computed. Padding is used to make computations faster.</p>
 <p>We illustrate zero-padding and tapering in the next plots. We abstain from now from smoothing.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot((1:nj)/n, Per, type=&#39;l&#39;, xlab = &#39;Frequency&#39;, ylab = &#39;Spectral</span>
 <span class="co"># density&#39;, main = &#39;Periodogram&#39;) Zero padding</span>
@@ -386,7 +388,7 @@ spec_tap_sle &lt;-<span class="st"> </span><span class="kw">abs</span>(<span cla
 <p>Since the dynamic range is low, tapering has little effect here.</p>
 </div>
 <div id="smoothing" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Smoothing</h3>
+<h3><span class="header-section-number">4.1.3</span> Smoothing</h3>
 <p>Smoothing is the last modification we shall cover. The goal here is to convolve the periodogram estimate for the tapered data with a kernel. We typically consider linear filters that reproduce simple moving average. The effective range of the smoother depends on a bandwidth parameter, but the latter is model dependent.</p>
 <p>The smoothing illustrated below is performed using modified Daniell smoothers, which are simply moving averages that give half weight to the end values of the span. The simple Daniell filter gives equal weight, but it can be applied recursively. Increasing <code>spans</code> smooths the raw periodogram plotted in the first call to <code>spectrum</code>. The spans should be odd integers, and smoother results are obtained if they are different and at least two are used.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))
@@ -432,7 +434,7 @@ gitbook.start({
 "google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
 "all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
@@ -442,6 +444,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
+"link": null,
+"text": null
+},
+"history": {
 "link": null,
 "text": null
 },
@@ -459,7 +465,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
     script.src = src;

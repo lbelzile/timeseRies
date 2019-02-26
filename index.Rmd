@@ -6,12 +6,16 @@ site: bookdown::bookdown_site
 output:
   bookdown::gitbook:
     highlight: tango
+  bookdown::pdf_book:
+    includes:
+      in_header: preamble.tex
 documentclass: book
-biblio-style: apalike2
+header-includes:
+  - \usepackage{amsmath,amssymb,mathtools,enumerate,booktabs}
 link-citations: yes
 github-repo: lbelzile/timeseRies
 always_allow_html: yes
-description: "This is a web complement to MATH 342 (Time series) given at EPFL."
+description: "Web complement of MATH 342 (Time series) at EPFL."
 ---
 
 # Preliminary remarks {-}

@@ -78,14 +78,12 @@ theor_spec <- spec_dens_arma(n = n, ar=c(0.75,-0.5), dB = FALSE)
 lines(theor_spec$freq, theor_spec$dens, lwd = 2, col = 2)
 ```
 
-What we notice right away is how noisy the periodogram estimate is. The truth is that the periodogram is biased, inconsistent (we estimate a frequency based on 2 observations, so even as $n \rightarrow \infty$, the estimates remain extremely variable). The estimates for distinct frequencies are however almost uncorrelated provided the Fourier frequencies are far and that the bias is not too large.
+What we notice right away is how noisy the periodogram estimate is. The truth is that the periodogram is a biased and inconsistent estimator: we estimate a frequency based on 2 observations, so even as $n \rightarrow \infty$, the estimates remain extremely variable. The estimates for distinct frequencies are however almost uncorrelated provided the Fourier frequencies are far and that the bias is not too large.
 
 The expectation of the periodogram is 
-$$
 \begin{align*}\mathrm{E}\left(I(\omega_j)\right) &= \sum_{h = -n+1}^{n-1} \left(1-\frac{|h|}{n}\right)\gamma_h\exp(-2\pi i \omega h)
 \\&= \int_{-1/2}^{1/2}n\mathcal{D}_n^2(\omega_j-\omega)f(\omega)\mathrm{d} \omega
 \end{align*}
-$$
 and $n\mathcal{D}^2(\omega)\equiv W_n(\omega)$ (in the course notation) is the rescaled squared Dirichlet kernel, also known as Fejér's kernel,
 \[\mathcal{F}(\omega)=n\mathcal{D}^2(\omega) = \frac{\sin^2(n \pi \omega)}{n\sin^2(\pi\omega)}.\]
 
@@ -232,7 +230,9 @@ par(oldpar)
 ```
 For our AR(4) process with $n=64$ observations, leakage will happen mostly at high frequencies, $\omega > 0.3$, where the true spectrum is nearly flat.
 
-###Tapering 
+
+### Tapering 
+
 
 The goal of tapering is to reduce the bias by reducing the magnitude of sidelobs in the Fejér kernel. In order to do so, we multiply the data by a taper $h_t$, to form a new series $X_th_t$ on which we compute the usual periodogram. The resulting estimator is a direct estimate, denoted $I^d(\omega)$. 
 
@@ -260,7 +260,8 @@ To reduce bias due to leakage, we want $\mathcal{H}$ to have smaller sidelobes  
 
 The next plots show the data taper sequences $h_t$ for $t=1, \ldots, n$ and the corresponding spectral window $\mathcal{H}$ function on the decibel scale. It corresponds to an mix between the Hanning taper, which ressembles a bell curve, and the rectangular weights. 
 The default taper in R smooths the first and last $p$ percentage of the time points. 
-$$
+
+\begin{align*}
 h_t = 
 \begin{cases}
 \frac{1}{2}\left(1-\cos\left(\frac{\pi t}{np}\right)\right), & \text{ if } 1\le t< np
@@ -269,7 +270,7 @@ h_t =
 \\
 \frac{1}{2}\left(1-\cos\left(\frac{\pi (n+1-t)}{np}\right)\right), &\text{ if }  n(1-p)<t\le n.
 \end{cases}
-$$
+\end{align*}
 
 
 The proportion $p=0$ gives back the raw periodogram, while $p=1$ gives the Hanning taper. The tapers and spectral windows (for the portion $(0,1/2)$ are shown here for $p=0, 0.2, 0.5, 1$.
@@ -435,7 +436,7 @@ fig.four.spectral.windows(cbind(slepian.taper(64,1), slepian.taper(64,2), slepia
 ```
 
 
-What happens when we overtaper a series? The following plot shows the expected value of the direct estimate of the spectrum based on 64 observations (!) compared to the true estimate. The underlying spectra is that of a AR(4) series.
+What happens when we overtaper a series? The following plot shows the expected value of the direct estimate of the spectrum based on 64 observations (!) compared to the true estimate. The underlying spectrum is that of an AR(4) series.
 
 ```{r, echo=FALSE}
 par(mfrow=c(2,2))
@@ -521,7 +522,7 @@ lines(om, 10*log10(Per <- 2*(Mod(fft(sunspot))[2:(nj+1)]/n)^2)) #lines overlayed
 
 The two definitions are thus identical, but one must be careful with the different scalings employed in different references. 
 
-It is customary to include trailing zeros in the series to make the latter divisible by a low prime, potentially doubling its length. Padding with zero does not affect the properties of the estimates, but rather the frequency at which they are computed. Padding is used to make the computations faster.
+It is customary to include trailing zeros in the series to make the latter divisible by a low prime, potentially doubling its length. Padding with zero does not affect the properties of the estimator, but rather the frequency at which the estimates are computed. Padding is used to make computations faster.
 
 We illustrate zero-padding and tapering in the next plots. We abstain from now from smoothing. 
 
@@ -549,7 +550,9 @@ legend(x = "bottomleft", col=c(1,4,3),lty=c(1,1,1), legend = c("Fejer","Slepian 
 
 Since the dynamic range is low, tapering has little effect here.
 
+
 ### Smoothing
+
 
 Smoothing is the last modification we shall cover. The goal here is to convolve the periodogram estimate for the tapered data with a kernel. We typically consider linear filters that reproduce simple moving average. The effective range of the smoother depends on a bandwidth parameter, but the latter is model dependent.
 
@@ -636,6 +639,7 @@ u2 <- ts(c(unlist(t(U2[,2:13]))), start = c(1948, 1), frequency = 12)
 lines(c(time(u2)), c(u2), col = 2, lwd = 2)
 title("Unemployment. Raw (black) \nand seasonally adjusted (red)")
 ```
+
 > We see seasonal variation, and perhaps we see business cycles on top of a slower trend. [...] The seasonal variation looks like an additive effect, say an annual fluctation with amplitude around 1 percentage point. 
 
 We are interested here in comparing the spectrum of the two series, so we won't differentiate the series. We can use the approximate Fisher $F_{2,2}$ distribution to perform a two-sided test for the null hypothesis of equality of spectra. 
@@ -661,7 +665,7 @@ u_low <- ts(loess(u1 ~ time(u1), span = 0.5)$fitted, start=1948, frequency=12)
 u_hi <- ts(u1 - loess(u1 ~ time(u1), span = 0.1)$fitted, start=1948, frequency=12)
 u_cycles <- u1 - u_hi - u_low
 plot(ts.union("Raw" = u1, "Low" = u_low, "High" = u_hi, "Business cycles" = u_cycles),  
-     ylab="main",  main="Decomposition of unemployment \nas trend + noise + cycles")
+     ylab="main",  main="Decomposition of unemployment (trend + noise + cycles)")
 
 ```
 

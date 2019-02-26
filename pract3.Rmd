@@ -370,11 +370,10 @@ More sophisticated methods will be needed depending on the model considered. If 
 
 We look at estimation of (G)ARCH models. 
 The simple ARMA($p, q$)-GARCH($m, r$) model is 
-$$
 \begin{align*}
 Y_t -\mu &=   \sum_{h = 1}^p \phi_h (Y_{t-h}-\mu)+ \sum_{l = 1}^q \vartheta_lV_{t-l}+ V_t, \qquad V_t = \sigma_t\varepsilon_t, \quad\varepsilon_t\stackrel{\mathrm{iid}}{\sim} F(0, 1) \\ \sigma^2_t &= \alpha_0+\sum_{i = 1}^m \alpha_iV_{t-i}^2 + \sum_{j = 1}^r \beta_j\sigma^2_{t-j}. 
 \end{align*}
-$$
+
 The residuals from the ARMA models, $V_t$ thus follow a GARCH model. The parameters of the GARCH $\alpha_0, \alpha_1, \ldots, \alpha_m, \beta_1, \ldots, \beta_r$ must be positive. Furthermore, for the variance $\sigma^2_t$ to be stationary, we require $\sum_{i=1}^m \alpha_i + \sum_{j=1}^r \beta_j <1$, akin to the ARMA setting. The $V_t$ are typically leptokurtic (and thus heavy-tailed) as a result of the conditional heteroscedastic structure.
 
 If we have $V_t=\sigma_t^2\varepsilon_t$, where $\varepsilon_t \stackrel{\mathrm{iid}}{\sim}F(0, 1)$ is iid white noise, then 
@@ -384,12 +383,11 @@ Here, $\mathcal{H}_{t-1}$ denotes the information set at time $t-1$. One can see
 where $\nu = \alpha_0/ \sum_{i=1}^{\max\{m, r\}}(\alpha_i+\beta_i)$, and we define for simplicity $\alpha_i=0$ for $i>m$ and $\beta_j$ for $j>r$. We can identify from there the AR coefficients $\tilde{\phi}_i=\alpha_i+\beta_i$ and the MA coefficients $\tilde{\theta}_j=-\beta_j$. A necessary condition for covariance stationarity is that $\sum_{i=1}^m \alpha_i + \sum_{j=1}^r \beta_j <1$, 
 The strategy for modelling is thus to fit an ARIMA-type model to the original series, then examine squared residuals. One suitable orders $p, q, m, r$ have been determined, we can estimate the models jointly. The autocorrelation function of the GARCH(1,1),
 
-$$
-\begin{align}
+
+\begin{align*}
   \rho(1) &= \frac{\alpha_1(1-\beta_1^2-\alpha_1\beta_1)}{(1-\beta_1^2-2\alpha_1\beta_1)} \\
   \rho(h) &= (\alpha_1+\beta_1)\rho(h-1), \quad h \geq 2,
-\end{align}
-$$
+\end{align*}
 decays geometrically at rate $\alpha_1+\beta_1$.
 
 Joint estimation of ARMA-GARCH type models can be handled with functions from the `rugarch` package. Apart from the documentation of the package, there is a [worked out example here](http://unstarched.net/wp-content/uploads/2013/06/an-example-in-rugarch.pdf) and more [examples on the package author's blog](http://unstarched.net/r-examples/rugarch/a-short-introduction-to-the-rugarch-package/).
